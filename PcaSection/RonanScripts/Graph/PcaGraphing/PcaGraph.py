@@ -3,10 +3,7 @@ import matplotlib.pyplot as plt
 import random as rnd
 import os
 
-######################################################################################
-#########Plotting of graph with respect to attained information START#################
-######################################################################################
-
+##Plots all pca points in different Group
 def PlotPca(NamesFirst,Groups,dictPhen,Data,xCol,yCol):
     #EvecString = os.getcwd()
    # EvecString= EvecString+'\..\..\Data\comm-SYMCL.pca.evec'
@@ -44,19 +41,10 @@ def PlotPca(NamesFirst,Groups,dictPhen,Data,xCol,yCol):
 
     ##just a check to make sure that we dont plot groups with 0 components
         if(len(xtemp) >0):
-            plt.scatter(xtemp, ytemp, marker='^', label=Groups[group], s=1)
+            plt.scatter(xtemp, ytemp, marker='^', label=Groups[group], s=10)
    
             
-######################################################################################
-#########Plotting of graph with respect to attained information END###################
-################################################################################
-
-
-
-###############################################################################
-#####################################Render Graph##############################
-###############################################################################
-
+##renders graph in pyplot
 def RenderGraph(Heading,xLabel,yLabel):
     # Plots graph
     plt.title(Heading)

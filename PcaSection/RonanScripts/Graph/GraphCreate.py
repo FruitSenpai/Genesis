@@ -8,24 +8,21 @@ import os
 from  PcaGraphing import PcaDataExtractor as PcaEx
 from  PcaGraphing import PcaGraph
 
-
+##Creates a pca using data given to it by the file importer
+##Admix to be made
 def CreatePca(PhenData,EvecData):
 
-    
-    
     phenData = {}
     Groups = []
     Names = []
 
     phenDic = PcaEx.FindPhenData(PhenData,2,0)
-   # for key,val in phenDic.items():
-      #  print(key +'=>'+val)
+
     Groups = PcaEx.FindPhenGroups(PhenData,2)
         
     Names = PcaEx.GetIndividuals(True,EvecData,0)
     count = len(Names)
-    #for i in range(count):
-       # print(Names[i])
 
-    PcaGraph.PlotPca(Names,Groups,phenDic,EvecData,1,2)
+##plotPca and RenderGraph should follow and might be enveloped into one 
+    PcaGraph.PlotPca(Names,Groups,phenDic,EvecData,4,5)
     PcaGraph.RenderGraph('Heading','x','y')

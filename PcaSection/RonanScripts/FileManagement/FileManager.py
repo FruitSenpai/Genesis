@@ -1,6 +1,9 @@
 
 import File
 
+
+## a file manager will be responsible for holding all the files needed to create a graph
+##contains the 4 import file types for now but will also contain customization data as well as annotation data
 class FileManager():
 
     def __init__(self):

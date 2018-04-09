@@ -10,9 +10,9 @@ sys.path.insert(0, path)
 
 import FileImporter as fi
 '''
-####################################################
-########Finds All Groups(Dictionary) START##################
-#######################################################
+
+
+##Finds All Groups(Dictionary)
 ##This function returns the number of individuals within a group as well as all the groups present within the phenotype file
 def _checkIfUsedDic(data,Groups):
     hasBeenUsed = False
@@ -32,16 +32,12 @@ def _checkIfUsedDic(data,Groups):
         Groups.update({data:val})
         
     return Groups
-###########################################
-####Finds All Groups (Dictionary) END#################
-########################################
 
 
 
 
-###########################################
-########Finds All Groups(Dictionary) START#################
-########################################
+
+
 ##Creates a list of all the groups in the phenotype file
 def _checkIfUsedList(data,Groups):
     hasBeenUsed = False
@@ -57,16 +53,12 @@ def _checkIfUsedList(data,Groups):
         Groups.append(data)
             
     return Groups
-###########################################
-########Finds All Groups (Dictionary) END#################
-########################################
 
 
 
 
-######################################################################################
-#############GRABBING PHENOTYPE DATA (key and value) start############################
-######################################################################################
+
+##Returns Pheno Data for individual name and associated group as dictionary
 def FindPhenData(Data,GroupCol, NameCol):
     ##creates string with path to phen file
    # phenString = os.getcwd()
@@ -101,14 +93,10 @@ def FindPhenData(Data,GroupCol, NameCol):
 
     return dictPhen
     
-######################################################################################
-##############################GRABBING PHENOTYPE DATA (key and value) end#############
-################################################################################
 
 
-######################################################################################
-#############GRABBING PHENOTYPE Groups start############################
-######################################################################################
+
+######Returns Phenotype Group data as a list
 def FindPhenGroups(Data,GroupCol):
     ##creates string with path to phen file
   #  phenString = os.getcwd()
@@ -126,22 +114,17 @@ def FindPhenGroups(Data,GroupCol):
    
     ##Groups contains all the groups in the phenfile
     Groups = []
-
-
+    GroupDic = {}
+    
     for i in range(len(phenotypeData)):
         Groups = _checkIfUsedList(phenotypeData[i], Groups)
 
+
+
     return Groups
-######################################################################################
-##############################GRABBING PHENOTYPE Groupsend#############
-################################################################################
 
 
-
-
-######################################################################################
-############################## GETTING NAMES FROM THE EVEC DATA START#################
-######################################################################################
+##Cretes list of Individuals from the PcaFile
 def GetIndividuals(returnFirst,Data,NameCol):
 
  #   EvecString = os.getcwd()
@@ -171,35 +154,10 @@ def GetIndividuals(returnFirst,Data,NameCol):
        return NamesFirst
     if(returnFirst == False):
         return NamesSecond
-######################################################################################
-############################## GETTING NAMES FROM THE EVEC DATA END###################
-################################################################################
 
 
-
-
- ######################################################################################
-############################## Return FilePath Start#############################
-#################################################################################   
-
-##Returns the path to the evec file
-##comes from importer class
-##needed for PcaGraph class
-def FilePathEvec():
-    pass
-
-
-
-
-
-
- ######################################################################################
-############################## Return FilePath end#############################
-#################################################################################
-
+##Checking size of Data(how many lines)
 def FindLength(Data):
-        ##Checking size of file(how many lines)
-
-        count = len(Data)
+       count = len(Data)
         return count
 

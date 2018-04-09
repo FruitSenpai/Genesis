@@ -16,7 +16,7 @@ class FileImporter():
         self._fileManagers = []
        
     
-
+    ##Creates a file and stores it in a file manager, returns a file manager for now untill i can figure out how to pass by reference
     def CreateFile(self,Name,Data,Type,FM):
         
         self._tempFile = File.File()
@@ -107,7 +107,6 @@ PcaData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.e
 PhenData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
 
 FM = FI.CreateFileManager('FirstGraph')
-print(FM)
 
 FI.CreateFile('PCA IS THE NAME',PcaData,'Pca',FM)
 FI.CreateFile('Phen IS THE NAME',PhenData,'Phen',FM)
