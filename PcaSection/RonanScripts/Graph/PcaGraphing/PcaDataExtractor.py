@@ -158,6 +158,6 @@ def GetIndividuals(returnFirst,Data,NameCol):
 
 ##Checking size of Data(how many lines)
 def FindLength(Data):
-       count = len(Data)
+        count = len(Data)
         return count
 
