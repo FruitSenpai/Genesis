@@ -1,3 +1,5 @@
+#This graph contains information and functions which control the properties of an admix graph
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -5,7 +7,10 @@ from AdmixIndividual import AdmixIndividual
 
 class AdmixGraph:
 
+	#list of all individuals represented in graph
 	individualList = []
+	
+	#2D list of all groups represented in graph (groups are seperated into their respective columns)
 	groupList = []
 	
 	def __init__(self, individualData, famData, phenoData= None):
@@ -21,12 +26,14 @@ class AdmixGraph:
 				self.groupList.append([])
 
 			self.addGroups(phenoData)
-
+	
+	#create individual objects with id names as well as their admix data
 	def addIndividuals(self, individualData, famData):
 		for i in range(len(individualData)):			
 				person = AdmixIndividual(famData[i][0], famData[i][1], individualData[i])
 				self.individualList.append(person)
-
+	
+	#for each individual, find their entry in the phenotype data and assign them their corresponding groups
 	def addGroups(self, phenotypeData):
 		
 		for person in self.individualList:
@@ -35,14 +42,17 @@ class AdmixGraph:
 			
 			for phenoEntry in phenotypeData:
 				
+				#if current individual is found in the phenotype data
 				if(phenoEntry[0] == firstId and phenoEntry[1] == secondId):
-					#print("match")
+					
+					#add all groups for that entry
 					for colIndex in range(2, len(phenoEntry)):
 						group = phenoEntry[colIndex]
 						person.addGroup(group)
-						self.checkGroupExistence(colIndex - 2, group)
+						self.checkGroupExistence(colIndex - 2, group) #check if the group we're adding is in the graph's global group list
 						
-		
+	
+	#if the specified group name doesn't yet exist in the specified column in the global group list, add the group
 	def checkGroupExistence(self, listColIndex, groupName):
 		exist = False
 		
@@ -54,75 +64,105 @@ class AdmixGraph:
 		if(exist == False):
 			self.groupList[listColIndex].append(groupName)
 	
-	#sorts in reverse order for now
+	#sorts individuals by group alphabetical order (currently does reverse alphabetical order)
 	def sortByGroupAlpha(self, listToSort, groupCol):
 		listToSort.sort(key=lambda person: person.groups[groupCol], reverse = True)
 	
+	#sorts admix data columns by dominant ancestry (sorts least to most dominant)
+	def sortByAncestryDominance(self, listToSort):
+		
+		ancestrySumList = []
+		
+		#initialize the ancestry columns in ancestry sum list to 0
+		firstPersonData = listToSort[0]
+		for value in firstPersonData:
+			ancestrySumList.append(0)
+		
+		#sum total points for each ancestry
+		for personData in listToSort:
+			for index in range(len(personData)):
+				ancestrySumList[index] += personData[index]
+		
+		"""#print sums before sorting
+		for sum in ancestrySumList:
+			print(sum)"""
+
+		#sort based on ancestry points (better way to do this?)
+		for i in range(len(ancestrySumList) - 1):
+			for j in range(i, len(ancestrySumList)):
+				if(ancestrySumList[i] > ancestrySumList[j]):
+					tempSumList = ancestrySumList[i]
+					ancestrySumList[i] = ancestrySumList[j]
+					ancestrySumList[j] = tempSumList
+					
+					for person in listToSort:
+						tempVal = person[i]
+						person[i] = person[j]
+						person[j] = tempVal
+
+					"""tempValList = listToSort[i]
+					listToSort[i] = listToSort[j]
+					listToSort[j] = tempValList"""
+
+		"""#print sums after sorting
+		for sum in ancestrySumList:
+			print(sum)"""
+	
+	#finds where each group begins in the list so that it's known where to place group labels on the graphs
 	def findGroupPositions(self, pplList, groupIndex):
+		
+		#the first column contains group names and the other the positions of the corresponding group
 		posList = [[], []] #groupName-position pair
 		currGroup = ""
 		
 		for pIndex in range(len(pplList)):
-			if (pplList[pIndex].groups[groupIndex] != currGroup): #start new position
+			if (pplList[pIndex].groups[groupIndex] != currGroup): #if the next group has been found
 				currGroup = pplList[pIndex].groups[groupIndex]
 				posList[0].append(currGroup)
 				posList[1].append(pIndex)
 
 		return posList
 		
-		
+	#plot the graph	
 	def plotGraph(self, phenoCol= None):
-		personList = self.individualList[:] #clone the list because we need to scale the values
-		#admixList = list(self.individualList.admixData) 
+		personList = self.individualList[:] #clone the individuals list because we need to scale the values 
 		
-		#scale all ancestry values for individuals so that the sum of ancestry points equals 1.0 (100%)
+		#scale all ancestry points for individuals so that the sum of ancestry points for each individual equals 1.0 (100%)
 		for i in range(len(personList)):
+			
+			#current sum of ancestry points for this individual
 			sum = 0
 			for j in range(len(personList[i].admixData)):
 				sum += personList[i].admixData[j]
-			#print(i+1, ": ", sum)
 			
 			scalingFactor = 1.0 / sum #scaling factor to apply for the individual's ancestry points
 
 			for j in range(len(personList[i].admixData)):
 				personList[i].admixData[j] *= scalingFactor
-				#admixList[i][j] *= scalingFactor
 		#end scaling portion
 		
 
 		#group management stuff
-		"""for person in personList:
-			print(person.id1, " ", person.id2)"""
-		
-		"""for colList in self.groupList:
-			for group in colList:
-				print(group)"""
-		
-		print("For chosen column index the groups are: ")
 
-		for group in self.groupList[phenoCol - 3]:
-			print(group)
-
-		self.sortByGroupAlpha(personList, phenoCol - 3)
-
-		for person in personList:
-			print(person.groups[phenoCol - 3])
-
-		"""for person in personList:
-			print(person.id1, " ", person.id2, " ", person.groups[0], " ", person.groups[1], " ", person.groups[2], " ", person.groups[3], " ")"""
+		self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
 
 		#now render the graph
 		individuals_x = np.arange(len(personList))
-
-		finalGraphList = []
+		
+		#processed data to plot
+		processedAdmixList = []
 
 		for i in range(len(personList)):
-			finalGraphList.append(personList[i].admixData)
+			processedAdmixList.append(personList[i].admixData)
 
-		individuals_y = np.column_stack(finalGraphList) #stack each individual's ancestry data as a single column
+		#before stacking values, sort by dominance
+		self.sortByAncestryDominance(processedAdmixList)
+		
+		#format data for plotting functions
+		individuals_y = np.column_stack(processedAdmixList) #stack each individual's ancestry data as a single column
 		
 
-			
+		#list containing label info for the x-axis	
 		tickList = self.findGroupPositions(personList, phenoCol - 3)
 		
 		
@@ -131,10 +171,3 @@ class AdmixGraph:
 		ax.stackplot(individuals_x, individuals_y)
 		plt.xticks(tickList[1], tickList[0])
 		plt.show()
-
-		
-	
-
-	
-			
-				

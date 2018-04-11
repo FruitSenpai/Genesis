@@ -1,4 +1,9 @@
+#This class has functions which return 2D lists from specified files 
+
 import numpy as np
+
+#following functions get info from files and return them as 2D lists (will become obsolete when admix functionality is integrated with the file management stuff)
+#getPhenoData and getFamData read in strings (and thus are redundant) whereas getAdmixData reads in floats
 
 def getAdmixData(admixFilePath):
 	admixData = []
