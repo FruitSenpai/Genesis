@@ -68,6 +68,38 @@ class AdmixGraph:
 	def sortByGroupAlpha(self, listToSort, groupCol):
 		listToSort.sort(key=lambda person: person.groups[groupCol], reverse = True)
 	
+	#sorts individuals by group dominance (most dominant to least dominant group)
+	def sortByGroupDominance(self, listToSort, groupCol):
+		
+		#stores the dominance values for each group
+		dominanceDic = {}
+
+		#initialize dominance list values
+		for group in self.groupList[groupCol]:
+			dominanceDic[group] = 0
+
+		#find dominance of each individual
+		for person in listToSort:
+			#if this person's group is in the dictionary, increment that group's dominance
+			if (person.groups[groupCol]) in dominanceDic:
+				dominanceDic[person.groups[groupCol]] += 1
+
+			else:
+				print("there's a problem here")
+
+		#sort group by dominance now using the dominance dictionary
+		for i in range(len(listToSort) - 1):
+			for j in range(i, len(listToSort)):
+				groupI = listToSort[i].groups[groupCol]
+				groupJ = listToSort[j].groups[groupCol]
+				
+				
+				if(dominanceDic[groupI] < dominanceDic[groupJ]):
+					tempPerson = listToSort[i]
+					listToSort[i] = listToSort[j]
+					listToSort[j] = tempPerson
+		
+	
 	#sorts admix data columns by dominant ancestry (sorts least to most dominant)
 	def sortByAncestryDominance(self, listToSort):
 		
@@ -144,7 +176,8 @@ class AdmixGraph:
 
 		#group management stuff
 
-		self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
+		#self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
+		self.sortByGroupDominance(personList, phenoCol - 3) #sort the list by group dominance
 
 		#now render the graph
 		individuals_x = np.arange(len(personList))
