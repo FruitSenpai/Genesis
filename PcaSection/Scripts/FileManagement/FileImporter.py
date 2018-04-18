@@ -3,6 +3,8 @@ import File
 import FileManager as fm
 import os
 import sys
+import matplotlib.pyplot as plt
+
 path = os.getcwd()
 path = path+ '\..\Graph\\' 
 sys.path.insert(0, path)
@@ -83,26 +85,38 @@ class FileImporter():
 
         count = 0
         name = self._fileManagers[count].GetName()
+        print(len(self._fileManagers))
+        
 
         while(name != fmName):
             name = self._fileManagers[count].GetName()
-            count += 1
+            print(name)
             
             if(count >= len(self._fileManagers)):
                 print('CANNOT FIND FILE')
                 break
 
-        return self._fileManagers[count]
+            count += 1
+                
+        return self._fileManagers[count-1]
             
         '''
         print(len(self._fileManagers))
         for i in range(len(self._fileManagers)):
             print(self._fileManagers[i].GetPcaFile().GetName())
-         '''   
+         '''
+
+    def PrintFileManagers(self):
+        for i in range(0,len(self._fileManagers)):
+            print(self._fileManagers[i].GetName())
 
 
 ##Main
 FI = FileImporter()
+
+##########################################################################################
+
+
 PcaData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec')
 PhenData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
 
@@ -114,8 +128,66 @@ FI.CreateFile('Phen IS THE NAME',PhenData,'Phen',FM)
 DataPhen = FI.GetFileManager('FirstGraph').GetPhenFile().GetData()
 DataPca = FI.GetFileManager('FirstGraph').GetPcaFile().GetData()
 
+
+##################################################################################
+
+AdmixData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.Q.4')
+PheData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.phe')
+FamData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.fam')
+
+FMA = FI.CreateFileManager('SecondGraph')
+##FI.PrintFileManagers()
+FI.CreateFile('Admix IS THE NAME',AdmixData,'Admix',FMA)
+FI.CreateFile('Phen IS THE NAME',PheData,'Phen',FMA)
+FI.CreateFile('Fam IS THE NAME',FamData,'Fam',FMA)
+
+DataAdmix = FI.GetFileManager('SecondGraph').GetAdmixFile().GetData()
+DataAdmixPhen = FI.GetFileManager('SecondGraph').GetPhenFile().GetData()
+DataFam = FI.GetFileManager('SecondGraph').GetFamFile().GetData()
+##############################################################
+'''
+##################################################################################
+
+AdmixData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.Q.2')
+PheData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.phe')
+FamData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.fam')
+
+FMA2 = FI.CreateFileManager('ThirdGraph')
+##FI.PrintFileManagers()
+FI.CreateFile('Admix IS THE NAME',AdmixData2,'Admix',FMA2)
+FI.CreateFile('Phen IS THE NAME',PheData2,'Phen',FMA2)
+FI.CreateFile('Fam IS THE NAME',FamData2,'Fam',FMA2)
+
+DataAdmix2 = FI.GetFileManager('ThirdGraph').GetAdmixFile().GetData()
+DataAdmixPhen2 = FI.GetFileManager('ThirdGraph').GetPhenFile().GetData()
+DataFam2 = FI.GetFileManager('ThirdGraph').GetFamFile().GetData()
+##############################################################
+'''
+##########################################################################################
+
+
+PcaData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec')
+PhenData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
+
+FM3 = FI.CreateFileManager('Fh')
+
+FI.CreateFile('PCA IS THE NAME',PcaData2,'Pca',FM3)
+FI.CreateFile('Phen IS THE NAME',PhenData2,'Phen',FM3)
+
+DataPhen3 = FI.GetFileManager('Fh').GetPhenFile().GetData()
+DataPca3 = FI.GetFileManager('Fh').GetPcaFile().GetData()
+
+
+##################################################################################
+GraphCreate.CreatePca(DataPhen3,DataPca3)
+
+##GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
+
+GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
+
 GraphCreate.CreatePca(DataPhen,DataPca)
 
+plt.show()
 
 
 
