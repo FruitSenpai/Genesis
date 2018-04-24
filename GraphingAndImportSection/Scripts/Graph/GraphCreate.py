@@ -14,10 +14,11 @@ from admix.AdmixGraph import AdmixGraph
 ##Admix to be made
 def CreatePca(PhenData,EvecData):
 
-    phenData = {}
     Groups = []
     Names = []
 
+    #Data extraction class extracts the data that is needed to create the graph
+    #####Need to fix names though
     phenDic = PcaEx.FindPhenData(PhenData,2,0)
 
     Groups = PcaEx.FindPhenGroups(PhenData,2)
@@ -32,26 +33,19 @@ def CreatePca(PhenData,EvecData):
 
 def CreateAdmix(admixData,famData,pheData):
 	
-	#2D lists to contain file data. These will be moved to separate file classes once admix and pca structure is unified
+	#Create a list that will store the admix data as a float as opposed to a string
 	AdmixData = []
-	##famData = []
-	##pheData = []
-        
-	
-	#get data from the specified files
-	##admixData = admixEx.getAdmixData("small.Q.4")
-	##famData = admixEx.getFamData("small.fam")
-	##pheData = admixEx.getPhenoData("small.phe")
 	
 	#specifies which column to use for group information in phenotype file
 	phenoColumn = 5
 
+        #Turn admix data from a string list to a float list
 	for i in range(0,len(admixData)):
             AdmixData.append([])
             for x in range(0,len(admixData[i])):
                 AdmixData[i].append(float(admixData[i][x]))
 
-                
+        #create new Admix graph and plot it        
 	admixGraph = AdmixGraph(AdmixData, famData, phenoData= pheData)
 	admixGraph.plotGraph(phenoCol = phenoColumn)
 

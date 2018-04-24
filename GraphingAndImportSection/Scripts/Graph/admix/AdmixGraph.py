@@ -16,6 +16,9 @@ class AdmixGraph:
 
         def __init__(self, individualData, famData, phenoData= None):
 
+                self.individualList = []
+                self.groupList = []
+
                 if phenoData is None:
                         addIndividuals(self, individualData, famData)
                         print("no phenotype data")

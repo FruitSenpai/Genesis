@@ -9,6 +9,7 @@ class PcaGraph():
     
     ##Plots all pca points in different Group
     def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol):
+        ##define variables to use later on for plotting the graph
         self.Names = NamesFirst
         self.GroupData =Groups
         self.PhenDict =dictPhen
@@ -18,29 +19,26 @@ class PcaGraph():
     
     
     def PlotPca(self):
-        #EvecString = os.getcwd()
-       # EvecString= EvecString+'\..\..\Data\comm-SYMCL.pca.evec'
 
-        ##takes all x and y values that were specified (NOTE THIS IS WHERE THE COLOUMNS FOR THE EVEC FOLDER WOULD BE CHANGED)
-       # x, y = np.genfromtxt(EvecString,unpack=True, usecols = (1,2),skip_header=1)
-        
- 
+         ##getting and creating variables
         count =_FindLength(self.Data)
-       # print (count)
+       
         x =[]
         y=[]
+        
         for i in range(1,count):
             x.append( self.Data[i][self.xCol])
             y.append( self.Data[i][self.yCol])
-           # 
-        #print(FindLength(y))
-       # for i in range(0,len(x)):
-      #     print('['+x[i]+','+y[i]+']')
+           #
+
 
         ##Checks each individual group
         ##Per group each indiviual is checked to see if it belongs to the group
         ##If this is the case then its x and y co-ords are added to the x and y lists to be plotted 
+
+        #create an new figure for this graph
         fig, ax = plt.subplots()
+        
         for group in range(len(self.GroupData)):
             xtemp =[]
             ytemp= []

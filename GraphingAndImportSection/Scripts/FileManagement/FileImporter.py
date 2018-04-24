@@ -112,19 +112,22 @@ class FileImporter():
 
 
 ##Main
+##Create a FIle Importer
 FI = FileImporter()
 
+##Creating various Graphs(will be put into functions) that will be mapped to gui buttons
 ##########################################################################################
 
-
+#Finding Data(Will get the paths from sids gui)
 PcaData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec')
 PhenData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
-
+#Creating a file manager for this particular graph
 FM = FI.CreateFileManager('FirstGraph')
-
+#Create files to be added to the file manager
+#each file will have a specific piece of data
 FI.CreateFile('PCA IS THE NAME',PcaData,'Pca',FM)
 FI.CreateFile('Phen IS THE NAME',PhenData,'Phen',FM)
-
+##Get the data from the files(this is done to test if i can get data from saved files themselves)
 DataPhen = FI.GetFileManager('FirstGraph').GetPhenFile().GetData()
 DataPca = FI.GetFileManager('FirstGraph').GetPcaFile().GetData()
 
@@ -145,7 +148,7 @@ DataAdmix = FI.GetFileManager('SecondGraph').GetAdmixFile().GetData()
 DataAdmixPhen = FI.GetFileManager('SecondGraph').GetPhenFile().GetData()
 DataFam = FI.GetFileManager('SecondGraph').GetFamFile().GetData()
 ##############################################################
-'''
+
 ##################################################################################
 
 AdmixData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.Q.2')
@@ -162,7 +165,7 @@ DataAdmix2 = FI.GetFileManager('ThirdGraph').GetAdmixFile().GetData()
 DataAdmixPhen2 = FI.GetFileManager('ThirdGraph').GetPhenFile().GetData()
 DataFam2 = FI.GetFileManager('ThirdGraph').GetFamFile().GetData()
 ##############################################################
-'''
+
 ##########################################################################################
 
 
@@ -179,14 +182,15 @@ DataPca3 = FI.GetFileManager('Fh').GetPcaFile().GetData()
 
 
 ##################################################################################
+#Graph is created
 GraphCreate.CreatePca(DataPhen3,DataPca3)
 
-##GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
+GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
 
 GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
 
 GraphCreate.CreatePca(DataPhen,DataPca)
-
+#shows all graphs that have been created
 plt.show()
 
 
