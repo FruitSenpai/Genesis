@@ -74,7 +74,7 @@ class AdmixGraphFrame(wx.Frame):
             DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
             print(DataFilePath)
-            windowClass.AdmixPath = DataFilePath
+            #windowClass.AdmixPath = DataFilePath
             button = event.GetEventObject()
             self.FilePathtext.SetValue(DataFilePath)
          

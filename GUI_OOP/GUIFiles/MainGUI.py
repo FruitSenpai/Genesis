@@ -6,6 +6,7 @@ from GUIFrames.ExportFrame import ExportFrame as EXFrame
 from GUIFrames.AdmixData import AdmixGraphFrame as AdmixDataFrame
 from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
+from GUIFrames.PCAMain import PCAFrame as PCAFrame
 
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
@@ -122,6 +123,8 @@ class windowClass(wx.Frame):
 
     def PCAEvent(self,e):
         wx.MessageBox('Input PCA')
+        self.child = PCAFrame(self, title='PCA')
+        self.child.Show()
 
     def SaveEvent(self,e):
         wx.MessageBox('Save file')
