@@ -15,6 +15,9 @@ class AdmixGraph:
 	
 	def __init__(self, individualData, famData, phenoData= None):
 		
+		self.individualList = []
+		self.groupList = []
+
 		if phenoData is None:
 			addIndividuals(self, individualData, famData)
 			print("no phenotype data")
@@ -33,7 +36,7 @@ class AdmixGraph:
 				person = AdmixIndividual(famData[i][0], famData[i][1], individualData[i])
 				self.individualList.append(person)
 	
-	#for each individual, find their entry in the phenotype data and assign them their corresponding groups
+	#for each individual, find their entry in the phenotype data and assign them their corresponding groups (pheno dependent)
 	def addGroups(self, phenotypeData):
 		
 		for person in self.individualList:
@@ -52,7 +55,7 @@ class AdmixGraph:
 						self.checkGroupExistence(colIndex - 2, group) #check if the group we're adding is in the graph's global group list
 						
 	
-	#if the specified group name doesn't yet exist in the specified column in the global group list, add the group
+	#if the specified group name doesn't yet exist in the specified column in the global group list, add the group (pheno dependent)
 	def checkGroupExistence(self, listColIndex, groupName):
 		exist = False
 		
@@ -64,11 +67,11 @@ class AdmixGraph:
 		if(exist == False):
 			self.groupList[listColIndex].append(groupName)
 	
-	#sorts individuals by group alphabetical order (currently does reverse alphabetical order)
+	#sorts individuals by group alphabetical order (currently does reverse alphabetical order) (pheno dependent)
 	def sortByGroupAlpha(self, listToSort, groupCol):
 		listToSort.sort(key=lambda person: person.groups[groupCol], reverse = True)
 	
-	#sorts individuals by group dominance (most dominant to least dominant group)
+	#sorts individuals by group dominance (most dominant to least dominant group) (pheno dependent)
 	def sortByGroupDominance(self, listToSort, groupCol):
 		
 		#stores the dominance values for each group
@@ -140,7 +143,7 @@ class AdmixGraph:
 		for sum in ancestrySumList:
 			print(sum)"""
 	
-	#finds where each group begins in the list so that it's known where to place group labels on the graphs
+	#finds where each group begins in the list so that it's known where to place group labels on the graphs (pheno dependent)
 	def findGroupPositions(self, pplList, groupIndex):
 		
 		#the first column contains group names and the other the positions of the corresponding group
@@ -175,9 +178,10 @@ class AdmixGraph:
 		
 
 		#group management stuff
-
-		#self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
-		self.sortByGroupDominance(personList, phenoCol - 3) #sort the list by group dominance
+		
+		if phenoCol is not None:
+			#self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
+			self.sortByGroupDominance(personList, phenoCol - 3) #sort the list by group dominance
 
 		#now render the graph
 		individuals_x = np.arange(len(personList))
@@ -195,12 +199,16 @@ class AdmixGraph:
 		individuals_y = np.column_stack(processedAdmixList) #stack each individual's ancestry data as a single column
 		
 
-		#list containing label info for the x-axis	
-		tickList = self.findGroupPositions(personList, phenoCol - 3)
+		#list containing label info for the x-axis
+		if phenoCol is not None:	
+			tickList = self.findGroupPositions(personList, phenoCol - 3)
 		
 		
 		#plot on the stack plot
 		fig, ax = plt.subplots()
 		ax.stackplot(individuals_x, individuals_y)
-		plt.xticks(tickList[1], tickList[0])
+
+		if phenoCol is not None:
+			plt.xticks(tickList[1], tickList[0])
+
 		plt.show()
