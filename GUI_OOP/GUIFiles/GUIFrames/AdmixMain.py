@@ -1,5 +1,6 @@
 import os
 import wx
+import csv
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class ChildFrame(wx.Frame):
@@ -22,8 +23,8 @@ class ChildFrame(wx.Frame):
         
         panel = wx.Panel(self,wx.ID_ANY)
 
-        Columns = ['column1', 'column2', 'column3']
-        self.combo = wx.ComboBox(panel, choices = Columns)
+        self.Columns = ['none']
+        self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
         ColumnLabel = wx.StaticText(panel,label = "Phenotype Column") 
@@ -77,8 +78,9 @@ class ChildFrame(wx.Frame):
     def onAcceptFile(self,event):
         print('AcceptedData')
         print(self.tc1.Value)
-        print(self.tc12.Value)
-        print(self.tc13.Value)
+        print(self.tc2.Value)
+        print(self.tc3.Value)
+        print(self.combo.Value)
 
     def onOpenFile(self, event):
        
@@ -90,18 +92,36 @@ class ChildFrame(wx.Frame):
             style=wx.FD_OPEN | wx.FD_CHANGE_DIR
             )
         if dlg.ShowModal() == wx.ID_OK:
-            DataFilePath = dlg.GetPath()
+            self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
-            print(DataFilePath)
+            print(self.DataFilePath)
            # windowClass.AdmixPath = DataFilePath
             button = event.GetEventObject()
 
             if button.parameterVal == 'Data':
-                self.tc1.SetValue(DataFilePath)
+                self.tc1.SetValue(self.DataFilePath)
             if button.parameterVal == 'Fam':
-                self.tc2.SetValue(DataFilePath)
+                self.tc2.SetValue(self.DataFilePath)
             if button.parameterVal == 'Phe':
-                self.tc3.SetValue(DataFilePath)
+                self.tc3.SetValue(self.DataFilePath)
+                self.CountColumns()
             
             print(button.parameterVal)
         dlg.Destroy()
+
+    def CountColumns(self):
+        with open(self.DataFilePath) as myFile:
+            reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
+            first_row = next(reader)
+            num_cols = len(first_row)
+            print(num_cols)
+
+            for index in range(0,num_cols-1):
+                
+                self.Columns.insert(index,'column' +str(index+1))
+                print(self.Columns)
+
+      
+        self.combo.Clear()      
+        self.combo.AppendItems (self.Columns)
+        self.Columns = ['none']
