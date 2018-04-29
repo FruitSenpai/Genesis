@@ -60,13 +60,9 @@ def _checkIfUsedList(data,Groups):
 
 ##Returns Pheno Data for individual name and associated group as dictionary
 def FindPhenData(Data,GroupCol, NameCol):
-    ##creates string with path to phen file
-   # phenString = os.getcwd()
-    #phenString= phenString+'\..\..\Data\comm.phe'
 
-    ## phenotypeData will grab the Group name from the coloumn specified
-    ##(NOTE THIS IS WHERE THE COLOUMN REPRESENTING THE PHEN FILE IS CHANGED)
-    #phenotypeData = np.genfromtxt(phenString,unpack=True,usecols=2, dtype=str)
+
+    ## phenotypeData will grab the Group name from the coloumn specified    
     phenotypeData = []
     key = []
     

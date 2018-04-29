@@ -60,26 +60,32 @@ class FileImporter():
         DataList = []
 
         ##Checking size of file(how many lines)
-        countF = open(FilePath)
-        count = len(countF.readlines())
-        countF.close()
-        
-              
-        f = open(FilePath)
-       
-        for i in range(0,count):
-        
-            tempString = f.readline()
-            tempList = tempString.split() 
-            DataList.append(tempList)
+        #Makes sure that there is a file
+        if(FilePath != None):
+            countF = open(FilePath)
+            count = len(countF.readlines())
+            countF.close()
+            
+                  
+            f = open(FilePath)
+           
+            for i in range(0,count):
+            
+                tempString = f.readline()
+                tempList = tempString.split() 
+                DataList.append(tempList)
 
-        '''
-        for i in range(len(DataList)):
-            print(DataList[i])
-            print('\n')
-        '''    
+            '''
+            for i in range(len(DataList)):
+                print(DataList[i])
+                print('\n')
+            '''    
 
-        return DataList
+            return DataList
+        ##Checks if file exists
+        else :
+            print('No File to extract Data from')
+            return None
 
     def GetFileManager(self,fmName):
 
@@ -111,10 +117,64 @@ class FileImporter():
             print(self._fileManagers[i].GetName())
 
 
+    def CreatePca(self,fileImporter,pcaPath,phenPath,Name):#'''pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
+        #Create File Manager
+        FM = FI.CreateFileManager(Name)
+
+        #Get the data from the path
+        #Create File To Store Data
+        #Get Data From File
+        _PcaData =FI.GetFileData(pcaPath)
+        FI.CreateFile('PCA IS THE NAME',_PcaData,'Pca',FM)
+        DataPca = FI.GetFileManager(Name).GetPcaFile().GetData()
+        
+
+        #Get the data from the path
+        #Create File To Store Data
+        #Get Data From File
+        _PhenData =FI.GetFileData(phenPath)
+        if(_PhenData != None):
+            
+            FI.CreateFile('Phen IS THE NAME',_PhenData,'Phen',FM)
+            DataPhen = FI.GetFileManager(Name).GetPhenFile().GetData()
+        #checks if there is phen Data
+        else:
+            DataPhen = None
+            
+
+        GraphCreate.CreatePca(DataPhen,DataPca)
+        print(Name +" GRAAAAAAPh");
+        
+
+    def CreateAdmix(self, fileImporter,admixPath,famPath,phenPath,Name):
+        
+        FM = FI.CreateFileManager(Name)
+
+        AdmixData =FI.GetFileData(admixPath)
+        FamData =FI.GetFileData(famPath)
+        FI.CreateFile('Admix IS THE NAME',AdmixData,'Admix',FM)
+        FI.CreateFile('Fam IS THE NAME',FamData,'Fam',FM)
+        DataAdmix = FI.GetFileManager(Name).GetAdmixFile().GetData()
+        DataFam = FI.GetFileManager(Name).GetFamFile().GetData()
+
+        PheData =FI.GetFileData(phenPath)
+        if(PheData !=None):
+            FI.CreateFile('Phen IS THE NAME',PheData,'Phen',FM)
+            DataAdmixPhen = FI.GetFileManager(Name).GetPhenFile().GetData()
+        else:
+            DataAdmixPhen = None
+
+        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
+        
+        
+        
+        
+
+
 ##Main
 ##Create a FIle Importer
 FI = FileImporter()
-
+'''
 ##Creating various Graphs(will be put into functions) that will be mapped to gui buttons
 ##########################################################################################
 
@@ -183,17 +243,24 @@ DataPca3 = FI.GetFileManager('Fh').GetPcaFile().GetData()
 
 ##################################################################################
 #Graph is created
-GraphCreate.CreatePca(DataPhen3,DataPca3)
+##GraphCreate.CreatePca(DataPhen3,DataPca3)
 
-GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
+##GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
 
-GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
+##GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
 
-GraphCreate.CreatePca(DataPhen,DataPca)
+#GraphCreate.CreatePca(None,DataPca)
 #shows all graphs that have been created
+#plt.show()
+'''
+#FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec','D:\Genesis\genesis-master\examples\PCA\comm.phe','TheGraph')
+
+#FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec',None,'TheGraph2')
+
+
+FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam','D:\Genesis\genesis-master\examples\Admix\small.phe', 'TheGraph3')
+
 plt.show()
-
-
 
 
 

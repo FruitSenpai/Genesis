@@ -16,12 +16,13 @@ def CreatePca(PhenData,EvecData):
 
     Groups = []
     Names = []
+    phenDic = {}
 
     #Data extraction class extracts the data that is needed to create the graph
     #####Need to fix names though
-    phenDic = PcaEx.FindPhenData(PhenData,2,0)
-
-    Groups = PcaEx.FindPhenGroups(PhenData,2)
+    if(PhenData != None):
+        phenDic = PcaEx.FindPhenData(PhenData,2,0)
+        Groups = PcaEx.FindPhenGroups(PhenData,2)
         
     Names = PcaEx.GetIndividuals(True,EvecData,0)
     count = len(Names)

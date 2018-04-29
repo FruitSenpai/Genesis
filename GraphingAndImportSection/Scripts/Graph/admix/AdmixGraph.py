@@ -20,7 +20,7 @@ class AdmixGraph:
                 self.groupList = []
 
                 if phenoData is None:
-                        addIndividuals(self, individualData, famData)
+                        self.addIndividuals( individualData, famData)
                         print("no phenotype data")
                 else:
                         self.addIndividuals(individualData, famData)
