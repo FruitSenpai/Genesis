@@ -22,10 +22,26 @@ class PCAFrame(wx.Frame):
         
         panel = wx.Panel(self,wx.ID_ANY)
 
-        hbox = wx.BoxSizer(wx.HORIZONTAL)
+        Columns = ['column1', 'column2', 'column3']
+        self.comboPCA1 = wx.ComboBox(panel, choices = Columns)
+        self.comboPCA1.Bind(wx.EVT_COMBOBOX, self.OnCombo)
+        self.comboPCA2 = wx.ComboBox(panel, choices = Columns)
+        self.comboPCA2.Bind(wx.EVT_COMBOBOX, self.OnCombo)
+        self.comboPCA3 = wx.ComboBox(panel, choices = Columns)
+        self.comboPCA3.Bind(wx.EVT_COMBOBOX, self.OnCombo)
+        self.comboPhe = wx.ComboBox(panel, choices = Columns)
+        self.comboPhe.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
-        fgs = wx.FlexGridSizer(3,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
+        PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
 
+        vbox = wx.BoxSizer(wx.VERTICAL)
+
+        fgsTop = wx.FlexGridSizer(2,2,10,10)
+        fgs = wx.FlexGridSizer(7,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgsBotPhe = wx.FlexGridSizer(1,2,10,10)
+        fgsBot = wx.FlexGridSizer(1,2,10,10)
+        
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
         OpenPheBtn = wx.Button(panel,wx.ID_ANY, label ='Import Phe File')
@@ -38,28 +54,49 @@ class PCAFrame(wx.Frame):
         ExitBtn.Bind(wx.EVT_BUTTON, self.Quit)
 
         self.tc1 = wx.TextCtrl(panel)
-        self.tc2 = wx.TextCtrl(panel)
+        
         self.tc3 = wx.TextCtrl(panel)
 
-        fgs.AddMany([(OpenFileBtn), (self.tc1, 1, wx.EXPAND),
-                     (OpenPheBtn, 1, wx.EXPAND),( self.tc3, 1, wx.EXPAND),
-                     (AcceptBtn),
-                     (ExitBtn)])
+        fgsTop.AddMany([(OpenFileBtn), (self.tc1, 1, wx.EXPAND),
+                     (OpenPheBtn, 1, wx.EXPAND),( self.tc3, 1, wx.EXPAND)])
+                     
+
+        fgsBotPhe.AddMany([(PheLabel,1,wx.EXPAND),
+                         (self.comboPhe,1,wx.EXPAND)
+                         ])
+        fgsBot.AddMany([(AcceptBtn),
+                        (ExitBtn)])
+
+        fgs.AddMany([(fgsTop,1,wx.EXPAND),
+                     (ColumnLabel,1,wx.EXPAND),
+                     (self.comboPCA1,1,wx.EXPAND),
+                     (self.comboPCA2,1,wx.EXPAND),
+                     (self.comboPCA3,1,wx.EXPAND),
+                     (fgsBotPhe,1,wx.EXPAND),
+                     (fgsBot,1,wx.EXPAND)
+                    ])
 
         #fgs.AddGrowableRow(1, 1)
         #fgs.AddGrowableRow(2, 3)
-        fgs.AddGrowableCol(1, 1)
+        fgsBotPhe.AddGrowableCol(1,2)
+        fgsTop.AddGrowableCol(1,2)
+        fgs.AddGrowableCol(0, 1)
 
-        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
-        panel.SetSizer(hbox)
+        vbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
+        panel.SetSizer(vbox)
 
     def Quit(self,event):
         self.Destroy()
     
-     
+    def OnCombo(self, event):
+        print(self.combo.GetValue())
 
     def onAcceptFile(self,event):
         print('AcceptedData')
+        print(self.comboPCA1.Value)
+        print(self.comboPCA1.Value)
+        print(self.comboPCA1.Value)
+        print(self.comboPhe.Value)
         print(self.tc1.Value)
         print(self.tc3.Value)
 
