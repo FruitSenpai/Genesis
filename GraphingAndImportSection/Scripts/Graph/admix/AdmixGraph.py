@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from  matplotlib import interactive
 
-from admix.AdmixIndividual import AdmixIndividual
+from Graph.admix.AdmixIndividual import AdmixIndividual
 
 class AdmixGraph:
 
@@ -184,9 +184,9 @@ class AdmixGraph:
 
 
                 #group management stuff
-
-                #self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
-                self.sortByGroupDominance(personList, phenoCol - 3) #sort the list by group dominance
+                if phenoCol is not None:
+                        #self.sortByGroupAlpha(personList, phenoCol - 3) #sort the list by group alphabetical order
+                        self.sortByGroupDominance(personList, phenoCol - 3) #sort the list by group dominance
 
                 #now render the graph
                 individuals_x = np.arange(len(personList))
@@ -203,14 +203,15 @@ class AdmixGraph:
                 #format data for plotting functions
                 individuals_y = np.column_stack(processedAdmixList) #stack each individual's ancestry data as a single column
 
-
-                #list containing label info for the x-axis
-                tickList = self.findGroupPositions(personList, phenoCol - 3)
+                if phenoCol is not None:
+                        #list containing label info for the x-axis
+                        tickList = self.findGroupPositions(personList, phenoCol - 3)
 
 
                 #plot on the stack plot
                 fig, ax = plt.subplots()
                 ax.stackplot(individuals_x, individuals_y)
-                plt.xticks(tickList[1], tickList[0])
+                if phenoCol is not None:
+                        plt.xticks(tickList[1], tickList[0])
                 ##interactive(True)
                 ##plt.show()

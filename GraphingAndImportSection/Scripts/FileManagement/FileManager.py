@@ -1,5 +1,5 @@
 
-import File
+import FileManagement.File
 
 
 ## a file manager will be responsible for holding all the files needed to create a graph

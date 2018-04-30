@@ -1,15 +1,16 @@
-
-import File
-import FileManager as fm
-import os
 import sys
+print(sys.path)
+import FileManagement.File as File
+import FileManagement.FileManager as fm
+import os
+
 import matplotlib.pyplot as plt
 
 path = os.getcwd()
 path = path+ '\..\Graph\\' 
 sys.path.insert(0, path)
 
-import GraphCreate
+import Graph.GraphCreate as GraphCreate
 
 
 class FileImporter():
@@ -116,8 +117,11 @@ class FileImporter():
         for i in range(0,len(self._fileManagers)):
             print(self._fileManagers[i].GetName())
 
+    def FindLength(self):
+        return len(self._fileManagers)
 
-    def CreatePca(self,fileImporter,pcaPath,phenPath,Name):#'''pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
+
+    def CreatePca(self,FI,pcaPath,phenPath,Name):#'''pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
         #Create File Manager
         FM = FI.CreateFileManager(Name)
 
@@ -146,7 +150,7 @@ class FileImporter():
         print(Name +" GRAAAAAAPh");
         
 
-    def CreateAdmix(self, fileImporter,admixPath,famPath,phenPath,Name):
+    def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name):
         
         FM = FI.CreateFileManager(Name)
 
@@ -173,7 +177,8 @@ class FileImporter():
 
 ##Main
 ##Create a FIle Importer
-FI = FileImporter()
+        
+#FI = FileImporter()
 '''
 ##Creating various Graphs(will be put into functions) that will be mapped to gui buttons
 ##########################################################################################
@@ -209,58 +214,17 @@ DataAdmixPhen = FI.GetFileManager('SecondGraph').GetPhenFile().GetData()
 DataFam = FI.GetFileManager('SecondGraph').GetFamFile().GetData()
 ##############################################################
 
-##################################################################################
 
-AdmixData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.Q.2')
-PheData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.phe')
-FamData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.fam')
-
-FMA2 = FI.CreateFileManager('ThirdGraph')
-##FI.PrintFileManagers()
-FI.CreateFile('Admix IS THE NAME',AdmixData2,'Admix',FMA2)
-FI.CreateFile('Phen IS THE NAME',PheData2,'Phen',FMA2)
-FI.CreateFile('Fam IS THE NAME',FamData2,'Fam',FMA2)
-
-DataAdmix2 = FI.GetFileManager('ThirdGraph').GetAdmixFile().GetData()
-DataAdmixPhen2 = FI.GetFileManager('ThirdGraph').GetPhenFile().GetData()
-DataFam2 = FI.GetFileManager('ThirdGraph').GetFamFile().GetData()
-##############################################################
-
-##########################################################################################
-
-
-PcaData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec')
-PhenData2 =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
-
-FM3 = FI.CreateFileManager('Fh')
-
-FI.CreateFile('PCA IS THE NAME',PcaData2,'Pca',FM3)
-FI.CreateFile('Phen IS THE NAME',PhenData2,'Phen',FM3)
-
-DataPhen3 = FI.GetFileManager('Fh').GetPhenFile().GetData()
-DataPca3 = FI.GetFileManager('Fh').GetPcaFile().GetData()
-
-
-##################################################################################
-#Graph is created
-##GraphCreate.CreatePca(DataPhen3,DataPca3)
-
-##GraphCreate.CreateAdmix(DataAdmix2,DataFam2,DataAdmixPhen2)
-
-##GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
-
-#GraphCreate.CreatePca(None,DataPca)
-#shows all graphs that have been created
-#plt.show()
 '''
 #FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec','D:\Genesis\genesis-master\examples\PCA\comm.phe','TheGraph')
 
 #FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec',None,'TheGraph2')
 
 
-FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam','D:\Genesis\genesis-master\examples\Admix\small.phe', 'TheGraph3')
+#FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam','D:\Genesis\genesis-master\examples\Admix\small.phe', 'TheGraph3')
+#FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam',None, 'TheGraph4')
 
-plt.show()
+#plt.show()
 
 
 
