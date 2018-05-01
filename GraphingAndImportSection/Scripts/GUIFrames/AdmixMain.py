@@ -1,7 +1,7 @@
 import os
 import wx
+import csv
 import matplotlib.pyplot as plt
-
 from FileManagement.FileImporter import FileImporter
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
@@ -18,7 +18,7 @@ class ChildFrame(wx.Frame):
 
         self.InitUI()
         self.Centre()
-
+       
         self._FI = FileImporter()
         
     def InitUI(self):
@@ -26,8 +26,8 @@ class ChildFrame(wx.Frame):
         
         panel = wx.Panel(self,wx.ID_ANY)
 
-        Columns = ['column1', 'column2', 'column3']
-        self.combo = wx.ComboBox(panel, choices = Columns)
+        self.Columns = []
+        self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
         ColumnLabel = wx.StaticText(panel,label = "Phenotype Column") 
@@ -83,16 +83,16 @@ class ChildFrame(wx.Frame):
         print(self.tc1.Value)
         print(self.tc2.Value)
         print(self.tc3.Value)
-
-        name = "File" + str(self._FI.FindLength())
+        print(self.combo.Value)
         
+        name = "File" + str(self._FI.FindLength())
+        col = self.combo.Value.split(' ')
         if (self.tc3.Value != ""):
-            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name)
+            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]))
         else:
-            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name)
+            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,int(col[1]))
 
         plt.show()
-            
 
     def onOpenFile(self, event):
        
@@ -104,18 +104,37 @@ class ChildFrame(wx.Frame):
             style=wx.FD_OPEN | wx.FD_CHANGE_DIR
             )
         if dlg.ShowModal() == wx.ID_OK:
-            DataFilePath = dlg.GetPath()
+            self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
-            print(DataFilePath)
+            print(self.DataFilePath)
            # windowClass.AdmixPath = DataFilePath
             button = event.GetEventObject()
 
             if button.parameterVal == 'Data':
-                self.tc1.SetValue(DataFilePath)
+                self.tc1.SetValue(self.DataFilePath)
             if button.parameterVal == 'Fam':
-                self.tc2.SetValue(DataFilePath)
+                self.tc2.SetValue(self.DataFilePath)
             if button.parameterVal == 'Phe':
-                self.tc3.SetValue(DataFilePath)
+                self.tc3.SetValue(self.DataFilePath)
+                self.CountColumns()
             
             print(button.parameterVal)
         dlg.Destroy()
+
+    def CountColumns(self):
+        with open(self.DataFilePath) as myFile:
+            reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
+            first_row = next(reader)
+            num_cols = len(first_row)
+            print(num_cols)
+
+            for index in range(0,num_cols):
+                
+                self.Columns.insert(index,'Column ' +str(index+1))
+                print(self.Columns)
+
+      
+        self.combo.Clear()      
+        self.combo.AppendItems (self.Columns)
+        self.combo.Value = self.Columns[2]
+        #self.Columns = ['none']

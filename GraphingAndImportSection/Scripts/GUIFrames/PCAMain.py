@@ -1,5 +1,6 @@
 import os
 import wx
+import csv
 import sys
 import matplotlib.pyplot as plt
 #print(os.getcwd())
@@ -23,21 +24,21 @@ class PCAFrame(wx.Frame):
         self.Centre()
 
         self._FI = FileImporter()
-       
         
     def InitUI(self):
         
         
         panel = wx.Panel(self,wx.ID_ANY)
 
-        Columns = ['column1', 'column2', 'column3']
-        self.comboPCA1 = wx.ComboBox(panel, choices = Columns)
+        self.Columns = []
+
+        self.comboPCA1 = wx.ComboBox(panel, choices = self.Columns)
         self.comboPCA1.Bind(wx.EVT_COMBOBOX, self.OnCombo)
-        self.comboPCA2 = wx.ComboBox(panel, choices = Columns)
+        self.comboPCA2 = wx.ComboBox(panel, choices = self.Columns)
         self.comboPCA2.Bind(wx.EVT_COMBOBOX, self.OnCombo)
-        self.comboPCA3 = wx.ComboBox(panel, choices = Columns)
+        self.comboPCA3 = wx.ComboBox(panel, choices = self.Columns)
         self.comboPCA3.Bind(wx.EVT_COMBOBOX, self.OnCombo)
-        self.comboPhe = wx.ComboBox(panel, choices = Columns)
+        self.comboPhe = wx.ComboBox(panel, choices = self.Columns)
         self.comboPhe.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
         ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
@@ -97,24 +98,28 @@ class PCAFrame(wx.Frame):
         self.Destroy()
     
     def OnCombo(self, event):
-        print(self.combo.GetValue())
+        print(self.comboPhe.GetValue())
 
     def onAcceptFile(self,event):
         print('AcceptedData')
         print(self.comboPCA1.Value)
-        print(self.comboPCA1.Value)
-        print(self.comboPCA1.Value)
+        print(self.comboPCA2.Value)
+        print(self.comboPCA3.Value)
         print(self.comboPhe.Value)
         print(self.tc1.Value)
-        print("-"+self.tc3.Value+"-")
+        print(self.tc3.Value)
 
         name = "File" + str(self._FI.FindLength())
+        pheCol = self.comboPhe.Value.split(' ')
+        Col1 = self.comboPCA1.Value.split(' ')
+        Col2 = self.comboPCA2.Value.split(' ')
+        Col3 = self.comboPCA3.Value.split(' ')
 
         if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name)
+            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
 
         else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name)
+            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
             
         plt.show()
         #self.Destroy()
@@ -123,24 +128,62 @@ class PCAFrame(wx.Frame):
        
         dlg = wx.FileDialog(
             self, message="Choose a file",
-            defaultDir=self.currentDirectory, 
+            defaultDir = self.currentDirectory, 
             defaultFile="",
+
             wildcard=wildcard,
+
             style=wx.FD_OPEN | wx.FD_CHANGE_DIR
             )
         if dlg.ShowModal() == wx.ID_OK:
-            DataFilePath = dlg.GetPath()
+            self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
-            print(DataFilePath)
-           # windowClass.AdmixPath = DataFilePath
-            button = event.GetEventObject()
+            print(self.DataFilePath)
+           
+            self.button = event.GetEventObject()
 
-            if button.parameterVal == 'Data':
-                self.tc1.SetValue(DataFilePath)
-            if button.parameterVal == 'Fam':
-                self.tc2.SetValue(DataFilePath)
-            if button.parameterVal == 'Phe':
-                self.tc3.SetValue(DataFilePath)
+            if self.button.parameterVal == 'Data':
+                self.tc1.SetValue(self.DataFilePath)
+            if self.button.parameterVal == 'Phe':
+                self.tc3.SetValue(self.DataFilePath)
             
-            print(button.parameterVal)
+            print(self.button.parameterVal)
+
+        #CountColumns
+        self.CountColumns(self.button)
+            
         dlg.Destroy()
+
+    def CountColumns(self,val):
+        self.Columns.clear()
+        with open(self.DataFilePath) as myFile:
+            reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
+            first_row = next(reader)
+            num_cols = len(first_row)
+            print(num_cols)
+
+            for index in range(0,num_cols):
+                
+                self.Columns.insert(index,'Column ' +str(index+1))
+                print(self.Columns)
+
+            
+        if self.button.parameterVal == 'Data':
+            self.comboPCA1.Clear()      
+            self.comboPCA1.AppendItems (self.Columns)
+            self.comboPCA1.Value = self.Columns[0]
+
+            self.comboPCA2.Clear()      
+            self.comboPCA2.AppendItems (self.Columns)
+            self.comboPCA2.Value = self.Columns[1]
+
+            self.comboPCA3.Clear()      
+            self.comboPCA3.AppendItems (self.Columns)
+
+            #self.Columns = ['none']
+
+        if self.button.parameterVal == 'Phe':
+            self.comboPhe.Clear()      
+            self.comboPhe.AppendItems (self.Columns)
+            self.comboPhe.Value = self.Columns[2]
+            #self.Columns = ['none']

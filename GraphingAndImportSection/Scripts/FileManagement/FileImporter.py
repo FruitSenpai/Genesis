@@ -121,7 +121,7 @@ class FileImporter():
         return len(self._fileManagers)
 
 
-    def CreatePca(self,FI,pcaPath,phenPath,Name):#'''pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
+    def CreatePca(self,FI,pcaPath,phenPath,Name,pcaColoumnOne,PcaColoumnTwo,PhenColoumn):#''',pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
         #Create File Manager
         FM = FI.CreateFileManager(Name)
 
@@ -146,11 +146,11 @@ class FileImporter():
             DataPhen = None
             
 
-        GraphCreate.CreatePca(DataPhen,DataPca)
+        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
         print(Name +" GRAAAAAAPh");
         
 
-    def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name):
+    def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name,PheCol):
         
         FM = FI.CreateFileManager(Name)
 
@@ -168,7 +168,7 @@ class FileImporter():
         else:
             DataAdmixPhen = None
 
-        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen)
+        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
         
         
         

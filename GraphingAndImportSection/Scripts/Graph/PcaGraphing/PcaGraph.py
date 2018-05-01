@@ -16,7 +16,7 @@ class PcaGraph():
         self.Data = _Data
         self.xCol =_xCol
         self.yCol =_yCol
-    
+        
     
     def PlotPca(self):
 
