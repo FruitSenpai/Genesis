@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 
 #import FileImporter as fileImp
 from FileManagement.FileImporter import FileImporter
+from GUIFrames import DataHolder
+
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class PCAFrame(wx.Frame):
@@ -14,8 +16,8 @@ class PCAFrame(wx.Frame):
    
     
     def __init__(self, parent, title):
-        super(PCAFrame, self).__init__(parent, title= 'admix', 
-            size=(300, 250))
+        super(PCAFrame, self).__init__(parent, title= 'Pca', 
+            size=(300, 320))
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -24,6 +26,7 @@ class PCAFrame(wx.Frame):
         self.Centre()
 
         self._FI = FileImporter()
+        self._DH = DataHolder
         
     def InitUI(self):
         
@@ -115,13 +118,17 @@ class PCAFrame(wx.Frame):
         Col2 = self.comboPCA2.Value.split(' ')
         Col3 = self.comboPCA3.Value.split(' ')
 
+        Figure = ''
+        
         if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
+            Figure=self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
 
         else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
+            Figure=self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
             
         plt.show()
+        ##I need to give option to put in names ,headings and Name of Graph.
+        self._DH.Figures.update({name:Figure})
         #self.Destroy()
 
     def onOpenFile(self, event):
@@ -187,3 +194,4 @@ class PCAFrame(wx.Frame):
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
             #self.Columns = ['none']
+

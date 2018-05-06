@@ -73,6 +73,8 @@ class PcaGraph():
         
 
         self.RenderGraph('Heading','x','y')
+        ##i might need to return ax not fig
+        return fig
        
                 
     ##renders graph in pyplot

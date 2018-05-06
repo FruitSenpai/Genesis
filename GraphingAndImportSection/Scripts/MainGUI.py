@@ -1,5 +1,6 @@
 import os
 import wx
+import matplotlib.pyplot as plt
 from GUIFrames.AppearenceFrame import AppearFrame as AppFrame
 from GUIFrames.AdmixMain import ChildFrame as AdmixFrame
 from GUIFrames.ExportFrame import ExportFrame as EXFrame
@@ -7,6 +8,7 @@ from GUIFrames.AdmixData import AdmixGraphFrame as AdmixDataFrame
 from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
+from GUIFrames import DataHolder 
 
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
@@ -17,6 +19,10 @@ class windowClass(wx.Frame):
             
         self.basicGUI()
         self.AdmixPath = AdmixPath = ''
+
+        self._DH = DataHolder
+        
+        self.Graphs = {}
     def basicGUI(self):
 
         panel= wx.Panel(self)
@@ -127,7 +133,11 @@ class windowClass(wx.Frame):
         self.child.Show()
 
     def SaveEvent(self,e):
-        wx.MessageBox('Save file')
+        #wx.MessageBox('Save file')
+        wx.MessageBox('Save')
+        for key in self._DH.Figures:
+            print(key)
+            self._DH.Figures.get(key).draw()
 
     def OpenFileEvent(self,e):
         wx.MessageBox('Open file')

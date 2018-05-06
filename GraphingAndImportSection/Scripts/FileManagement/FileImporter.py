@@ -146,8 +146,9 @@ class FileImporter():
             DataPhen = None
             
 
-        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
+        Figure = GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
         print(Name +" GRAAAAAAPh");
+        return Figure
         
 
     def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name,PheCol):
