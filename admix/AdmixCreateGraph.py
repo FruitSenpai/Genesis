@@ -19,13 +19,13 @@ def CreateAdmix(num):
 	#get data from the specified files
 	admixData = admixEx.getAdmixData("small.Q." + str(num))
 	famData = admixEx.getFamData("small.fam")
-	#pheData = admixEx.getPhenoData("small.phe")
+	pheData = admixEx.getPhenoData("small.phe")
 	
 	#to run with phenotype data uncomment the pheData line and the second phenoColumn line
 
 	#specifies which column to use for group information in phenotype file
-	phenoColumn = None
-	#phenoColumn = 5
+	#phenoColumn = None
+	phenoColumn = 5
 
 	admixGraph = AdmixGraph(admixData, famData, phenoData= pheData)
 	admixGraph.plotGraph(phenoCol = phenoColumn)
