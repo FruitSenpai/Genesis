@@ -3,6 +3,7 @@ import wx
 import csv
 import matplotlib.pyplot as plt
 from FileManagement.FileImporter import FileImporter
+from GUIFrames import DataHolder 
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class ChildFrame(wx.Frame):
@@ -18,7 +19,7 @@ class ChildFrame(wx.Frame):
 
         self.InitUI()
         self.Centre()
-       
+        self._DH = DataHolder
         self._FI = FileImporter()
         
     def InitUI(self):
@@ -87,12 +88,15 @@ class ChildFrame(wx.Frame):
         
         name = "File" + str(self._FI.FindLength())
         col = self.combo.Value.split(' ')
+        Figure = ""
         if (self.tc3.Value != ""):
-            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]))
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]))
         else:
-            self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,int(col[1]))
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3)
 
+        self._DH.Figures.update({name:Figure})
         plt.show()
+        
 
     def onOpenFile(self, event):
        

@@ -215,3 +215,4 @@ class AdmixGraph:
                         plt.xticks(tickList[1], tickList[0])
                 ##interactive(True)
                 ##plt.show()
+                return fig

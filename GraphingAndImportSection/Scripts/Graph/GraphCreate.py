@@ -49,9 +49,10 @@ def CreateAdmix(admixData,famData,pheData,PheCol):
         #create new Admix graph and plot it        
         admixGraph = AdmixGraph(AdmixData, famData, phenoData= pheData)
         if(pheData != None):
-            admixGraph.plotGraph(phenoCol = phenoColumn)
+            Figure = admixGraph.plotGraph(phenoCol = phenoColumn)
         else:
-            admixGraph.plotGraph(phenoCol = None)
+            Figure=admixGraph.plotGraph(phenoCol = None)
+        return Figure
 
 
 

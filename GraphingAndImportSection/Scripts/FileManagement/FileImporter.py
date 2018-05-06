@@ -169,63 +169,14 @@ class FileImporter():
         else:
             DataAdmixPhen = None
 
-        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
+        Figure = GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
+        return Figure
         
         
         
-        
 
 
-##Main
-##Create a FIle Importer
-        
-#FI = FileImporter()
-'''
-##Creating various Graphs(will be put into functions) that will be mapped to gui buttons
-##########################################################################################
 
-#Finding Data(Will get the paths from sids gui)
-PcaData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec')
-PhenData =FI.GetFileData('D:\Genesis\genesis-master\examples\PCA\comm.phe')
-#Creating a file manager for this particular graph
-FM = FI.CreateFileManager('FirstGraph')
-#Create files to be added to the file manager
-#each file will have a specific piece of data
-FI.CreateFile('PCA IS THE NAME',PcaData,'Pca',FM)
-FI.CreateFile('Phen IS THE NAME',PhenData,'Phen',FM)
-##Get the data from the files(this is done to test if i can get data from saved files themselves)
-DataPhen = FI.GetFileManager('FirstGraph').GetPhenFile().GetData()
-DataPca = FI.GetFileManager('FirstGraph').GetPcaFile().GetData()
-
-
-##################################################################################
-
-AdmixData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.Q.4')
-PheData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.phe')
-FamData =FI.GetFileData('D:\Genesis\genesis-master\examples\Admix\small.fam')
-
-FMA = FI.CreateFileManager('SecondGraph')
-##FI.PrintFileManagers()
-FI.CreateFile('Admix IS THE NAME',AdmixData,'Admix',FMA)
-FI.CreateFile('Phen IS THE NAME',PheData,'Phen',FMA)
-FI.CreateFile('Fam IS THE NAME',FamData,'Fam',FMA)
-
-DataAdmix = FI.GetFileManager('SecondGraph').GetAdmixFile().GetData()
-DataAdmixPhen = FI.GetFileManager('SecondGraph').GetPhenFile().GetData()
-DataFam = FI.GetFileManager('SecondGraph').GetFamFile().GetData()
-##############################################################
-
-
-'''
-#FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec','D:\Genesis\genesis-master\examples\PCA\comm.phe','TheGraph')
-
-#FI.CreatePca(FI,'D:\Genesis\genesis-master\examples\PCA\comm-SYMCL.pca.evec',None,'TheGraph2')
-
-
-#FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam','D:\Genesis\genesis-master\examples\Admix\small.phe', 'TheGraph3')
-#FI.CreateAdmix(FI,'D:\Genesis\genesis-master\examples\Admix\small.Q.2','D:\Genesis\genesis-master\examples\Admix\small.fam',None, 'TheGraph4')
-
-#plt.show()
 
 
 

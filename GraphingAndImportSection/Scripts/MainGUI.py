@@ -137,7 +137,7 @@ class windowClass(wx.Frame):
         wx.MessageBox('Save')
         for key in self._DH.Figures:
             print(key)
-            self._DH.Figures.get(key).draw()
+    
 
     def OpenFileEvent(self,e):
         wx.MessageBox('Open file')
