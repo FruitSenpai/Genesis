@@ -24,7 +24,7 @@ class PCAFrame(wx.Frame):
 
         self.InitUI()
         self.Centre()
-
+        #creates File Importer for now
         self._FI = FileImporter()
         self._DH = DataHolder
         
@@ -117,18 +117,23 @@ class PCAFrame(wx.Frame):
         Col1 = self.comboPCA1.Value.split(' ')
         Col2 = self.comboPCA2.Value.split(' ')
         Col3 = self.comboPCA3.Value.split(' ')
-
+        #returns figure
         Figure = ''
-        
+        #creates graph dependant on if there is phen data
         if(self.tc3.Value != ""):
             Figure=self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
 
         else:
             Figure=self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
+
+        #updates list of graphs(REDUNDANT)
+        self._DH.Figures.update({name:Figure})
+        for key in self._DH.Figures:
+            print(key+'-->')
             
         plt.show()
         ##I need to give option to put in names ,headings and Name of Graph.
-        self._DH.Figures.update({name:Figure})
+
         #self.Destroy()
 
     def onOpenFile(self, event):
@@ -156,11 +161,12 @@ class PCAFrame(wx.Frame):
             
             print(self.button.parameterVal)
 
-        #CountColumns
+        #CountsColumns
         self.CountColumns(self.button)
             
         dlg.Destroy()
-
+        
+#counts coloumns in the file
     def CountColumns(self,val):
         self.Columns.clear()
         with open(self.DataFilePath) as myFile:

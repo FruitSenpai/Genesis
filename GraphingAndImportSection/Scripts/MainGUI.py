@@ -8,7 +8,8 @@ from GUIFrames.AdmixData import AdmixGraphFrame as AdmixDataFrame
 from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
-from GUIFrames import DataHolder 
+from GUIFrames import DataHolder
+from Annotation import Annotation as An
 
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
@@ -23,6 +24,8 @@ class windowClass(wx.Frame):
         self._DH = DataHolder
         
         self.Graphs = {}
+        
+        
     def basicGUI(self):
 
         panel= wx.Panel(self)
@@ -135,8 +138,22 @@ class windowClass(wx.Frame):
     def SaveEvent(self,e):
         #wx.MessageBox('Save file')
         wx.MessageBox('Save')
+
+        ##just put it in this function becaus its easier
+        
         for key in self._DH.Figures:
             print(key)
+        '''
+        #Finds all figures created
+        figs = list(map(plt.figure,plt.get_fignums()))
+        print(len(figs))
+        for i in range(0, len(figs)):
+            print(i)
+            ##Need to change this
+            #Allows for editing of figure for now
+            self._cid.append( figs[i].canvas.mpl_connect('button_press_event',onclick))
+        '''
+        
     
 
     def OpenFileEvent(self,e):
@@ -166,10 +183,34 @@ class windowClass(wx.Frame):
         wx.MessageBox('Search Hidden Individual file')
 
     def DrawLineEvent(self,e):
-        wx.MessageBox('Draw lin')
-
+        wx.MessageBox('Draw line')
+        if(An.isDrawingLine is False):
+            if(An.isCids() == True):
+                An.AnnotateOff()
+                
+            An.isDrawingLine = True
+            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine))                
+            An.Annotate()
+        else:
+            An.isDrawingLine = False
+            An.AnnotateOff()
+            
+        
     def DrawArrowEvent(self,e):
         wx.MessageBox('Draw Arrow')
+        if(An.isDrawingArrow is False):
+            if(An.isCids() == True):
+                print('WentThrough')
+                An.AnnotateOff()
+            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine)+'1')  
+            An.isDrawingArrow = True
+            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine)+'2')  
+            
+             
+            An.AnnotateArrow()
+        else:
+            An.isDrawingArrow = False
+            An.AnnotateOff()           
         
     def ExportEvent(self,e):
         #wx.MessageBox('Export file')
@@ -189,11 +230,20 @@ class windowClass(wx.Frame):
 
     def LoadEvent(self, e):
         wx.MessageBox('Load Files')
+        
+#prints various data when clicking a figure
+def onclick(event):
+    print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %('double' if event.dblclick else 'single',event.button, event.x, event.y, event.xdata, event.ydata))
+
+
 
 def main():
     app = wx.App()
     windowClass(None)
     app.MainLoop()
+
+
+        
 
 main()
 
