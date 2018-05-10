@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import AdmixDataExtractor as admixEx
 from AdmixGraph import AdmixGraph
 
+import GraphSaver as saver
+
 #all the 2d list data will be passed as parameters here
 #allow for changing of main headings and axes
 
@@ -28,9 +30,26 @@ def CreateAdmix(num):
 	phenoColumn = 5
 
 	admixGraph = AdmixGraph(admixData, famData, phenoData= pheData)
-	admixGraph.plotGraph(phenoCol = phenoColumn)
+	return admixGraph
+	#admixGraph.plotGraph(phenoCol = phenoColumn)
 
-CreateAdmix(2)
+
+#specifies which column to use for group information in phenotype file
+#phenoColumn = None
+phenoColumn = 5
+
+graph2 = CreateAdmix(5)
+graph2.plotGraph(phenoCol = phenoColumn)
+
+saveTheGraph = False
+
+if (saveTheGraph):
+	saver.saveGraph(graph2, "test graph.gpj")
+
+loadedGraph = saver.loadGraph("test graph.gpj")
+loadedGraph.plotGraph(phenoCol = phenoColumn)
+
+"""CreateAdmix(2)
 CreateAdmix(5)
-CreateAdmix(4)
+CreateAdmix(4)"""
 
