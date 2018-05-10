@@ -31,7 +31,8 @@ wildcard = "Python source (*.py)|*.py|" \
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
-            
+
+        self.size=(400,700)   
         self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
 
@@ -119,6 +120,7 @@ class windowClass(wx.Frame):
         #self.Bind(wx.EVT_MENU, self.QuitEvent, exitItem)
 
         self.SetTitle('Genesis')
+        self.SetSize(800,450)
         self.Show(True)
 
         return panel
@@ -169,12 +171,13 @@ class windowClass(wx.Frame):
       #  wx.MessageBox('Inputs Admix')
         print(self.AdmixPath)
         self.child = AdmixFrame(self, title='Admix')
-        #self.child.ShowModal()
+        self.child.ShowModal()
         self.child.Show()
 
     def PCAEvent(self,e):
         #wx.MessageBox('Input PCA')
         self.child = PCAFrame(self, title='PCA')
+        self.child.ShowModal()
         self.child.Show()
 
     def SaveEvent(self,e):
@@ -202,8 +205,9 @@ class windowClass(wx.Frame):
         wx.MessageBox('Open file')
     
     def DataOptionsEvent(self,e):
-        #self.child = AdmixDataFrame(self, title='Graph Options')
-        self.child = PCADataFrame(self, title='Graph Options')
+        self.child = AdmixDataFrame(self, title='Graph Options')
+        #self.child = PCADataFrame(self, title='Graph Options')
+        self.child.ShowModal
         self.child.Show()
 
     def AppearenceEvent(self,e):

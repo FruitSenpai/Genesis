@@ -8,13 +8,13 @@ from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from FileManagement  import ValidityChecker as VC
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
-class ChildFrame(wx.Frame):
+class ChildFrame(wx.Dialog):
     
    
     
     def __init__(self, parent, title):
         super(ChildFrame, self).__init__(parent, title= 'admix', 
-            size=(300, 250))
+            size=(300, 250),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -89,6 +89,7 @@ class ChildFrame(wx.Frame):
 
     def AppearFrame(self,event):
         self.child = PCAAppearFrame(self, title='Appearance')
+        self.child.ShowModal()
         self.child.Show()
         
     def Quit(self,event):

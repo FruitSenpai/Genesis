@@ -1,12 +1,14 @@
 import os
 import wx
+import csv
+from FileManagement  import ValidityChecker as VC
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
-class PCADataFrame(wx.Frame):
+class PCADataFrame(wx.Dialog):
 
     def __init__(self, parent, title):
         super(PCADataFrame, self).__init__(parent, title= 'Graph Options', 
-            size=(250, 350))
+            size=(250, 350),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         self.InitUI()
         self.Centre()

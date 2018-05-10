@@ -1,13 +1,15 @@
 import os
 import wx
+import csv
+from FileManagement  import ValidityChecker as VC
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
-class AdmixGraphFrame(wx.Frame):
+class AdmixGraphFrame(wx.Dialog):
 
 
     def __init__(self, parent, title):
         super(AdmixGraphFrame, self).__init__(parent, title= 'Graph Options', 
-            size=(400, 200))
+            size=(400, 200),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         self.currentDirectory = os.getcwd()
         self.InitUI()
@@ -18,7 +20,7 @@ class AdmixGraphFrame(wx.Frame):
         panel = wx.Panel(self,wx.ID_ANY)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
-        Columns = ['column1', 'column2', 'column3']
+        self.Columns = ['none']
 
         fgs = wx.FlexGridSizer(4,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
 
@@ -26,7 +28,7 @@ class AdmixGraphFrame(wx.Frame):
         ImportBtn.Bind(wx.EVT_BUTTON, self.onOpenFile)
         self.FilePathtext = wx.TextCtrl(panel)
         ColumnLabel = wx.StaticText(panel,label = "Phenotype Column")
-        self.combo = wx.ComboBox(panel, choices = Columns)
+        self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
         FinishBtn = wx.Button(panel,wx.ID_ANY, 'Finish')
         FinishBtn.Bind(wx.EVT_BUTTON, self.FinishEvent)
@@ -71,11 +73,38 @@ class AdmixGraphFrame(wx.Frame):
             style=wx.FD_OPEN | wx.FD_CHANGE_DIR
             )
         if dlg.ShowModal() == wx.ID_OK:
-            DataFilePath = dlg.GetPath()
+            self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
-            print(DataFilePath)
+            print(self.DataFilePath)
             #windowClass.AdmixPath = DataFilePath
             button = event.GetEventObject()
-            self.FilePathtext.SetValue(DataFilePath)
+
+            if(VC.CheckAdmixValid(self.DataFilePath)):
+                self.FilePathtext.SetValue(self.DataFilePath)
+                self.CountColumns()
+            else:
+                dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
+                dlg.ShowModal()
+
+                
+            
          
         dlg.Destroy()
+
+    def CountColumns(self):
+        with open(self.DataFilePath) as myFile:
+            reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
+            first_row = next(reader)
+            num_cols = len(first_row)
+            print(num_cols)
+
+            for index in range(0,num_cols):
+                    
+                self.Columns.insert(index,'Column ' +str(index+1))
+                print(self.Columns)
+
+      
+            self.combo.Clear()      
+            self.combo.AppendItems (self.Columns)
+            self.combo.Value = self.Columns[2]
+            #self.Columns = ['none']

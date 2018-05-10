@@ -12,15 +12,17 @@ from FileManagement  import ValidityChecker as VC
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
-class PCAFrame(wx.Frame):
+wildcard =  "Python source (*.py)|*.py|" \
+           "All files (*.*)|*.*" 
+                 
+class PCAFrame(wx.Dialog):
     
    
     
     def __init__(self, parent, title):
+        #wx.Dialog._init_(self,parent,title="PCA",style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
-            size=(300, 600))
+            size=(400, 700),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -117,6 +119,7 @@ class PCAFrame(wx.Frame):
 
     def AppearFrame(self,event):
         self.child = AppFrame(self, title='Appearance')
+        self.child.ShowModal()
         self.child.Show()
 
     def Quit(self,event):
@@ -189,7 +192,7 @@ class PCAFrame(wx.Frame):
                     self.tc3.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR|wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
                     dlg.ShowModal()
             
             print(self.button.parameterVal)
