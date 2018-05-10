@@ -138,24 +138,27 @@ class ChildFrame(wx.Frame):
                     self.tc1.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    wx.MessageBox('Invalid Admix File Extension','ERROR')
+                    dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
 
             if button.parameterVal == 'Fam':
                 if(VC.CheckFamValid(self.DataFilePath)):
                     self.tc2.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    wx.MessageBox('Invalid Fam File Extension','ERROR')
+                    dlg = wx.MessageDialog(None,"Invalid Fam File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
 
             if button.parameterVal == 'Phe':
                 if(VC.CheckPhenValid(self.DataFilePath)):
                     self.tc3.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    wx.MessageBox('Invalid Phe File Extension','ERROR')
+                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
                 
             
-            print(button.parameterVal)
+            #print(button.parameterVal)
         dlg.Destroy()
 
     def CountColumns(self):
