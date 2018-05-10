@@ -1,5 +1,6 @@
 import os
 import wx
+from wx.lib.pubsub import pub
 import csv
 import sys
 import matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ class PCAFrame(wx.Frame):
     
     def __init__(self, parent, title):
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
-            size=(300, 320))
+            size=(300, 600))
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -99,6 +100,7 @@ class PCAFrame(wx.Frame):
 
     def Quit(self,event):
         self.Destroy()
+        pub.sendMessage('panelListener',message=self._FI)
     
     def OnCombo(self, event):
         print(self.comboPhe.GetValue())
@@ -121,16 +123,15 @@ class PCAFrame(wx.Frame):
         Figure = ''
         #creates graph dependant on if there is phen data
         if(self.tc3.Value != ""):
-            Figure=self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
+            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
 
         else:
-            Figure=self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
+            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
 
         #updates list of graphs(REDUNDANT)
         self._DH.Figures.update({name:Figure})
-        for key in self._DH.Figures:
-            print(key+'-->')
-            
+        
+        #pub.sendMessage('panelListener',message="Ronan was HEre")
         plt.show()
         ##I need to give option to put in names ,headings and Name of Graph.
 

@@ -53,6 +53,12 @@ class FileImporter():
         self._fileManagers.append(self._FM)
         return self._FM
 
+    def AddFileManager(self,fileMan):
+        self._fileManagers.append(fileMan)
+
+    def GetManagers(self):
+        return self._fileManagers
+
 
 ##Outputs the data in the file as a 2d Array.
 ##Should make getting data easier plus we can now store it for later use
@@ -115,7 +121,7 @@ class FileImporter():
 
     def PrintFileManagers(self):
         for i in range(0,len(self._fileManagers)):
-            print(self._fileManagers[i].GetName())
+            print(self._fileManagers[i].GetName()+"---")
 
     def FindLength(self):
         return len(self._fileManagers)
@@ -146,9 +152,9 @@ class FileImporter():
             DataPhen = None
             
 
-        Figure = GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
+        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
         print(Name +" GRAAAAAAPh");
-        return Figure
+        
         
 
     def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name,PheCol):
@@ -169,8 +175,8 @@ class FileImporter():
         else:
             DataAdmixPhen = None
 
-        Figure = GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
-        return Figure
+        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
+        
         
         
         

@@ -29,8 +29,8 @@ def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol):
 
 ##plotPca and RenderGraph should follow and might be enveloped into one 
     pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2)
-    Figure = pcagraph.PlotPca()
-    return Figure
+    pcagraph.PlotPca()
+    
 
 def CreateAdmix(admixData,famData,pheData,PheCol):
     
@@ -49,10 +49,10 @@ def CreateAdmix(admixData,famData,pheData,PheCol):
         #create new Admix graph and plot it        
         admixGraph = AdmixGraph(AdmixData, famData, phenoData= pheData)
         if(pheData != None):
-            Figure = admixGraph.plotGraph(phenoCol = phenoColumn)
+            admixGraph.plotGraph(phenoCol = phenoColumn)
         else:
-            Figure=admixGraph.plotGraph(phenoCol = None)
-        return Figure
+            admixGraph.plotGraph(phenoCol = None)
+        
 
 
 

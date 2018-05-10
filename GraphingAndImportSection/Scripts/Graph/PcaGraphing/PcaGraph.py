@@ -54,7 +54,7 @@ class PcaGraph():
 
             ##just a check to make sure that we dont plot groups with 0 components
                 if(len(xtemp) >0):
-                    ax.scatter(xtemp, ytemp, marker='^', label=self.GroupData[group], s=10)
+                    ax.scatter(xtemp, ytemp, marker='^', label=self.GroupData[group], s=10 )
 
 
         ##In case there is no phen data
@@ -67,14 +67,14 @@ class PcaGraph():
                 xtemp.append(float(x[i]))
                 ytemp.append(float(y[i]))
             
-            ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10)
+            ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
 
         
         
 
         self.RenderGraph('Heading','x','y')
         ##i might need to return ax not fig
-        return fig
+        
        
                 
     ##renders graph in pyplot

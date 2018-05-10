@@ -1,5 +1,6 @@
 import os
 import wx
+from wx.lib.pubsub import pub
 import matplotlib.pyplot as plt
 from GUIFrames.AppearenceFrame import AppearFrame as AppFrame
 from GUIFrames.AdmixMain import ChildFrame as AdmixFrame
@@ -10,7 +11,19 @@ from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
+from FileManagement.FileImporter import FileImporter
+###################
+import wx.lib.mixins.inspection as wit
 
+if 'phoenix' in wx.PlatformInfo:
+    import wx.lib.agw.aui as aui
+else:
+    import wx.aui as aui
+
+import matplotlib as mpl
+from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
+from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavigationToolbar
+########################3
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 
@@ -18,13 +31,38 @@ class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
             
-        self.basicGUI()
+        self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
 
         self._DH = DataHolder
-        
+        self._FI = FileImporter()
         self.Graphs = {}
+        pub.subscribe(self.mylistener, "panelListener")
         
+        plotter = PlotNotebook(self._panel)
+        axes1 = plotter.add('Wigure 1').gca()
+        axes1.plot([1, 2, 3], [2, 1, 4])
+        '''
+        locale = wx.Locale(wx.LANGUAGE_ENGLISH)
+        self.figure = mpl.figure.Figure(dpi=None, figsize=(2, 2))
+        self.canvas = FigureCanvas(self, -1, self.figure)
+        self.toolbar = NavigationToolbar(self.canvas)
+        self.toolbar.Realize()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.canvas, 1, wx.EXPAND)
+        sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
+        self.SetSizer(sizer)
+
+        axes1 = self.figure.gca()
+        axes1.plot([1, 2, 3], [2, 1, 4])
+        '''
+        axes2 = plotter.add('figure 2').gca()
+        axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
+
+
+    def returnPanel(self):
+        return self._panel
         
     def basicGUI(self):
 
@@ -81,6 +119,8 @@ class windowClass(wx.Frame):
 
         self.SetTitle('Genesis')
         self.Show(True)
+
+        return panel
          
     def Makebar(self):
         toolBar = self.CreateToolBar()
@@ -230,16 +270,80 @@ class windowClass(wx.Frame):
 
     def LoadEvent(self, e):
         wx.MessageBox('Load Files')
+
+    #gets file mamnagers returned from graphing frames
+    def mylistener(self,message, arg2 = None):
+        _temp = message.GetManagers()
+        for i in range(0,len(_temp)):
+            self._FI.AddFileManager(_temp[i])
+        self._FI.PrintFileManagers()
         
 #prints various data when clicking a figure
 def onclick(event):
     print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %('double' if event.dblclick else 'single',event.button, event.x, event.y, event.xdata, event.ydata))
 
+'''
+class Plot(wx.Panel):
+    def __init__(self, parent, id=-1, dpi=None, **kwargs):
+        locale = wx.Locale(wx.LANGUAGE_ENGLISH)
+        wx.Panel.__init__(self, parent, id=id, **kwargs)
+        self.figure = mpl.figure.Figure(dpi=dpi, figsize=(2, 2))
+        self.canvas = FigureCanvas(self, -1, self.figure)
+        self.toolbar = NavigationToolbar(self.canvas)
+        self.toolbar.Realize()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.canvas, 1, wx.EXPAND)
+        sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
+        self.SetSizer(sizer)
+'''
+#creates a page
+class Plot(wx.Panel):
+    def __init__(self, parent, id=-1, dpi=None, **kwargs):
+        locale = wx.Locale(wx.LANGUAGE_ENGLISH)
+        wx.Panel.__init__(self, parent, id=id, **kwargs)
+        self.figure = mpl.figure.Figure(dpi=dpi, figsize=(2, 2))
+        self.canvas = FigureCanvas(self, -1, self.figure)
+        self.toolbar = NavigationToolbar(self.canvas)
+        self.toolbar.Realize()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.canvas, 1, wx.EXPAND)
+        sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
+        self.SetSizer(sizer)
+        
+#creates a notebook
+class PlotNotebook(wx.Panel):
+    def __init__(self, parent, id=-1):
+        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))
+        self.nb = aui.AuiNotebook(self, size=(2000,900))
+        sizer = wx.BoxSizer()
+        sizer.Add(self.nb, 1, wx.EXPAND)
+        self.SetSizer(sizer)
+
+    def add(self, name="plot"):
+        page = Plot(self.nb)
+        self.nb.AddPage(page, name)
+        return page.figure
 
 
 def main():
-    app = wx.App()
+    app = wx.App()   
     windowClass(None)
+
+    #axes2 = plotter.add('figure 2').gca()
+    #axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
+    
+    '''
+    #frame2 = wx.Frame(None, -1, 'Plotter')
+    plotter = PlotNotebook(frame.returnPanel())
+    axes1 = plotter.add('figure 1').gca()
+    axes1.plot([1, 2, 3], [2, 1, 4])
+    axes2 = plotter.add('figure 2').gca()
+    axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
+    frame.Show()
+    #frame2.Show()
+    '''
     app.MainLoop()
 
 
