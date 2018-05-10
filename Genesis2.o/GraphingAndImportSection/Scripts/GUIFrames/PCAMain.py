@@ -14,7 +14,7 @@ from GUIFrames import DataHolder
 
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
-class PCAFrame(wx.Frame):
+class PCAFrame(wx.Dialog):
     
    
     
@@ -174,21 +174,23 @@ class PCAFrame(wx.Frame):
             print ('You chose the following file:')
             print(self.DataFilePath)
            
-            self.button = event.GetEventObject()
+            button = event.GetEventObject()
 
-             if button.parameterVal == 'Data':
+            if button.parameterVal == 'Data':
                 if(VC.CheckPcaValid(self.DataFilePath)):
                     self.tc1.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    wx.MessageBox('Invalid PCA File Extension','ERROR')
+                    dlg = wx.Dialog(mainFrame,title="Invalid PCA File")
+                    dlg.ShowModal()
 
-             if button.parameterVal == 'Phe':
+            if button.parameterVal == 'Phe':
                 if(VC.CheckPhenValid(self.DataFilePath)):
                     self.tc3.SetValue(self.DataFilePath)
                     self.CountColumns()
                 else:
-                    wx.MessageBox('Invalid Phe File Extension','ERROR')
+                    dlg = wx.Dialog(mainFrame,title="Invalid Phe File")
+                    dlg.ShowModal()
             
             print(self.button.parameterVal)
 

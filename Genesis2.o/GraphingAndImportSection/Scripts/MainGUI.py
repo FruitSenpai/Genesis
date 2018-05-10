@@ -169,6 +169,7 @@ class windowClass(wx.Frame):
       #  wx.MessageBox('Inputs Admix')
         print(self.AdmixPath)
         self.child = AdmixFrame(self, title='Admix')
+        
         self.child.Show()
 
     def PCAEvent(self,e):
