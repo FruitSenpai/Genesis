@@ -28,6 +28,7 @@ class PCAFrame(wx.Frame):
         #creates File Importer for now
         self._FI = FileImporter()
         self._DH = DataHolder
+        pub.subscribe(self.GetPanel, "GetPanelPca")
         
     def InitUI(self):
         
@@ -123,13 +124,12 @@ class PCAFrame(wx.Frame):
         Figure = ''
         #creates graph dependant on if there is phen data
         if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
+            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
 
         else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
+            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
 
-        #updates list of graphs(REDUNDANT)
-        self._DH.Figures.update({name:Figure})
+
         
         #pub.sendMessage('panelListener',message="Ronan was HEre")
         plt.show()
@@ -201,4 +201,8 @@ class PCAFrame(wx.Frame):
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
             #self.Columns = ['none']
+
+    def GetPanel(self,message, arg2 = None):
+        print("HI")
+        self._panel = message
 

@@ -3,12 +3,15 @@ import matplotlib.pyplot as plt
 from  matplotlib import interactive
 import random as rnd
 import os
+from wx.lib.pubsub import pub
+from GUIFrames import DataHolder
+
 
 
 class PcaGraph():
     
     ##Plots all pca points in different Group
-    def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol):
+    def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol,panel):
         ##define variables to use later on for plotting the graph
         self.Names = NamesFirst
         self.GroupData =Groups
@@ -16,6 +19,10 @@ class PcaGraph():
         self.Data = _Data
         self.xCol =_xCol
         self.yCol =_yCol
+        self._nb = panel
+
+        self._DH = DataHolder
+        
         
     
     def PlotPca(self):
@@ -37,7 +44,10 @@ class PcaGraph():
         ##If this is the case then its x and y co-ords are added to the x and y lists to be plotted 
 
         #create an new figure for this graph
-        fig, ax = plt.subplots()
+        #fig, ax = plt.subplots()
+        #replace 'figure1' with name
+        self._fig = self._nb.add('figure1')
+        self._ax = self._fig.gca()
 
         ##runs of there is phen data(Possibly using group data is not ideal)
         if(len(self.GroupData) >0):
@@ -54,7 +64,7 @@ class PcaGraph():
 
             ##just a check to make sure that we dont plot groups with 0 components
                 if(len(xtemp) >0):
-                    ax.scatter(xtemp, ytemp, marker='^', label=self.GroupData[group], s=10 )
+                    self._ax.scatter(xtemp, ytemp, marker='^', label=self.GroupData[group], s=10 )
 
 
         ##In case there is no phen data
@@ -67,27 +77,15 @@ class PcaGraph():
                 xtemp.append(float(x[i]))
                 ytemp.append(float(y[i]))
             
-            ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
+            self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
 
         
         
-
-        self.RenderGraph('Heading','x','y')
-        ##i might need to return ax not fig
+        self._ax.legend()
+        self._DH.Figures.update({'TestPca':self._fig})
+       # self.RenderGraph('Heading','x','y')
         
-       
-                
-    ##renders graph in pyplot
-    def RenderGraph(self,Heading,xLabel,yLabel):
-        # Plots graph
-
-        plt.title(Heading)
-        plt.xlabel(xLabel)
-        plt.ylabel(yLabel)
-        plt.legend()
-        ##interactive(True)
-      ##  plt.show()
-
+        
 
 
 
@@ -95,3 +93,5 @@ def _FindLength(Data):
 ##Checking size of file(how many lines)
     count = len(Data)
     return count
+
+

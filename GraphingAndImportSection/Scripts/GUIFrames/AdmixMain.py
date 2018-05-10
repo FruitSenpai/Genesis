@@ -1,5 +1,6 @@
 import os
 import wx
+from wx.lib.pubsub import pub
 import csv
 import matplotlib.pyplot as plt
 from FileManagement.FileImporter import FileImporter
@@ -21,6 +22,7 @@ class ChildFrame(wx.Frame):
         self.Centre()
         self._DH = DataHolder
         self._FI = FileImporter()
+        pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
         
@@ -73,6 +75,7 @@ class ChildFrame(wx.Frame):
         panel.SetSizer(hbox)
 
     def Quit(self,event):
+        pub.sendMessage('panelListener',message=self._FI)
         self.Destroy()
     
     def OnCombo(self, event):
@@ -90,11 +93,11 @@ class ChildFrame(wx.Frame):
         col = self.combo.Value.split(' ')
         Figure = ""
         if (self.tc3.Value != ""):
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]))
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]),self._panel)
         else:
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3)
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3,self._panel)
 
-        self._DH.Figures.update({name:Figure})
+
         plt.show()
         
 
@@ -142,3 +145,7 @@ class ChildFrame(wx.Frame):
         self.combo.AppendItems (self.Columns)
         self.combo.Value = self.Columns[2]
         #self.Columns = ['none']
+
+    def GetPanel(self,message, arg2 = None):
+        print("HI")
+        self._panel = message
