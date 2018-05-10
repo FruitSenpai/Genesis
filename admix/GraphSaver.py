@@ -1,13 +1,14 @@
 import pickle
 
 def saveGraph(graph, fileName):
-	outFile = open(fileName, "wb")
-	pickle.dump(graph, outFile)
-	outFile.close()
+	#closes file immediately after done
+	with open(fileName, "wb") as outFile:
+		pickle.dump(graph, outFile)
 
 def loadGraph(filePath):
-	binaryData = open(filePath, "rb") #read data in binary format
-	graph = pickle.load(binaryData)
+	#closes file immediately after done
+	with open(filePath, "rb") as binaryData: #read data in binary format
+		graph = pickle.load(binaryData)
 	
 	return graph
 
