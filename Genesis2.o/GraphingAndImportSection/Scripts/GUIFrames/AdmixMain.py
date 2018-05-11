@@ -180,7 +180,7 @@ class ChildFrame(wx.Dialog):
       
         self.combo.Clear()      
         self.combo.AppendItems (self.Columns)
-        self.scombo.Value = self.Columns[2]
+        self.combo.Value = self.Columns[2]
         #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):
