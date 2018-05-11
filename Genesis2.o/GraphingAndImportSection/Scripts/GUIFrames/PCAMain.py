@@ -183,30 +183,19 @@ class PCAFrame(wx.Dialog):
             self.button = event.GetEventObject()
 
             if self.button.parameterVal == 'Data':
-                if(VC.CheckPcaValid(self.DataFilePath)):
-                    self.tc1.SetValue(self.DataFilePath)
-                    self.CountColumns()
-                else:
-                    dlg = wx.MessageDialog(None,"Invalid PCA File","ERROR",wx.OK | wx.ICON_ERROR)
-                    dlg.ShowModal()
-
+                self.tc1.SetValue(self.DataFilePath)
             if self.button.parameterVal == 'Phe':
-                if(VC.CheckPhenValid(self.DataFilePath)):
-                    self.tc3.SetValue(self.DataFilePath)
-                    self.CountColumns()
-                else:
-                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR|wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
-                    dlg.ShowModal()
+                self.tc3.SetValue(self.DataFilePath)
             
-            #print(button.parameterVal)
+            print(self.button.parameterVal)
 
         #CountsColumns
-        #self.CountColumns(self.button.parameterVal)
+        self.CountColumns(self.button)
             
         dlg.Destroy()
         
 #counts coloumns in the file
-    def CountColumns(self):
+    def CountColumns(self,val):
         self.Columns.clear()
         with open(self.DataFilePath) as myFile:
             reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
@@ -232,20 +221,12 @@ class PCAFrame(wx.Dialog):
             self.comboPCA3.Clear()      
             self.comboPCA3.AppendItems (self.Columns)
 
-            self.comboPCA1.Show()
-            self.comboPCA2.Show()
-            self.comboPCA3.Show()
-            self.ColumnLabel.Show()
             #self.Columns = ['none']
-            #self.GetSizer.Layout()
-            #self.GetParent().Layout()
 
         if self.button.parameterVal == 'Phe':
             self.comboPhe.Clear()      
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
-            self.comboPhe.Show()
-            self.PheLabel.Show()
             #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):
