@@ -12,7 +12,7 @@ from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
-###################
+###################Import for embedding 
 import wx.lib.mixins.inspection as wit
 
 if 'phoenix' in wx.PlatformInfo:
@@ -44,7 +44,7 @@ class windowClass(wx.Frame):
         self._cid = []
         #create a notebook to store graphs
         self.plotter = PlotNotebook(self._panel)
-        
+        ##test data
         fig1 =self.plotter.add('Wigure 1')
         axes1 = fig1.gca()
         axes1.plot([1, 2, 3], [2, 1, 4])
@@ -176,8 +176,7 @@ class windowClass(wx.Frame):
         #wx.MessageBox('Save file')
         wx.MessageBox('Save')
 
-        ##just put it in this function becaus its easier
-        print(len(self._DH.Figures))
+        ##run through figures and attaches the event function to it
         for key in self._DH.Figures:
             print(key)
             self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
@@ -292,19 +291,7 @@ def main():
     app = wx.App()   
     windowClass(None)
 
-    #axes2 = plotter.add('figure 2').gca()
-    #axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
-    
-    '''
-    #frame2 = wx.Frame(None, -1, 'Plotter')
-    plotter = PlotNotebook(frame.returnPanel())
-    axes1 = plotter.add('figure 1').gca()
-    axes1.plot([1, 2, 3], [2, 1, 4])
-    axes2 = plotter.add('figure 2').gca()
-    axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
-    frame.Show()
-    #frame2.Show()
-    '''
+
     app.MainLoop()
 
 

@@ -45,17 +45,17 @@ class FileImporter():
 
         return self._tempFm
         
-       ## self._fileManagers.append(self._tempFm)
-
+       
+    #Creates a file manager and adds it to the file importer
     def CreateFileManager(self,Name):
         self._FM = fm.FileManager()
         self._FM.SetName(Name)
         self._fileManagers.append(self._FM)
         return self._FM
-
+    #adds a already created file manager to the file importer
     def AddFileManager(self,fileMan):
         self._fileManagers.append(fileMan)
-
+    #returns a list of all file managers
     def GetManagers(self):
         return self._fileManagers
 

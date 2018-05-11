@@ -29,7 +29,7 @@ def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,panel):
 
 ##plotPca and RenderGraph should follow and might be enveloped into one 
     pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2,panel)
-    pcagraph.PlotPca()
+    pcagraph.PlotPca(True)
     
 
 def CreateAdmix(admixData,famData,pheData,PheCol,nb):
