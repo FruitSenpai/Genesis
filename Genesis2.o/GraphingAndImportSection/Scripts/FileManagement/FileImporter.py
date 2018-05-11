@@ -45,17 +45,17 @@ class FileImporter():
 
         return self._tempFm
         
-       ## self._fileManagers.append(self._tempFm)
-
+       
+    #Creates a file manager and adds it to the file importer
     def CreateFileManager(self,Name):
         self._FM = fm.FileManager()
         self._FM.SetName(Name)
         self._fileManagers.append(self._FM)
         return self._FM
-
+    #adds a already created file manager to the file importer
     def AddFileManager(self,fileMan):
         self._fileManagers.append(fileMan)
-
+    #returns a list of all file managers
     def GetManagers(self):
         return self._fileManagers
 
@@ -127,7 +127,7 @@ class FileImporter():
         return len(self._fileManagers)
 
 
-    def CreatePca(self,FI,pcaPath,phenPath,Name,pcaColoumnOne,PcaColoumnTwo,PhenColoumn):#''',pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
+    def CreatePca(self,FI,pcaPath,phenPath,Name,pcaColoumnOne,PcaColoumnTwo,PhenColoumn,panel):#''',pcaColoumnOne,PcaColoumnTwo,pcaColoumnThree,PhenColoumn '''
         #Create File Manager
         FM = FI.CreateFileManager(Name)
 
@@ -152,12 +152,12 @@ class FileImporter():
             DataPhen = None
             
 
-        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn)
+        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn,panel)
         print(Name +" GRAAAAAAPh");
         
         
 
-    def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name,PheCol):
+    def CreateAdmix(self, FI,admixPath,famPath,phenPath,Name,PheCol,nb):
         
         FM = FI.CreateFileManager(Name)
 
@@ -175,7 +175,7 @@ class FileImporter():
         else:
             DataAdmixPhen = None
 
-        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol)
+        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol,nb)
         
         
         

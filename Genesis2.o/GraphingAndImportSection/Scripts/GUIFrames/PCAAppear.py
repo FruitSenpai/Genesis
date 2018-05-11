@@ -1,13 +1,13 @@
 import os
 import wx
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
+wildcard = "All files (*.*)|*.*"
+            
 
-class PCAAppearFrame(wx.Frame):
+class PCAAppearFrame(wx.Dialog):
 
     def __init__(self, parent, title):
         super(PCAAppearFrame, self).__init__(parent, title= 'Graph Options', 
-            size=(400, 500))
+            size=(400, 500),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         self.InitUI()
         self.Centre()
@@ -17,7 +17,7 @@ class PCAAppearFrame(wx.Frame):
         panel = wx.Panel(self,wx.ID_ANY)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
-        Columns = ['column1', 'column2', 'column3', "none"]
+        Columns = ["none"]
 
         fgs = wx.FlexGridSizer(12,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
         fgsInner = wx.FlexGridSizer(1,2,10,10)

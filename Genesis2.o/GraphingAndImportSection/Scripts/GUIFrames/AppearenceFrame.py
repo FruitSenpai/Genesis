@@ -1,12 +1,12 @@
 import os
 import wx
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
-class AppearFrame(wx.Frame):
+wildcard =  "All files (*.*)|*.*"
+           
+class AppearFrame(wx.Dialog):
 
     def __init__(self, parent, title):
         super(AppearFrame, self).__init__(parent, title= 'Appearence', 
-            size=(350, 650))
+            size=(350, 650),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         self.InitUI()
         self.Centre()

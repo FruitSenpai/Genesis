@@ -35,32 +35,27 @@ class windowClass(wx.Frame):
         self.size=(400,700)   
         self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
-
+        #find data holder
         self._DH = DataHolder
+        #create a fileimporter to hold graphs
         self._FI = FileImporter()
         self.Graphs = {}
+        #the main graph is listening so that it can get file importers PCA and ADMIX main
         pub.subscribe(self.mylistener, "panelListener")
+        #create a list of ids
+        self._cid = []
+        #create a notebook to store graphs
+        self.plotter = PlotNotebook(self._panel)
+        ##test data
+        fig1 =self.plotter.add('Wigure 1')
+        axes1 = fig1.gca()
+        axes1.plot([1, 2, 3], [2, 1, 4])
+        self._DH.Figures.update({'Wigure 1':fig1})
         
-        plotter = PlotNotebook(self._panel)
-        axes1 = plotter.add('Wigure 1').gca()
-        axes1.plot([1, 2, 3], [2, 1, 4])
-        '''
-        locale = wx.Locale(wx.LANGUAGE_ENGLISH)
-        self.figure = mpl.figure.Figure(dpi=None, figsize=(2, 2))
-        self.canvas = FigureCanvas(self, -1, self.figure)
-        self.toolbar = NavigationToolbar(self.canvas)
-        self.toolbar.Realize()
-
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.canvas, 1, wx.EXPAND)
-        sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
-        self.SetSizer(sizer)
-
-        axes1 = self.figure.gca()
-        axes1.plot([1, 2, 3], [2, 1, 4])
-        '''
-        axes2 = plotter.add('figure 2').gca()
+        fig2 =self.plotter.add('figure 2')
+        axes2 = fig2.gca()
         axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
+        self._DH.Figures.update({'Figure 2':fig2})
 
 
     def returnPanel(self):
@@ -175,29 +170,22 @@ class windowClass(wx.Frame):
         self.child.Show()
 
     def PCAEvent(self,e):
-        #wx.MessageBox('Input PCA')
+        wx.MessageBox('Input PCA')
         self.child = PCAFrame(self, title='PCA')
         self.child.ShowModal()
         self.child.Show()
+        pub.sendMessage('GetPanelPca',message=self.plotter)
 
     def SaveEvent(self,e):
         #wx.MessageBox('Save file')
         wx.MessageBox('Save')
 
-        ##just put it in this function becaus its easier
-        
+        ##run through figures and attaches the event function to it
         for key in self._DH.Figures:
             print(key)
-        '''
-        #Finds all figures created
-        figs = list(map(plt.figure,plt.get_fignums()))
-        print(len(figs))
-        for i in range(0, len(figs)):
-            print(i)
-            ##Need to change this
-            #Allows for editing of figure for now
-            self._cid.append( figs[i].canvas.mpl_connect('button_press_event',onclick))
-        '''
+            self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
+
+
         
     
 
@@ -229,34 +217,13 @@ class windowClass(wx.Frame):
         wx.MessageBox('Search Hidden Individual file')
 
     def DrawLineEvent(self,e):
-        wx.MessageBox('Draw line')
-        if(An.isDrawingLine is False):
-            if(An.isCids() == True):
-                An.AnnotateOff()
-                
-            An.isDrawingLine = True
-            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine))                
-            An.Annotate()
-        else:
-            An.isDrawingLine = False
-            An.AnnotateOff()
+        wx.MessageBox('Draw line')            
+        An.Annotate(self._DH.Figures)
             
         
     def DrawArrowEvent(self,e):
         wx.MessageBox('Draw Arrow')
-        if(An.isDrawingArrow is False):
-            if(An.isCids() == True):
-                print('WentThrough')
-                An.AnnotateOff()
-            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine)+'1')  
-            An.isDrawingArrow = True
-            print(str(An.isDrawingArrow) + " "+ str(An.isDrawingLine)+'2')  
-            
-             
-            An.AnnotateArrow()
-        else:
-            An.isDrawingArrow = False
-            An.AnnotateOff()           
+        An.AnnotateArrow(self._DH.Figures)          
         
     def ExportEvent(self,e):
         #wx.MessageBox('Export file')
@@ -286,23 +253,12 @@ class windowClass(wx.Frame):
         
 #prints various data when clicking a figure
 def onclick(event):
-    print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %('double' if event.dblclick else 'single',event.button, event.x, event.y, event.xdata, event.ydata))
-
-'''
-class Plot(wx.Panel):
-    def __init__(self, parent, id=-1, dpi=None, **kwargs):
-        locale = wx.Locale(wx.LANGUAGE_ENGLISH)
-        wx.Panel.__init__(self, parent, id=id, **kwargs)
-        self.figure = mpl.figure.Figure(dpi=dpi, figsize=(2, 2))
-        self.canvas = FigureCanvas(self, -1, self.figure)
-        self.toolbar = NavigationToolbar(self.canvas)
-        self.toolbar.Realize()
-
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.canvas, 1, wx.EXPAND)
-        sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
-        self.SetSizer(sizer)
-'''
+    #print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %('double' if event.dblclick else 'single',event.button, event.x, event.y, event.xdata, event.ydata))
+    labels = event.canvas.figure.gca().get_yticklabels()
+    print(labels[0].get_text())
+    print(labels[1].get_text())
+    print(labels[2].get_text())
+    
 #creates a page
 class Plot(wx.Panel):
     def __init__(self, parent, id=-1, dpi=None, **kwargs):
@@ -321,6 +277,7 @@ class Plot(wx.Panel):
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
+        #Made the notebook stretch to approximately a full screen
         wx.Panel.__init__(self, parent, id=id,size=(2000,2000))
         self.nb = aui.AuiNotebook(self, size=(2000,900))
         sizer = wx.BoxSizer()
@@ -337,19 +294,7 @@ def main():
     app = wx.App()   
     windowClass(None)
 
-    #axes2 = plotter.add('figure 2').gca()
-    #axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
-    
-    '''
-    #frame2 = wx.Frame(None, -1, 'Plotter')
-    plotter = PlotNotebook(frame.returnPanel())
-    axes1 = plotter.add('figure 1').gca()
-    axes1.plot([1, 2, 3], [2, 1, 4])
-    axes2 = plotter.add('figure 2').gca()
-    axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
-    frame.Show()
-    #frame2.Show()
-    '''
+  
     app.MainLoop()
 
 

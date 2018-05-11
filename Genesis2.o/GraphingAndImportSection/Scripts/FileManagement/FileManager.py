@@ -47,6 +47,24 @@ class FileManager():
         else:
             print('No Pca File Found')
             return None
+    def GetPcaCustomData(self):
+        if('PcaCustomData' in self._Files):
+            return self._Files.get('PcaCustomData')
+        else:
+            print('No pca custom data found')
+            return None
+    def GetAdmixCustomData(self):
+        if('AdmixCustomData' in self._Files):
+            return self._Files.get('AdmixCustomData')
+        else:
+            print('No Admix Custom Data found')
+            return None
+    def GetAnnotationData(self):
+        if('AnnotationData' in self._Files):
+            return self._Files.get('AnnotationData')
+        else:
+            print('No Annotation Data found')
+            return None
 
 
     def SetPhenFile(self,theFile):
@@ -60,4 +78,13 @@ class FileManager():
 
     def SetPcaFile(self,theFile):
         self._Files.update({'Pca':theFile})
+
+    def SetPcaCustomData(self,theFile):
+        self._Files.update({'PcaCustomData':theFile})
+
+    def SetAdmixCustomData(self,theFile):
+        self._Files.update({'AdmixCustomData':theFile})
+        
+    def SetAnnotationData(self,theFile):
+        self._Files.update({'AnnotationData':theFile})
 

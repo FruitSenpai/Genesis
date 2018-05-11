@@ -12,7 +12,7 @@ from Graph.admix import AdmixDataExtractor as admixEx
 from Graph.admix.AdmixGraph import AdmixGraph
 ##Creates a pca using data given to it by the file importer
 ##Admix to be made
-def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol):
+def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,panel):
 
     Groups = []
     Names = []
@@ -28,15 +28,15 @@ def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol):
     count = len(Names)
 
 ##plotPca and RenderGraph should follow and might be enveloped into one 
-    pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2)
-    pcagraph.PlotPca()
+    pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2,panel)
+    pcagraph.PlotPca(True)
     
 
-def CreateAdmix(admixData,famData,pheData,PheCol):
+def CreateAdmix(admixData,famData,pheData,PheCol,nb):
     
         #Create a list that will store the admix data as a float as opposed to a string
         AdmixData = []
-    
+        
         #specifies which column to use for group information in phenotype file
         phenoColumn = PheCol
 
@@ -47,7 +47,7 @@ def CreateAdmix(admixData,famData,pheData,PheCol):
                 AdmixData[i].append(float(admixData[i][x]))
 
         #create new Admix graph and plot it        
-        admixGraph = AdmixGraph(AdmixData, famData, phenoData= pheData)
+        admixGraph = AdmixGraph(AdmixData, famData,nb, phenoData= pheData)
         if(pheData != None):
             admixGraph.plotGraph(phenoCol = phenoColumn)
         else:

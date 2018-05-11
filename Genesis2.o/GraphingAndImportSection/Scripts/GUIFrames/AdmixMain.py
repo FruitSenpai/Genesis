@@ -2,12 +2,14 @@ import os
 import wx
 import csv
 import matplotlib.pyplot as plt
+from wx.lib.pubsub import pub
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from FileManagement  import ValidityChecker as VC
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
+wildcard = "All files (*.*)|*.*" 
+           
+            
 class ChildFrame(wx.Dialog):
     
    
@@ -23,6 +25,7 @@ class ChildFrame(wx.Dialog):
         self.Centre()
         self._DH = DataHolder
         self._FI = FileImporter()
+        pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
         
@@ -177,5 +180,9 @@ class ChildFrame(wx.Dialog):
       
         self.combo.Clear()      
         self.combo.AppendItems (self.Columns)
-        self.combo.Value = self.Columns[2]
+        self.scombo.Value = self.Columns[2]
         #self.Columns = ['none']
+
+    def GetPanel(self,message, arg2 = None):
+        print("HI")
+        self._panel = message

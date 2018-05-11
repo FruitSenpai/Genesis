@@ -12,8 +12,8 @@ from FileManagement  import ValidityChecker as VC
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 
-wildcard =  "Python source (*.py)|*.py|" \
-           "All files (*.*)|*.*" 
+wildcard =  "All files (*.*)|*.*"
+            
                  
 class PCAFrame(wx.Dialog):
     
@@ -32,6 +32,7 @@ class PCAFrame(wx.Dialog):
         #creates File Importer for now
         self._FI = FileImporter()
         self._DH = DataHolder
+        pub.subscribe(self.GetPanel, "GetPanelPca")
         
     def InitUI(self):
         
@@ -54,8 +55,10 @@ class PCAFrame(wx.Dialog):
         self.comboPCA3.Hide()
         self.comboPhe.Hide()
 
-        ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
-        PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
+        self.ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
+        self.ColumnLabel.Hide()
+        self.PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
+        self.PheLabel.Hide()
 
         self.vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -89,7 +92,7 @@ class PCAFrame(wx.Dialog):
                         ( self.tc3, 1, wx.EXPAND)])
                      
 
-        fgsBotPhe.AddMany([(PheLabel,1,wx.EXPAND),
+        fgsBotPhe.AddMany([(self.PheLabel,1,wx.EXPAND),
                          (self.comboPhe,1,wx.EXPAND)
                          ])
         fgsBot.AddMany([(NextBtn),
@@ -100,7 +103,7 @@ class PCAFrame(wx.Dialog):
 
         fgs.AddMany([( self.Nametc,1,wx.EXPAND),
                       (fgsTop,1,wx.EXPAND),
-                     (ColumnLabel,1,wx.EXPAND),
+                     (self.ColumnLabel,1,wx.EXPAND),
                      (self.comboPCA1,1,wx.EXPAND),
                      (self.comboPCA2,1,wx.EXPAND),
                      (self.comboPCA3,1,wx.EXPAND),
@@ -177,9 +180,9 @@ class PCAFrame(wx.Dialog):
             print ('You chose the following file:')
             print(self.DataFilePath)
            
-            button = event.GetEventObject()
+            self.button = event.GetEventObject()
 
-            if button.parameterVal == 'Data':
+            if self.button.parameterVal == 'Data':
                 if(VC.CheckPcaValid(self.DataFilePath)):
                     self.tc1.SetValue(self.DataFilePath)
                     self.CountColumns()
@@ -187,7 +190,7 @@ class PCAFrame(wx.Dialog):
                     dlg = wx.MessageDialog(None,"Invalid PCA File","ERROR",wx.OK | wx.ICON_ERROR)
                     dlg.ShowModal()
 
-            if button.parameterVal == 'Phe':
+            if self.button.parameterVal == 'Phe':
                 if(VC.CheckPhenValid(self.DataFilePath)):
                     self.tc3.SetValue(self.DataFilePath)
                     self.CountColumns()
@@ -195,15 +198,15 @@ class PCAFrame(wx.Dialog):
                     dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR|wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
                     dlg.ShowModal()
             
-            print(self.button.parameterVal)
+            #print(button.parameterVal)
 
         #CountsColumns
-        self.CountColumns(self.button)
+        #self.CountColumns(self.button.parameterVal)
             
         dlg.Destroy()
         
 #counts coloumns in the file
-    def CountColumns(self,val):
+    def CountColumns(self):
         self.Columns.clear()
         with open(self.DataFilePath) as myFile:
             reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
@@ -232,6 +235,7 @@ class PCAFrame(wx.Dialog):
             self.comboPCA1.Show()
             self.comboPCA2.Show()
             self.comboPCA3.Show()
+            self.ColumnLabel.Show()
             #self.Columns = ['none']
             #self.GetSizer.Layout()
             #self.GetParent().Layout()
@@ -241,5 +245,10 @@ class PCAFrame(wx.Dialog):
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
             self.comboPhe.Show()
+            self.PheLabel.Show()
             #self.Columns = ['none']
+
+    def GetPanel(self,message, arg2 = None):
+        print("HI")
+        self._panel = message
 

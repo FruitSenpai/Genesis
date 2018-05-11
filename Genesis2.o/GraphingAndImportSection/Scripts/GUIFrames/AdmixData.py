@@ -2,8 +2,8 @@ import os
 import wx
 import csv
 from FileManagement  import ValidityChecker as VC
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
+wildcard = "All files (*.*)|*.*"
+            
 class AdmixGraphFrame(wx.Dialog):
 
 
