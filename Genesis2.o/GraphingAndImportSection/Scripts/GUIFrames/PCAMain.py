@@ -13,14 +13,11 @@ from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 
 wildcard =  "All files (*.*)|*.*"
-            
-                 
 class PCAFrame(wx.Dialog):
     
    
     
     def __init__(self, parent, title):
-        #wx.Dialog._init_(self,parent,title="PCA",style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
             size=(400, 700),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
@@ -150,13 +147,12 @@ class PCAFrame(wx.Dialog):
         Figure = ''
         #creates graph dependant on if there is phen data
         if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]))
+            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
 
         else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3)
+            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
 
-        #updates list of graphs(REDUNDANT)
-        self._DH.Figures.update({name:Figure})
+
         
         #pub.sendMessage('panelListener',message="Ronan was HEre")
         plt.show()
@@ -183,16 +179,25 @@ class PCAFrame(wx.Dialog):
             self.button = event.GetEventObject()
 
             if self.button.parameterVal == 'Data':
-                self.tc1.SetValue(self.DataFilePath)
+                if(VC.CheckPcaValid(self.DataFilePath)):
+                    self.tc1.SetValue(self.DataFilePath)
+                    self.CountColumns(self.button)
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowsModal()
+                    
             if self.button.parameterVal == 'Phe':
-                self.tc3.SetValue(self.DataFilePath)
+                if(VC.CheckPhenValid(self.DataFilePath)):
+                    self.tc3.SetValue(self.DataFilePath)
+                    self.CountColumns(self.button)
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
             
             print(self.button.parameterVal)
-
-        #CountsColumns
-        self.CountColumns(self.button)
-            
         dlg.Destroy()
+        #CountsColumns
+    
         
 #counts coloumns in the file
     def CountColumns(self,val):
@@ -221,12 +226,17 @@ class PCAFrame(wx.Dialog):
             self.comboPCA3.Clear()      
             self.comboPCA3.AppendItems (self.Columns)
 
+            self.comboPCA1.Show()
+            self.comboPCA2.Show()
+            self.comboPCA3.Show()
+
             #self.Columns = ['none']
 
         if self.button.parameterVal == 'Phe':
             self.comboPhe.Clear()      
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
+            self.comboPhe.Show()
             #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):

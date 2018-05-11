@@ -1,15 +1,14 @@
 import os
 import wx
+from wx.lib.pubsub import pub
 import csv
 import matplotlib.pyplot as plt
-from wx.lib.pubsub import pub
 from FileManagement.FileImporter import FileImporter
-from GUIFrames import DataHolder
+from GUIFrames import DataHolder 
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from FileManagement  import ValidityChecker as VC
-wildcard = "All files (*.*)|*.*" 
-           
-            
+wildcard = "All files (*.*)|*.*"
+
 class ChildFrame(wx.Dialog):
     
    
@@ -40,10 +39,8 @@ class ChildFrame(wx.Dialog):
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-        fgsWhole = wx.FlexGridSizer(3,1,10,10)
         fgs = wx.FlexGridSizer(5,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
-        fgsBot = wx.FlexGridSizer(1,2,10,10)
-        
+
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
         OpenFamBtn = wx.Button(panel,wx.ID_ANY, label ='Import Fam File')
@@ -57,17 +54,10 @@ class ChildFrame(wx.Dialog):
         OpenPheBtn.Bind(wx.EVT_BUTTON, self.onOpenFile)
         AcceptBtn.Bind(wx.EVT_BUTTON, self.onAcceptFile)
         ExitBtn.Bind(wx.EVT_BUTTON, self.Quit)
-        
-        NextBtn = wx.Button(panel,wx.ID_ANY, label ='Next')
-        NextBtn.Bind(wx.EVT_BUTTON, self.AppearFrame)
 
-        self.Nametc = wx.TextCtrl(panel, value="Name")
         self.tc1 = wx.TextCtrl(panel)
         self.tc2 = wx.TextCtrl(panel)
         self.tc3 = wx.TextCtrl(panel)
-
-        fgsBot.AddMany([(AcceptBtn),
-                         (ExitBtn)])
 
         fgs.AddMany([(OpenFileBtn), (self.tc1, 1, wx.EXPAND),
                      (OpenFamBtn), 
@@ -76,19 +66,16 @@ class ChildFrame(wx.Dialog):
                      ( self.tc3, 1, wx.EXPAND),
                      (ColumnLabel,1,wx.EXPAND) ,
                      (self.combo,1,wx.EXPAND),
-                     (NextBtn),
-                     (fgsBot)])
-
-        fgsWhole.AddMany([(self.Nametc, 1, wx.EXPAND),
-                     (fgs), 
-                     (fgsBot)])
+                     (AcceptBtn),
+                     (ExitBtn)])
 
         #fgs.AddGrowableRow(1, 1)
         #fgs.AddGrowableRow(2, 3)
         fgs.AddGrowableCol(1, 1)
 
-        hbox.Add(fgsWhole, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
+        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
         panel.SetSizer(hbox)
+
 
     def AppearFrame(self,event):
         self.child = PCAAppearFrame(self, title='Appearance')
@@ -96,6 +83,7 @@ class ChildFrame(wx.Dialog):
         self.child.Show()
         
     def Quit(self,event):
+        pub.sendMessage('panelListener',message=self._FI)
         self.Destroy()
     
     def OnCombo(self, event):
@@ -108,16 +96,16 @@ class ChildFrame(wx.Dialog):
         print(self.tc2.Value)
         print(self.tc3.Value)
         print(self.combo.Value)
-        print(self.Nametc.Value)
+        
         name = "File" + str(self._FI.FindLength())
         col = self.combo.Value.split(' ')
         Figure = ""
         if (self.tc3.Value != ""):
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]))
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]),self._panel)
         else:
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3)
+            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3,self._panel)
 
-        self._DH.Figures.update({name:Figure})
+
         plt.show()
         
 
@@ -160,9 +148,8 @@ class ChildFrame(wx.Dialog):
                 else:
                     dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
                     dlg.ShowModal()
-                
             
-            #print(button.parameterVal)
+            print(button.parameterVal)
         dlg.Destroy()
 
     def CountColumns(self):

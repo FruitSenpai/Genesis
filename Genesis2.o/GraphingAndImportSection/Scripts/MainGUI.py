@@ -12,8 +12,7 @@ from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
-
-###################
+###################Import for embedding 
 import wx.lib.mixins.inspection as wit
 
 if 'phoenix' in wx.PlatformInfo:
@@ -32,7 +31,7 @@ class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
 
-        self.size=(400,700)   
+        self.size=(400,700)       
         self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
         #find data holder
@@ -115,7 +114,6 @@ class windowClass(wx.Frame):
         #self.Bind(wx.EVT_MENU, self.QuitEvent, exitItem)
 
         self.SetTitle('Genesis')
-        self.SetSize(800,450)
         self.Show(True)
 
         return panel
@@ -168,6 +166,7 @@ class windowClass(wx.Frame):
         self.child = AdmixFrame(self, title='Admix')
         self.child.ShowModal()
         self.child.Show()
+        pub.sendMessage('GetPanelAdmix',message=self.plotter)
 
     def PCAEvent(self,e):
         wx.MessageBox('Input PCA')
@@ -185,7 +184,6 @@ class windowClass(wx.Frame):
             print(key)
             self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
 
-
         
     
 
@@ -195,13 +193,12 @@ class windowClass(wx.Frame):
     def DataOptionsEvent(self,e):
         self.child = AdmixDataFrame(self, title='Graph Options')
         #self.child = PCADataFrame(self, title='Graph Options')
-        self.child.ShowModal
         self.child.Show()
 
     def AppearenceEvent(self,e):
-        print('Pretty things')
-        self.child = AppFrame(self, title='Export as')
-        #self.child = PCAAppearFrame(self, title='Export as')
+        self.child = AdmixDataFrame(self, title='Graph Options')
+        #self.child = PCADataFrame(self, title='Graph Options')
+        self.child.ShowModal
         self.child.Show()
 
     def RefreshEvent(self,e):
@@ -219,11 +216,13 @@ class windowClass(wx.Frame):
     def DrawLineEvent(self,e):
         wx.MessageBox('Draw line')            
         An.Annotate(self._DH.Figures)
+        
             
         
     def DrawArrowEvent(self,e):
         wx.MessageBox('Draw Arrow')
-        An.AnnotateArrow(self._DH.Figures)          
+        An.AnnotateArrow(self._DH.Figures)
+                  
         
     def ExportEvent(self,e):
         #wx.MessageBox('Export file')
@@ -258,7 +257,8 @@ def onclick(event):
     print(labels[0].get_text())
     print(labels[1].get_text())
     print(labels[2].get_text())
-    
+        
+
 #creates a page
 class Plot(wx.Panel):
     def __init__(self, parent, id=-1, dpi=None, **kwargs):
@@ -294,7 +294,7 @@ def main():
     app = wx.App()   
     windowClass(None)
 
-  
+
     app.MainLoop()
 
 
