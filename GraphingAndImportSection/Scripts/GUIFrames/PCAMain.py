@@ -120,14 +120,16 @@ class PCAFrame(wx.Frame):
         Col1 = self.comboPCA1.Value.split(' ')
         Col2 = self.comboPCA2.Value.split(' ')
         Col3 = self.comboPCA3.Value.split(' ')
-        #returns figure
-        Figure = ''
+        
         #creates graph dependant on if there is phen data
-        if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
+        try:
+            if(self.tc3.Value != ""):
+                self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
 
-        else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
+            else:
+                self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
+        except IndexError:
+            print("Index Error")
 
 
         

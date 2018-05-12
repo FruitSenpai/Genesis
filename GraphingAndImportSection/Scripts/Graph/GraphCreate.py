@@ -12,7 +12,7 @@ from Graph.admix import AdmixDataExtractor as admixEx
 from Graph.admix.AdmixGraph import AdmixGraph
 ##Creates a pca using data given to it by the file importer
 ##Admix to be made
-def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,panel):
+def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,Name,panel):
 
     Groups = []
     Names = []
@@ -23,13 +23,17 @@ def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,panel):
     if(PhenData != None):
         phenDic = PcaEx.FindPhenData(PhenData,phenCol-1,0)
         Groups = PcaEx.FindPhenGroups(PhenData,phenCol-1)
-        
-    Names = PcaEx.GetIndividuals(True,EvecData,0)
-    count = len(Names)
+    try:
+        Names = PcaEx.GetIndividuals(True,EvecData,0)
+        count = len(Names)
+    except TypeError:
+        print("Type Error Graph Create")
+        Names = None
 
 ##plotPca and RenderGraph should follow and might be enveloped into one 
-    pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2,panel)
-    pcagraph.PlotPca(True)
+    pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2,Name,panel)
+    TestVar =pcagraph.PlotPca(True)
+    return TestVar
     
 
 def CreateAdmix(admixData,famData,pheData,PheCol,nb):

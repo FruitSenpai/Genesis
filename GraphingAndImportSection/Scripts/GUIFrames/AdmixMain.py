@@ -91,13 +91,16 @@ class ChildFrame(wx.Frame):
         
         name = "File" + str(self._FI.FindLength())
         col = self.combo.Value.split(' ')
-        Figure = ""
-        if (self.tc3.Value != ""):
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]),self._panel)
+        if(self.tc1.Value != "" and self.tc2.Value != ""):
+            try:
+                if (self.tc3.Value != ""):
+                    self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,self.tc3.Value,name,int(col[1]),self._panel)
+                else:
+                    self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3,self._panel)
+            except IndexError:
+                print("Index Error")
         else:
-            Figure = self._FI.CreateAdmix(self._FI,self.tc1.Value,self.tc2.Value,None,name,3,self._panel)
-
-
+            print("No Fam and Data File")
         plt.show()
         
 

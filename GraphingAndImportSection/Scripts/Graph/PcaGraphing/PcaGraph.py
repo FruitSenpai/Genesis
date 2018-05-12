@@ -12,7 +12,7 @@ from Graph.PcaGraphing.PcaGroup import PcaGroup
 class PcaGraph():
     
     ##Plots all pca points in different Group
-    def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol,panel):
+    def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol,GraphName,panel):
         ##define variables to use later on for plotting the graph
         self.Names = NamesFirst
         self.GroupData =Groups
@@ -21,7 +21,7 @@ class PcaGraph():
         self.xCol =_xCol
         self.yCol =_yCol
         self._nb = panel
-
+        self._Name = GraphName
         self._DH = DataHolder
         self._GroupClasses = []
         
@@ -29,9 +29,17 @@ class PcaGraph():
         
     ##NOTE if you are re-rendering the graph with a save file then please set FIrstTIMe to False, if its first time then set it to True
     def PlotPca(self,FirstTime):
-
+        success= False
+        
          ##getting and creating variables
-        count =_FindLength(self.Data)
+        try:
+            if(self.Data == None):
+                raise TypeError("Found Type Error")
+            count =_FindLength(self.Data)
+        except TypeError:
+            print("Found TypeError with Data")
+            
+            count = 0
        
         x =[]
         y=[]
@@ -49,58 +57,66 @@ class PcaGraph():
         #create an new figure for this graph
         #fig, ax = plt.subplots()
         #replace 'figure1' with name
-        self._fig = self._nb.add('figure1')
-        self._ax = self._fig.gca()
+        if(self._nb != None):
+            self._fig = self._nb.add(self._Name)
+            self._ax = self._fig.gca()
+        else:
+            self._fig,self._ax = plt.subplots()
 
         ##runs of there is phen data(Possibly using group data is not ideal)
-        if(len(self.GroupData) >0):
-            for group in range(len(self.GroupData)):
+        try:
+            if(len(self.GroupData) >0):
+                for group in range(len(self.GroupData)):
+                    xtemp =[]
+                    ytemp= []
+                    #Creates a random group for the first time the data is created
+                    if(FirstTime is True):
+                        _marker = RandomMarker(self._Counter)
+                        _Colour = RandomColour(self._Counter)
+                        _currGroup = PcaGroup(self.GroupData[group],Colour = _Colour, Marker=_marker)
+                    #Should pull the current GroupData if FirstTime == False    
+                    else:
+                        _currGroup =  self._GroupClasses[group]
+                    
+                    for i in range(len(self.Names)):
+                        if(self.Names[i] in self.PhenDict):
+                            if(self.PhenDict.get(self.Names[i]) == self.GroupData[group]):
+                                #Add x and y values to a temp list
+                                xtemp.append(float(x[i]))
+                                ytemp.append(float(y[i]))
+                                #Add an individual to the group class
+                                _currGroup.AddIndividual(self.Names[i],float(x[i]),float(y[i]))
+
+                ##just a check to make sure that we dont plot groups with 0 components
+                    if(len(xtemp) >0):
+                        self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=20,c= _currGroup.GetColour() )
+                        #COunter is just used to make sure that data marker and colour will not repeat
+                        self._Counter = self._Counter+1
+                    self._GroupClasses.append(_currGroup)
+                    
+
+
+            ##In case there is no phen data
+            else :
+                #if(len(xtemp) >0):
                 xtemp =[]
                 ytemp= []
-                #Creates a random group for the first time the data is created
-                if(FirstTime is True):
-                    _marker = RandomMarker(self._Counter)
-                    _Colour = RandomColour(self._Counter)
-                    _currGroup = PcaGroup(self.GroupData[group],Colour = _Colour, Marker=_marker)
-                #Should pull the current GroupData if FirstTime == False    
-                else:
-                    _currGroup =  self._GroupClasses[group]
+
+                for i in range(1,len(x)):
+                    xtemp.append(float(x[i]))
+                    ytemp.append(float(y[i]))
                 
-                for i in range(len(self.Names)):
-                    if(self.Names[i] in self.PhenDict):
-                        if(self.PhenDict.get(self.Names[i]) == self.GroupData[group]):
-                            #Add x and y values to a temp list
-                            xtemp.append(float(x[i]))
-                            ytemp.append(float(y[i]))
-                            #Add an individual to the group class
-                            _currGroup.AddIndividual(self.Names[i],float(x[i]),float(y[i]))
-
-            ##just a check to make sure that we dont plot groups with 0 components
-                if(len(xtemp) >0):
-                    self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=20,c= _currGroup.GetColour() )
-                    #COunter is just used to make sure that data marker and colour will not repeat
-                    self._Counter = self._Counter+1
-                self._GroupClasses.append(_currGroup)
-                
-
-
-        ##In case there is no phen data
-        else :
-            #if(len(xtemp) >0):
-            xtemp =[]
-            ytemp= []
-
-            for i in range(1,len(x)):
-                xtemp.append(float(x[i]))
-                ytemp.append(float(y[i]))
-            
-            self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
-
+                self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
+            success = True
+        except TypeError:
+            print("TypeError")
         
         
         self._ax.legend()
-        self._DH.Figures.update({'TestPca':self._fig})
-       # self.RenderGraph('Heading','x','y')
+        self._DH.Figures.update({self._Name:self._fig})
+        
+        return success
+       
         
         
 

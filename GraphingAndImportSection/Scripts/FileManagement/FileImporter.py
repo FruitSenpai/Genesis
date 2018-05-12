@@ -152,7 +152,7 @@ class FileImporter():
             DataPhen = None
             
 
-        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn,panel)
+        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn,Name,panel)
         print(Name +" GRAAAAAAPh");
         
         
