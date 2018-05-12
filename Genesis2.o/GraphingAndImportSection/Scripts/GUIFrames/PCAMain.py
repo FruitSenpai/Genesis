@@ -23,13 +23,13 @@ pcaWildcard = "PCA file (*.pca.*)|*.pca.*|" \
 pheWildcard = "phenotype file (*.phe)|*.phe|" \
             "All files (*.*)|*.*"
 
-class PCAFrame(wx.Dialog):
+class PCAFrame(wx.Frame):
     
    
     
     def __init__(self, parent, title):
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
-            size=(400, 250),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
+            size=(400, 400),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -42,8 +42,6 @@ class PCAFrame(wx.Dialog):
         pub.subscribe(self.GetPanel, "GetPanelPca")
         
     def InitUI(self):
-        
-        
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -89,8 +87,7 @@ class PCAFrame(wx.Dialog):
         AcceptBtn.Bind(wx.EVT_BUTTON, self.onAcceptFile)
         ExitBtn.Bind(wx.EVT_BUTTON, self.Quit)
 
-        NextBtn = wx.Button(panel,wx.ID_ANY, label ='Next')
-        NextBtn.Bind(wx.EVT_BUTTON, self.AppearFrame)
+       
 
         self.tc1 = wx.TextCtrl(panel)
         
@@ -103,11 +100,10 @@ class PCAFrame(wx.Dialog):
         fgsBotPhe.AddMany([(self.PheLabel,1,wx.EXPAND),
                          (self.comboPhe,1,wx.EXPAND)
                          ])
-        fgsBot.AddMany([(NextBtn),
-                        (fgsBotRight)])
+        fgsBot.AddMany([(AcceptBtn),
+                        (ExitBtn)])
 
-        fgsBotRight.AddMany([(AcceptBtn),
-                             (ExitBtn)])
+        
 
         fgs.AddMany([( self.m_textCtrl1, 1, wx.EXPAND ),
                      (fgsTop,1,wx.EXPAND),
@@ -166,13 +162,8 @@ class PCAFrame(wx.Dialog):
         except IndexError:
             print("Index Error")
 
-
-        
-        #pub.sendMessage('panelListener',message="Ronan was HEre")
         plt.show()
-        ##I need to give option to put in names ,headings and Name of Graph.
-
-        #self.Destroy()
+        
 
     def onOpenFile(self, event):
         self.button = event.GetEventObject()
@@ -242,10 +233,13 @@ class PCAFrame(wx.Dialog):
             self.comboPCA3.Clear()      
             self.comboPCA3.AppendItems (self.Columns)
 
+
             self.comboPCA1.Show()
             self.comboPCA2.Show()
             self.comboPCA3.Show()
-
+            self.ColumnLabel.Show()
+            self.Size =(401, 401)
+            
             #self.Columns = ['none']
 
         if self.button.parameterVal == 'Phe':
@@ -253,6 +247,8 @@ class PCAFrame(wx.Dialog):
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
             self.comboPhe.Show()
+            self.PheLabel.Show()
+            self.Size =(402, 402)
             #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):

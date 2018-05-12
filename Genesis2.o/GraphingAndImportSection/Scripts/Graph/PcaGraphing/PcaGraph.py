@@ -22,10 +22,26 @@ class PcaGraph():
         self.yCol =_yCol
         self._nb = panel
         self._Name = GraphName
-        self._DH = DataHolder
+        #self._DH = DataHolder
         self._GroupClasses = []
         
         self._Counter = 0
+
+    def setNotebook(self, notebook):
+        self._nb = notebook
+
+    def getName(self):
+        return self._Name
+
+    def setName(self, newName, oldName):
+        self._Name = newName
+
+        #get rid of obsolete dictionary keys
+        figure = DataHolder.Figures.pop(oldName) #generates KeyError if not found
+        graph = DataHolder.Graphs.pop(oldName)
+
+        DataHolder.Graphs.update({newName:self})
+        DataHolder.Figures.update({newName:figure})
         
     ##NOTE if you are re-rendering the graph with a save file then please set FIrstTIMe to False, if its first time then set it to True
     def PlotPca(self,FirstTime):
@@ -92,10 +108,11 @@ class PcaGraph():
                 ##just a check to make sure that we dont plot groups with 0 components
                     if(len(xtemp) >0):
                         self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=20,c= _currGroup.GetColour() )
-                        #COunter is just used to make sure that data marker and colour will not repeat
+                        #Counter is just used to make sure that data marker and colour will not repeat
                         self._Counter = self._Counter+1
 
                     if(FirstTime is True):
+                        
                         self._GroupClasses.append(_currGroup)
                     
 
@@ -122,7 +139,8 @@ class PcaGraph():
         
         
         self._ax.legend()
-        self._DH.Figures.update({self._Name:self._fig})
+        self._ax.set_title(self._Name)
+        DataHolder.Figures.update({self._Name:self._fig})
         
         return success
        

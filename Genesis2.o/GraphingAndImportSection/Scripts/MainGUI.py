@@ -10,10 +10,15 @@ from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames.PcaCustom.PcaCustomScript import PcaCustom as PcaCustom
+from GUIFrames.AdmixCustom.AdmixCustomMainScript import AdmixMainMenu as admixMM
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
 from Graph import GraphSaver
+from Graph.PcaGraphing.PcaGraph import PcaGraph as PCA
+from Graph.admix.AdmixGraph import AdmixGraph as Admix
+
+import ntpath
 
 ###################Import for embedding 
 import wx.lib.mixins.inspection as wit
@@ -32,12 +37,21 @@ from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as Navigat
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 
+pcaSaveWildcard = "PCA Graph file (*.gpf)|*.gpf|" \
+            "All files (*.*)|*.*"
+
+admixSaveWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
+            "All files (*.*)|*.*"
+
+loadWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
+            "PCA Graph file (*.gpf)|*.gpf|" \
+            "All files (*.*)|*.*"
+
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
         self.Size = (800,450)   
         self._panel =self.basicGUI()
-        #self._panel.SetBackgroundColour((0xff,0xcc,0xcc))
         self.AdmixPath = AdmixPath = ''
         #find data holder
         self._DH = DataHolder
@@ -46,7 +60,6 @@ class windowClass(wx.Frame):
         self.Graphs = {}
         #the main graph is listening so that it can get file importers PCA and ADMIX main
         pub.subscribe(self.mylistener, "panelListener")
-       # pub.subscribe(self.freezeFrame, "panelListener")
         #create a list of ids
         self._cid = []
         #create a notebook to store graphs
@@ -62,12 +75,16 @@ class windowClass(wx.Frame):
         axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
         self._DH.Figures.update({'Figure 2':fig2})
 
+        currentGraphName = ""
+
+        self.currentDirectory = os.getcwd()
+
 
     def returnPanel(self):
         return self._panel
         
     def basicGUI(self):
-        
+
         panel= wx.Panel(self)
 
         menuBar = wx.MenuBar()
@@ -81,6 +98,14 @@ class windowClass(wx.Frame):
         Save_Item = fileButton.Append(wx.ID_ANY,'Save Project','status msg...')
         Load_Item = fileButton.Append(wx.ID_ANY,'Load Project','status msg...')
         Export_Item = fileButton.Append(wx.ID_ANY,'Export image','status msg...')
+        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','status msg...')
+
+        self.Bind(wx.EVT_TOOL,self.SaveEvent, Save_Item)
+        self.Bind(wx.EVT_TOOL,self.LoadEvent, Load_Item)
+        self.Bind(wx.EVT_TOOL,self.ExportEvent, Export_Item)
+        self.Bind(wx.EVT_TOOL,self.QuitEvent, Exit_Item)
+
+        #Toolbars
         importItem = wx.Menu()
         Import_Admix = importItem.Append(wx.ID_ANY,'New Admixture Graph')
         Import_PCA = importItem.Append(wx.ID_ANY,'New PCA Graph')
@@ -89,14 +114,7 @@ class windowClass(wx.Frame):
         self.Bind(wx.EVT_TOOL,self.AdmixEvent, Import_Admix)
           
         fileButton.Append(wx.ID_ANY,'New Graph',importItem )
-        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','status msg...')
 
-        self.Bind(wx.EVT_TOOL,self.SaveEvent, Save_Item)
-        self.Bind(wx.EVT_TOOL,self.LoadEvent, Load_Item)
-        self.Bind(wx.EVT_TOOL,self.ExportEvent, Export_Item)
-        self.Bind(wx.EVT_TOOL,self.QuitEvent, Exit_Item)
-
-       
         self.Makebar()
 
         
@@ -153,7 +171,7 @@ class windowClass(wx.Frame):
         self.Bind(wx.EVT_TOOL,self.AdmixEvent, InputAdmixButton)
         self.Bind(wx.EVT_TOOL,self.PCAEvent, InputPCAButton)
         self.Bind(wx.EVT_TOOL,self.SaveEvent, SaveButton)
-        self.Bind(wx.EVT_TOOL,self.OpenFileEvent, OpenFilesButton)
+        self.Bind(wx.EVT_TOOL,self.LoadEvent, OpenFilesButton)
         self.Bind(wx.EVT_TOOL,self.DataOptionsEvent, DataOptionsButton)
         self.Bind(wx.EVT_TOOL,self.AppearenceEvent, AppearenceButton)
         self.Bind(wx.EVT_TOOL,self.RefreshEvent, RefreshButton)
@@ -176,14 +194,12 @@ class windowClass(wx.Frame):
         self.child = AdmixFrame(self, title='Admix')
         self.child.Show()
         self.child.SetFocus()
-        #self.Disable()
         pub.sendMessage('GetPanelAdmix',message=self.plotter)
 
     def PCAEvent(self,e):
         wx.MessageBox('Input PCA')
         self.child = PCAFrame(self, title='PCA')
         self.child.Show()
-        #self.child.Show()
         pub.sendMessage('GetPanelPca',message=self.plotter)
 
     def SaveEvent(self,e):
@@ -192,14 +208,65 @@ class windowClass(wx.Frame):
 
         ##run through figures and attaches the event function to it
         for key in self._DH.Figures:
-            print(key)
+            #print(key)
             self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
 
+        print("doh: " + windowClass.currentGraphName)
+        #print("Graph: " + DataHolder.Graphs[windowClass.currentGraphName])
+        
+        graph = DataHolder.Graphs[windowClass.currentGraphName]
+
+        #print("ad: " + (type(graph) is AdmixGraph))
+        #print("pca: " + (type(graph) is PcaGraph))
+        
+        defName = ""
+        if(type(graph) is Admix):
+            wildcard = admixSaveWildcard
+            defName = windowClass.currentGraphName + ".gaf"
+        elif(type(graph) is PCA):
+            wildcard = pcaSaveWildcard
+            defName = windowClass.currentGraphName + ".gpf"
+
+        dlg = wx.FileDialog(
+            self, message="Select a save locations",
+            defaultDir = self.currentDirectory, 
+            defaultFile=defName,
+
+            wildcard=wildcard,
+
+            style=wx.FD_SAVE | wx.FD_CHANGE_DIR
+            )
+        
+        if dlg.ShowModal() == wx.ID_OK:
+                filePath = dlg.GetPath()
+                baseName = ntpath.basename(filePath) #get base name
+                #print(baseName)
+                
+                
+                baseList = baseName.split(".")
+                print("++"+baseList[0]+"++")
+
+                #update dictionary key for graph and figure
+                graph.setName(baseList[0], windowClass.currentGraphName)
+                print("++--"+graph.getName()+"--++")
+                '''self._DH.Graphs.update({baseName:graph})
+                self._DH.Figures.update({baseName:figure})'''
+                
+                graph.setNotebook(None)
+
+                GraphSaver.saveGraph(graph, filePath)
+
+                nb = self.plotter.getNoteBook()
+                pageIndex = nb.GetSelection()
+                nb.SetPageText(pageIndex, baseName)
+
+        dlg.Destroy()
         
     
 
     def OpenFileEvent(self,e):
         wx.MessageBox('Open file')
+        
     
     def DataOptionsEvent(self,e):
         self.child = AdmixDataFrame(self, title='Graph Options')
@@ -207,13 +274,16 @@ class windowClass(wx.Frame):
         self.child.Show()
 
     def AppearenceEvent(self,e):
-        print(self.plotter.currPage+"--")
-        print('Pretty things')
-        #self.child = AppFrame(self, title='Export as')
-        #self.child = PCAAppearFrame(self, title='Export as')
-        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
-        self.child.Show()
+        graph = self._DH.Graphs.get(self.plotter.currPage)
+        if( isinstance( graph , PCA)):
+            self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
+            self.child.Show()
+        elif(isinstance( graph , Admix)):
+            self.child = admixMM(self)
+            self.child.Show()
 
+
+        
     def RefreshEvent(self,e):
         wx.MessageBox('Refresh file')
 
@@ -226,38 +296,60 @@ class windowClass(wx.Frame):
     def SearchHiddenIndividualEvent(self,e):
         wx.MessageBox('Search Hidden Individual file')
 
-    def DrawLineEvent(self,e):
-        wx.MessageBox('Draw line')            
+    def DrawLineEvent(self,e):        
         An.Annotate(self._DH.Figures)
         
             
         
     def DrawArrowEvent(self,e):
-        wx.MessageBox('Draw Arrow')
         An.AnnotateArrow(self._DH.Figures)
                   
         
     def ExportEvent(self,e):
         #wx.MessageBox('Export file')
-        print('ExportFile')
         self.child = EXFrame(self, title='Export as')
         self.child.Show()
 
     def QuitEvent(self,e):
-        wx.MessageBox('Rekt')
+        wx.MessageBox('Exit')
         self.Destroy()
 
     def UndoEvent(self,e):
         wx.MessageBox('Undo')
 
     def RedoEvent(self,e):
-        wx.MessageBox('Redo')
-        for key in self._DH.Graphs:
-            print(key)
-        
+        wx.MessageBox('Redo')        
 
     def LoadEvent(self, e):
         wx.MessageBox('Load Files')
+                    
+
+            
+        dlg = wx.FileDialog(
+        self, message="Select a Genesis graph file",
+        defaultDir = self.currentDirectory, 
+        defaultFile="",
+
+        wildcard=loadWildcard,
+
+        style=wx.FD_OPEN | wx.FD_CHANGE_DIR
+        )
+
+        if dlg.ShowModal() == wx.ID_OK:
+            filePath = dlg.GetPath()
+            graph = GraphSaver.loadGraph(filePath)
+            
+            nb = self.plotter
+            #nb = self._panel
+            
+            graph.setNotebook(nb)
+            if type(graph) is Admix:    
+                phenoCol = graph.getPhenoColumn()
+                graph.plotGraph(phenoCol = phenoCol)
+            elif type(graph) is PCA:
+                graph.PlotPca(False) #False indicates this graph is not being plotted the first time
+
+            self._DH.Graphs.update({graph.getName():graph})
 
     #gets file mamnagers returned from graphing frames
     def mylistener(self,message, arg2 = None):
@@ -309,6 +401,7 @@ class PlotNotebook(wx.Panel):
     def add(self, name="plot"):
         page = Plot(self.nb)
         self.nb.AddPage(page, name)
+        self.nb.SetSelection(self.nb.GetPageCount() - 1)
         return page.figure
 
     def onTabChange(self,event):
@@ -317,7 +410,12 @@ class PlotNotebook(wx.Panel):
         print(self.nb.GetPageText(event.GetSelection()))
         
         self.currPage =self.nb.GetPageText(event.GetSelection())
+        windowClass.currentGraphName = self.nb.GetPageText(event.GetSelection())
+        print(self.nb.GetPageText(event.GetSelection()))
         event.Skip()
+
+    def getNoteBook(self):
+        return self.nb
 
 
 def main():

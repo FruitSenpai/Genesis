@@ -26,8 +26,8 @@ class ChildFrame(wx.Frame):
    
     
     def __init__(self, parent, title):
-        super(ChildFrame, self).__init__(parent, title= 'admix', 
-            size=(300, 300))
+        super(ChildFrame, self).__init__(parent, title= 'Admix', 
+            size=(300, 325))
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -39,8 +39,6 @@ class ChildFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
-        
-        
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -117,8 +115,8 @@ class ChildFrame(wx.Frame):
         print(self.tc2.Value)
         print(self.tc3.Value)
         print(self.combo.Value)
+        
         name = self.m_textCtrl1.Value
-        #name = "File" + str(self._FI.FindLength())
         col = self.combo.Value.split(' ')
         if(self.tc1.Value != "" and self.tc2.Value != ""):
             try:
@@ -131,7 +129,6 @@ class ChildFrame(wx.Frame):
         else:
             print("No Fam and Data File")
         plt.show()
-
         
 
     def onOpenFile(self, event):
