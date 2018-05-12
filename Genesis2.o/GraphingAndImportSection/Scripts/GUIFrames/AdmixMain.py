@@ -21,13 +21,13 @@ famWildcard = "fam file (*.fam)|*.fam|" \
 pheWildcard = "phenotype file (*.phe)|*.phe|" \
             "All files (*.*)|*.*"
 
-class ChildFrame(wx.Dialog):
+class ChildFrame(wx.Frame):
     
    
     
     def __init__(self, parent, title):
         super(ChildFrame, self).__init__(parent, title= 'admix', 
-            size=(300, 250),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
+            size=(300, 300))
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -45,8 +45,8 @@ class ChildFrame(wx.Dialog):
 
         self.Columns = []
 
-        #self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        #self.m_textCtrl1.Value = "Name"
+        self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_textCtrl1.Value = "Name"
 
         self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
@@ -56,8 +56,8 @@ class ChildFrame(wx.Dialog):
         hbox = wx.BoxSizer(wx.HORIZONTAL)
 
         
-        fgs = wx.FlexGridSizer(6,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
-        
+        fgs = wx.FlexGridSizer(6,2,15,15)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgsWhole = wx.FlexGridSizer(2,1,15,15)
 
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
@@ -86,12 +86,16 @@ class ChildFrame(wx.Dialog):
                      (self.combo,1,wx.EXPAND),
                      (AcceptBtn),
                      (ExitBtn)])
+        fgsWhole.AddMany([(self.m_textCtrl1, 1, wx.EXPAND),
+                     (fgs, 1, wx.EXPAND)
+                     ])
 
-        #fgs.AddGrowableRow(1, 1)
+        #fgs.AddGrowableRow(1, 2)
+        fgsWhole.AddGrowableCol(0,2)
         #fgs.AddGrowableRow(2, 3)
-        fgs.AddGrowableCol(1, 1)
+        fgs.AddGrowableCol(1, 0)
 
-        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
+        hbox.Add(fgsWhole, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
         panel.SetSizer(hbox)
 
     def Quit(self,event):
@@ -113,8 +117,8 @@ class ChildFrame(wx.Dialog):
         print(self.tc2.Value)
         print(self.tc3.Value)
         print(self.combo.Value)
-        
-        name = "File" + str(self._FI.FindLength())
+        name = self.m_textCtrl1.Value
+        #name = "File" + str(self._FI.FindLength())
         col = self.combo.Value.split(' ')
         if(self.tc1.Value != "" and self.tc2.Value != ""):
             try:

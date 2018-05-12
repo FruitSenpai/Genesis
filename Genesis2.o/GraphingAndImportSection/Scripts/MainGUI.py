@@ -35,8 +35,9 @@ wildcard = "Python source (*.py)|*.py|" \
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
-            
+        self.Size = (800,450)   
         self._panel =self.basicGUI()
+        #self._panel.SetBackgroundColour((0xff,0xcc,0xcc))
         self.AdmixPath = AdmixPath = ''
         #find data holder
         self._DH = DataHolder
@@ -45,6 +46,7 @@ class windowClass(wx.Frame):
         self.Graphs = {}
         #the main graph is listening so that it can get file importers PCA and ADMIX main
         pub.subscribe(self.mylistener, "panelListener")
+       # pub.subscribe(self.freezeFrame, "panelListener")
         #create a list of ids
         self._cid = []
         #create a notebook to store graphs
@@ -65,7 +67,7 @@ class windowClass(wx.Frame):
         return self._panel
         
     def basicGUI(self):
-
+        
         panel= wx.Panel(self)
 
         menuBar = wx.MenuBar()
@@ -79,14 +81,6 @@ class windowClass(wx.Frame):
         Save_Item = fileButton.Append(wx.ID_ANY,'Save Project','status msg...')
         Load_Item = fileButton.Append(wx.ID_ANY,'Load Project','status msg...')
         Export_Item = fileButton.Append(wx.ID_ANY,'Export image','status msg...')
-        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','status msg...')
-
-        self.Bind(wx.EVT_TOOL,self.SaveEvent, Save_Item)
-        self.Bind(wx.EVT_TOOL,self.LoadEvent, Load_Item)
-        self.Bind(wx.EVT_TOOL,self.ExportEvent, Export_Item)
-        self.Bind(wx.EVT_TOOL,self.QuitEvent, Exit_Item)
-
-        #Toolbars
         importItem = wx.Menu()
         Import_Admix = importItem.Append(wx.ID_ANY,'New Admixture Graph')
         Import_PCA = importItem.Append(wx.ID_ANY,'New PCA Graph')
@@ -95,7 +89,14 @@ class windowClass(wx.Frame):
         self.Bind(wx.EVT_TOOL,self.AdmixEvent, Import_Admix)
           
         fileButton.Append(wx.ID_ANY,'New Graph',importItem )
+        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','status msg...')
 
+        self.Bind(wx.EVT_TOOL,self.SaveEvent, Save_Item)
+        self.Bind(wx.EVT_TOOL,self.LoadEvent, Load_Item)
+        self.Bind(wx.EVT_TOOL,self.ExportEvent, Export_Item)
+        self.Bind(wx.EVT_TOOL,self.QuitEvent, Exit_Item)
+
+       
         self.Makebar()
 
         
@@ -124,23 +125,28 @@ class windowClass(wx.Frame):
          
     def Makebar(self):
         toolBar = self.CreateToolBar()
+        #toolBar.SetBackgroundColour((0xff,0xcc,0xcc))
         #Declare all toolbar buttons
-        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('test.bmp'))
-        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
-        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('test.bmp'))
+        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'))
+        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'))
+        toolBar.AddSeparator()
+        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'))
+        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/open.bmp'))
+        toolBar.AddSeparator()
+        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/dataOp.bmp'))
+        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/appearanceOp.bmp'))
+        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/refresh.bmp'))
+        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
+        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/search.bmp'))
+        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
+        toolBar.AddSeparator()
+        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawLine.bmp'))
+        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawArrow.bmp'))
+        toolBar.AddSeparator()
+        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Export.bmp'))
+        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/closeProject.bmp'))
+        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Undo.bmp'))
+        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/redo.bmp'))
         toolBar.Realize()
         
         #Bind functions to buttons
@@ -169,6 +175,8 @@ class windowClass(wx.Frame):
         print(self.AdmixPath)
         self.child = AdmixFrame(self, title='Admix')
         self.child.Show()
+        self.child.SetFocus()
+        #self.Disable()
         pub.sendMessage('GetPanelAdmix',message=self.plotter)
 
     def PCAEvent(self,e):

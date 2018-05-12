@@ -29,7 +29,7 @@ class PCAFrame(wx.Dialog):
     
     def __init__(self, parent, title):
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
-            size=(400, 700),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
+            size=(400, 250),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -72,11 +72,11 @@ class PCAFrame(wx.Dialog):
 
         vbox = wx.BoxSizer(wx.VERTICAL)
 
-        fgsTop = wx.FlexGridSizer(2,2,10,10)
-        fgs = wx.FlexGridSizer(8,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
-        fgsBotPhe = wx.FlexGridSizer(1,2,10,10)
-        fgsBot = wx.FlexGridSizer(1,2,10,10)
-        fgsBotRight = wx.FlexGridSizer(1,2,10,10)
+        fgsTop = wx.FlexGridSizer(2,2,15,15)
+        fgs = wx.FlexGridSizer(8,1,15,15)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgsBotPhe = wx.FlexGridSizer(1,2,15,15)
+        fgsBot = wx.FlexGridSizer(1,2,15,50)
+        fgsBotRight = wx.FlexGridSizer(1,2,15,15)
         
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
