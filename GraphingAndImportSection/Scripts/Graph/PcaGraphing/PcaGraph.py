@@ -26,6 +26,14 @@ class PcaGraph():
         self._GroupClasses = []
         
         self._Counter = 0
+
+    def getName(self):
+        return self._Name
+
+    def setName(self, n):
+        self._Name = n
+        self._DH.Graphs.update({n:self})
+        self._DH.Figures.update({n:self._fig})
         
     ##NOTE if you are re-rendering the graph with a save file then please set FIrstTIMe to False, if its first time then set it to True
     def PlotPca(self,FirstTime):
@@ -109,7 +117,12 @@ class PcaGraph():
                 self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
             success = True
         except TypeError:
-            print("TypeError")
+            print("TypeError graphing")
+            sucesss = False
+            
+        except IndexError:
+            print("IndexError graphing")
+            success = False
         
         
         self._ax.legend()

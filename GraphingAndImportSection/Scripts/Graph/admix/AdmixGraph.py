@@ -10,6 +10,8 @@ from Graph.admix.AdmixGroup import AdmixGroup
 
 from GUIFrames import DataHolder
 
+#from MainGUI import PlotNotebook
+
 class AdmixGraph:
 
         #list of all individuals represented in graph
@@ -68,6 +70,20 @@ class AdmixGraph:
                 self._DH = DataHolder
                 
         
+        def getName(self):
+            return self._name
+
+        #update name of graph as well as external references
+        def setName(self, newName, oldName):
+            self._name = newName
+
+            #get rid of obsolete dictionary keys
+            figure = self._DH.Figures.pop(oldName) #generates KeyError if not found
+            graph = self._DH.Graphs.pop(oldName)
+
+            self._DH.Graphs.update({newName:self})
+            self._DH.Figures.update({newName:figure})
+
         #create individual objects with id names as well as their admix data
         def addIndividuals(self, individualData, famData):
                 for i in range(len(individualData)):                    
@@ -391,14 +407,14 @@ class AdmixGraph:
                 #colorList[0] = 'C3'
                 #plot on the stack plot
                 #replace "figure2" with name so multiple can be plotted        
-                self._fig = self._nb.add(self._name)
-                self._ax = self._fig.gca()
+                fig = self._nb.add(self._name)
+                self._ax = fig.gca()
                 self._ax.stackplot(individuals_x, individuals_y, colors = ancestryColours)
 
                 if phenoCol is not None:
                         self._ax.set_xticks(tickList[1],minor = False)
                         self._ax.set_xticklabels(tickList[0],minor=False)
-                self._DH.Figures.update({self._name:self._fig})
+                self._DH.Figures.update({self._name:fig})
                 self._DH.Graphs.update({self._name:self})
                         
                

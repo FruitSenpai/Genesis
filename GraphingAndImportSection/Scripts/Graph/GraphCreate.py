@@ -35,8 +35,8 @@ def CreatePca(PhenData,EvecData,pcaCol1,pcaCol2,phenCol,Name,panel):
 
 ##plotPca and RenderGraph should follow and might be enveloped into one 
     pcagraph =PcaGraph(Names,Groups,phenDic,EvecData,pcaCol1,pcaCol2,Name,panel)
-    DataHolder.Graphs.update({Name:pcagraph})
     TestVar =pcagraph.PlotPca(True)
+    DataHolder.Graphs.update({Name:pcagraph})
     return TestVar
     
 
@@ -56,13 +56,14 @@ def CreateAdmix(admixData,famData,pheData,PheCol,nb, name):
 
         #create new Admix graph and plot it        
         admixGraph = AdmixGraph(AdmixData, famData,nb, name, phenoData= pheData)
-        DataHolder.Graphs.update({name:admixGraph})
+        
 
         if(pheData != None):
             admixGraph.plotGraph(phenoCol = phenoColumn)
         else:
             admixGraph.plotGraph(phenoCol = None)
-        
+
+        DataHolder.Graphs.update({name:admixGraph})
 
 
 

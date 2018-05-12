@@ -13,13 +13,19 @@ from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
 from Graph import GraphSaver
+from Graph.admix import AdmixGraph
+from Graph.PcaGraphing import PcaGraph
+
+import ntpath
 
 ###################Import for embedding 
 import wx.lib.mixins.inspection as wit
 
 if 'phoenix' in wx.PlatformInfo:
+    print("wx.lib.agw.aui as aui")
     import wx.lib.agw.aui as aui
 else:
+    print("wx.aui as aui")
     import wx.aui as aui
 
 import matplotlib as mpl
@@ -27,6 +33,12 @@ from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as NavigationToolbar
 ########################3
 wildcard = "Python source (*.py)|*.py|" \
+            "All files (*.*)|*.*"
+
+pcaSaveWildcard = "PCA Graph file (*.gpf)|*.gpf|" \
+            "All files (*.*)|*.*"
+
+admixSaveWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
             "All files (*.*)|*.*"
 
 class windowClass(wx.Frame):
@@ -56,6 +68,10 @@ class windowClass(wx.Frame):
         axes2 = fig2.gca()
         axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
         self._DH.Figures.update({'Figure 2':fig2})
+
+        currentGraphName = ""
+
+        self.currentDirectory = os.getcwd()
 
 
     def returnPanel(self):
@@ -180,8 +196,54 @@ class windowClass(wx.Frame):
 
         ##run through figures and attaches the event function to it
         for key in self._DH.Figures:
-            print(key)
+            #print(key)
             self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
+
+        print("doh: " + windowClass.currentGraphName)
+        #print("Graph: " + DataHolder.Graphs[windowClass.currentGraphName])
+        
+        graph = DataHolder.Graphs[windowClass.currentGraphName]
+
+        #print("ad: " + (type(graph) is AdmixGraph))
+        #print("pca: " + (type(graph) is PcaGraph))
+        
+        defName = ""
+        if(type(graph) is AdmixGraph.AdmixGraph):
+            wildcard = admixSaveWildcard
+            defName = windowClass.currentGraphName + ".gaf"
+        elif(type(graph) is PcaGraph.PcaGraph):
+            wildcard = pcaSaveWildcard
+            defName = windowClass.currentGraphName + ".gpf"
+
+        dlg = wx.FileDialog(
+            self, message="Select a save locations",
+            defaultDir = self.currentDirectory, 
+            defaultFile=defName,
+
+            wildcard=wildcard,
+
+            style=wx.FD_SAVE | wx.FD_CHANGE_DIR
+            )
+        
+        if dlg.ShowModal() == wx.ID_OK:
+                filePath = dlg.GetPath()
+                baseName = ntpath.basename(filePath) #get base name
+                print(baseName)
+                
+                
+
+                #update dictionary key for graph and figure
+                graph.setName(baseName, windowClass.currentGraphName)
+                '''self._DH.Graphs.update({baseName:graph})
+                self._DH.Figures.update({baseName:figure})'''
+                
+                #GraphSaver.saveGraph(graph, filePath)
+
+                nb = self.plotter.getNoteBook()
+                pageIndex = nb.GetSelection()
+                nb.SetPageText(pageIndex, baseName)
+
+        dlg.Destroy()
 
         
     
@@ -269,10 +331,11 @@ class Plot(wx.Panel):
         self.toolbar.Realize()
 
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.canvas, 1, wx.EXPAND)
+        sizer.Add(self.canvas, 0, wx.EXPAND)
         sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
         self.SetSizer(sizer)
-        
+
+        self.figure.subplots_adjust(left=0.03, right=0.90, top=1, bottom = 0.3, hspace = 0, wspace = 0)        
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
@@ -293,8 +356,12 @@ class PlotNotebook(wx.Panel):
     def onTabChange(self,event):
         """tab = event.EventObject.GetChildren()[event.Selection]
         print("Tab name: " + tab.GetName())"""
+        windowClass.currentGraphName = self.nb.GetPageText(event.GetSelection())
         print(self.nb.GetPageText(event.GetSelection()))
         event.Skip()
+
+    def getNoteBook(self):
+        return self.nb
 
 
 def main():
