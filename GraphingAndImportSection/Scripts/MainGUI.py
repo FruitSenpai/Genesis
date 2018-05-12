@@ -12,6 +12,8 @@ from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
+from Graph import GraphSaver
+
 ###################Import for embedding 
 import wx.lib.mixins.inspection as wit
 
@@ -45,7 +47,7 @@ class windowClass(wx.Frame):
         #create a notebook to store graphs
         self.plotter = PlotNotebook(self._panel)
         ##test data
-        fig1 =self.plotter.add('Wigure 1')
+        fig1 =self.plotter.add(name = 'Wigure 1')
         axes1 = fig1.gca()
         axes1.plot([1, 2, 3], [2, 1, 4])
         self._DH.Figures.update({'Wigure 1':fig1})
@@ -275,16 +277,24 @@ class Plot(wx.Panel):
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
-        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))
+        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))	
         self.nb = aui.AuiNotebook(self, size=(2000,900))
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
         self.SetSizer(sizer)
 
+        self.nb.Bind(aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.onTabChange)
+
     def add(self, name="plot"):
         page = Plot(self.nb)
         self.nb.AddPage(page, name)
         return page.figure
+
+    def onTabChange(self,event):
+        """tab = event.EventObject.GetChildren()[event.Selection]
+        print("Tab name: " + tab.GetName())"""
+        print(self.nb.GetPageText(event.GetSelection()))
+        event.Skip()
 
 
 def main():

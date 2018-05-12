@@ -1,21 +1,21 @@
 import unittest
-from Scripts.Graph import GraphCreate
-from Scripts.Graph.PcaGraphing.PcaGraph import PcaGraph
-from  Scripts.Graph.PcaGraphing import PcaDataExtractor as PcaEx
+from Graph import GraphCreate
+from Graph.PcaGraphing.PcaGraph import PcaGraph
+from  Graph.PcaGraphing import PcaDataExtractor as PcaEx
 
 class test_Graph(unittest.TestCase):
-
+    #pass when given correct input
     def test_CompleteWithPhen(self):
         PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
         PhenData = GetFileData("C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm.phe")
         _Test =GraphCreate.CreatePca(PhenData,PcaData,1,2,3,"Test",None)
         self.assertTrue(_Test)
-
+    #Pass when given input and no phen data
     def test_CompleteWithoutPhen(self):
         PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
         _Test =GraphCreate.CreatePca(None,PcaData,1,2,3,"Test",None)
         self.assertTrue(_Test)
-        
+     #Fail when given no inout with phen data
     def test_InCompleteWithPhen(self):
         PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
         PhenData = GetFileData("C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm.phe")
@@ -23,12 +23,15 @@ class test_Graph(unittest.TestCase):
         self.assertFalse(_Test)
         
         #self.assertRaises(TypeError,GraphCreate.CreatePca,PhenData,None,1,2,3,"Test",None)
-
+    #pass when given no input what so ever
     def test_InCompleteWithoutPhen(self):
         PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
         _Test =GraphCreate.CreatePca(None,None,1,2,3,"Test",None)
+        print("HI")
         self.assertTrue(_Test)
-
+        
+    #Exception handling makes this next text not needed
+    '''
     def test_ExceptionRaisingPcaGraph(self):
         PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
         PhenData = GetFileData("C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm.phe")
@@ -40,10 +43,10 @@ class test_Graph(unittest.TestCase):
         Names = PcaEx.GetIndividuals(True,PcaData,0)
         count = len(Names)
         print("HI")
-        pcagraph =PcaGraph(Names,Groups,phenDic,PcaData,1,2,"Test",None)
+        pcagraph =PcaGraph(None,Groups,phenDic,PcaData,1,2,"Test",None)
         print("HI")
         self.assertRaises(TypeError,pcagraph.PlotPca,True)
-
+'''
 
 def GetFileData(FilePath):
 

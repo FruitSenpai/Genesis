@@ -5,8 +5,20 @@ import csv
 import matplotlib.pyplot as plt
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder 
-wildcard = "Python source (*.py)|*.py|" \
+'''wildcard = "Python source (*.py)|*.py|" \
+            "All files (*.*)|*.*"'''
+
+wildcard = ""
+
+admixWildcard = "Q file (*.Q.n)|*.Q.*|" \
             "All files (*.*)|*.*"
+
+famWildcard = "fam file (*.fam)|*.fam|" \
+            "All files (*.*)|*.*"
+
+pheWildcard = "phenotype file (*.phe)|*.phe|" \
+            "All files (*.*)|*.*"
+
 class ChildFrame(wx.Frame):
     
    
@@ -105,7 +117,15 @@ class ChildFrame(wx.Frame):
         
 
     def onOpenFile(self, event):
-       
+        button = event.GetEventObject()
+        if button.parameterVal == 'Data':
+                wildcard = admixWildcard
+        if button.parameterVal == 'Fam':
+                wildcard = famWildcard
+        if button.parameterVal == 'Phe':
+                wildcard = pheWildcard
+                self.CountColumns()
+
         dlg = wx.FileDialog(
             self, message="Choose a file",
             defaultDir=self.currentDirectory, 
@@ -118,13 +138,16 @@ class ChildFrame(wx.Frame):
             print ('You chose the following file:')
             print(self.DataFilePath)
            # windowClass.AdmixPath = DataFilePath
-            button = event.GetEventObject()
+            
 
             if button.parameterVal == 'Data':
+                #wildcard = admixWildcard
                 self.tc1.SetValue(self.DataFilePath)
             if button.parameterVal == 'Fam':
+                #wildcard = famWildcard
                 self.tc2.SetValue(self.DataFilePath)
             if button.parameterVal == 'Phe':
+                #wildcard = pheWildcard
                 self.tc3.SetValue(self.DataFilePath)
                 self.CountColumns()
             

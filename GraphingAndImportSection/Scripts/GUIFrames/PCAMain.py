@@ -10,8 +10,17 @@ import matplotlib.pyplot as plt
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 
-wildcard = "Python source (*.py)|*.py|" \
+'''wildcard = "Python source (*.py)|*.py|" \
+            "All files (*.*)|*.*"'''
+
+wildcard = ""
+
+pcaWildcard = "PCA file (*.pca.*)|*.pca.*|" \
             "All files (*.*)|*.*"
+
+pheWildcard = "phenotype file (*.phe)|*.phe|" \
+            "All files (*.*)|*.*"
+
 class PCAFrame(wx.Frame):
     
    
@@ -140,7 +149,12 @@ class PCAFrame(wx.Frame):
         #self.Destroy()
 
     def onOpenFile(self, event):
-       
+        self.button = event.GetEventObject()
+        if self.button.parameterVal == 'Data':
+                wildcard = pcaWildcard
+        if self.button.parameterVal == 'Phe':
+                wildcard = pheWildcard
+
         dlg = wx.FileDialog(
             self, message="Choose a file",
             defaultDir = self.currentDirectory, 
@@ -155,7 +169,7 @@ class PCAFrame(wx.Frame):
             print ('You chose the following file:')
             print(self.DataFilePath)
            
-            self.button = event.GetEventObject()
+            
 
             if self.button.parameterVal == 'Data':
                 self.tc1.SetValue(self.DataFilePath)

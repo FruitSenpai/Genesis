@@ -109,7 +109,12 @@ class PcaGraph():
                 self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
             success = True
         except TypeError:
-            print("TypeError")
+            print("TypeError graphing")
+            sucesss = False
+            
+        except IndexError:
+            print("IndexError graphing")
+            success = False
         
         
         self._ax.legend()

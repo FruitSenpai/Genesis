@@ -37,7 +37,7 @@ class AdmixGraph:
         #default list of colours
         colourList = ["red", "blue", "orange", "green", "yellow", "purple", "brown", "pink", "cyan"]
 
-        def __init__(self, individualData, famData,nb, phenoData= None):
+        def __init__(self, individualData, famData,nb, name, phenoData= None):
                 
                 self.individualList = []
                 #self.groupList = []
@@ -48,6 +48,8 @@ class AdmixGraph:
                 self.ancestryOrder = []
                 self.numAncestries = len(individualData[0])
                 self._nb = nb
+                self._name = name
+
                 if phenoData is None:
                         self.addIndividuals(individualData, famData)
                         print("no phenotype data")
@@ -389,20 +391,17 @@ class AdmixGraph:
                 #colorList[0] = 'C3'
                 #plot on the stack plot
                 #replace "figure2" with name so multiple can be plotted        
-                self._fig = self._nb.add('figure2')
+                self._fig = self._nb.add(self._name)
                 self._ax = self._fig.gca()
                 self._ax.stackplot(individuals_x, individuals_y, colors = ancestryColours)
 
                 if phenoCol is not None:
                         self._ax.set_xticks(tickList[1],minor = False)
                         self._ax.set_xticklabels(tickList[0],minor=False)
-                self._DH.Figures.update({'TestAd':self._fig})
+                self._DH.Figures.update({self._name:self._fig})
+                self._DH.Graphs.update({self._name:self})
                         
                
                 
-
-
-
-
                
 		#plt.show()
