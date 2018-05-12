@@ -12,7 +12,17 @@ from FileManagement  import ValidityChecker as VC
 from FileManagement.FileImporter import FileImporter
 from GUIFrames import DataHolder
 
-wildcard =  "All files (*.*)|*.*"
+'''wildcard = "Python source (*.py)|*.py|" \
+            "All files (*.*)|*.*"'''
+
+wildcard = ""
+
+pcaWildcard = "PCA file (*.pca.*)|*.pca.*|" \
+            "All files (*.*)|*.*"
+
+pheWildcard = "phenotype file (*.phe)|*.phe|" \
+            "All files (*.*)|*.*"
+
 class PCAFrame(wx.Dialog):
     
    
@@ -38,6 +48,8 @@ class PCAFrame(wx.Dialog):
 
         self.Columns = []
 
+        self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        
         self.comboPCA1 = wx.ComboBox(panel, choices = self.Columns)
         self.comboPCA1.Bind(wx.EVT_COMBOBOX, self.OnCombo)
         self.comboPCA2 = wx.ComboBox(panel, choices = self.Columns)
@@ -56,8 +68,9 @@ class PCAFrame(wx.Dialog):
         self.ColumnLabel.Hide()
         self.PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
         self.PheLabel.Hide()
+        self.m_textCtrl1.Value = "Name"
 
-        self.vbox = wx.BoxSizer(wx.VERTICAL)
+        vbox = wx.BoxSizer(wx.VERTICAL)
 
         fgsTop = wx.FlexGridSizer(2,2,10,10)
         fgs = wx.FlexGridSizer(8,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
@@ -79,14 +92,12 @@ class PCAFrame(wx.Dialog):
         NextBtn = wx.Button(panel,wx.ID_ANY, label ='Next')
         NextBtn.Bind(wx.EVT_BUTTON, self.AppearFrame)
 
-        self.Nametc = wx.TextCtrl(panel, value="Name")
-        self.tc1 = wx.TextCtrl(panel)    
+        self.tc1 = wx.TextCtrl(panel)
+        
         self.tc3 = wx.TextCtrl(panel)
 
-        fgsTop.AddMany([(OpenFileBtn),
-                        (self.tc1, 1, wx.EXPAND),
-                        (OpenPheBtn, 1, wx.EXPAND),
-                        ( self.tc3, 1, wx.EXPAND)])
+        fgsTop.AddMany([(OpenFileBtn), (self.tc1, 1, wx.EXPAND),
+                     (OpenPheBtn, 1, wx.EXPAND),( self.tc3, 1, wx.EXPAND)])
                      
 
         fgsBotPhe.AddMany([(self.PheLabel,1,wx.EXPAND),
@@ -98,8 +109,8 @@ class PCAFrame(wx.Dialog):
         fgsBotRight.AddMany([(AcceptBtn),
                              (ExitBtn)])
 
-        fgs.AddMany([( self.Nametc,1,wx.EXPAND),
-                      (fgsTop,1,wx.EXPAND),
+        fgs.AddMany([( self.m_textCtrl1, 1, wx.EXPAND ),
+                     (fgsTop,1,wx.EXPAND),
                      (self.ColumnLabel,1,wx.EXPAND),
                      (self.comboPCA1,1,wx.EXPAND),
                      (self.comboPCA2,1,wx.EXPAND),
@@ -114,12 +125,12 @@ class PCAFrame(wx.Dialog):
         fgsTop.AddGrowableCol(1,2)
         fgs.AddGrowableCol(0, 1)
 
-        self.vbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
-        panel.SetSizer(self.vbox)
+        vbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
+        panel.SetSizer(vbox)
 
     def AppearFrame(self,event):
         self.child = AppFrame(self, title='Appearance')
-        self.child.ShowModal()
+        #self.child.ShowModal()
         self.child.Show()
 
     def Quit(self,event):
@@ -137,20 +148,23 @@ class PCAFrame(wx.Dialog):
         print(self.comboPhe.Value)
         print(self.tc1.Value)
         print(self.tc3.Value)
+        print(self.m_textCtrl1.Value)
 
-        name = "File" + str(self._FI.FindLength())
+        name = self.m_textCtrl1.Value
         pheCol = self.comboPhe.Value.split(' ')
         Col1 = self.comboPCA1.Value.split(' ')
         Col2 = self.comboPCA2.Value.split(' ')
         Col3 = self.comboPCA3.Value.split(' ')
-        #returns figure
-        Figure = ''
+        
         #creates graph dependant on if there is phen data
-        if(self.tc3.Value != ""):
-            self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
+        try:
+            if(self.tc3.Value != ""):
+                self._FI.CreatePca( self._FI,self.tc1.Value,self.tc3.Value,name,int(Col1[1]),int(Col2[1]),int(pheCol[1]),self._panel)
 
-        else:
-            self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
+            else:
+                self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
+        except IndexError:
+            print("Index Error")
 
 
         
@@ -161,7 +175,12 @@ class PCAFrame(wx.Dialog):
         #self.Destroy()
 
     def onOpenFile(self, event):
-       
+        self.button = event.GetEventObject()
+        if self.button.parameterVal == 'Data':
+                wildcard = pcaWildcard
+        if self.button.parameterVal == 'Phe':
+                wildcard = pheWildcard
+
         dlg = wx.FileDialog(
             self, message="Choose a file",
             defaultDir = self.currentDirectory, 
@@ -175,13 +194,9 @@ class PCAFrame(wx.Dialog):
             self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
             print(self.DataFilePath)
-           
-            self.button = event.GetEventObject()
-
             if self.button.parameterVal == 'Data':
                 if(VC.CheckPcaValid(self.DataFilePath)):
                     self.tc1.SetValue(self.DataFilePath)
-                    self.CountColumns(self.button)
                 else:
                     dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
                     dlg.ShowsModal()
@@ -189,15 +204,16 @@ class PCAFrame(wx.Dialog):
             if self.button.parameterVal == 'Phe':
                 if(VC.CheckPhenValid(self.DataFilePath)):
                     self.tc3.SetValue(self.DataFilePath)
-                    self.CountColumns(self.button)
                 else:
                     dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
                     dlg.ShowModal()
             
             print(self.button.parameterVal)
-        dlg.Destroy()
+
         #CountsColumns
-    
+        self.CountColumns(self.button)
+            
+        dlg.Destroy()
         
 #counts coloumns in the file
     def CountColumns(self,val):

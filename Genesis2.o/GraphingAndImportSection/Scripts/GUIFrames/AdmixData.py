@@ -1,15 +1,13 @@
 import os
 import wx
-import csv
-from FileManagement  import ValidityChecker as VC
-wildcard = "All files (*.*)|*.*"
-
-class AdmixGraphFrame(wx.Dialog):
+wildcard = "Python source (*.py)|*.py|" \
+            "All files (*.*)|*.*"
+class AdmixGraphFrame(wx.Frame):
 
 
     def __init__(self, parent, title):
         super(AdmixGraphFrame, self).__init__(parent, title= 'Graph Options', 
-            size=(400, 200),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
+            size=(400, 200))
 
         self.currentDirectory = os.getcwd()
         self.InitUI()
@@ -73,16 +71,11 @@ class AdmixGraphFrame(wx.Dialog):
             style=wx.FD_OPEN | wx.FD_CHANGE_DIR
             )
         if dlg.ShowModal() == wx.ID_OK:
-            self.DataFilePath = dlg.GetPath()
+            DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
-            print(self.DataFilePath)
+            print(DataFilePath)
             #windowClass.AdmixPath = DataFilePath
             button = event.GetEventObject()
-            if(VC.CheckAdmixValid(self.DataFilePath)):
-                self.FilePathtext.SetValue(self.DataFilePath)
-                self.CountColumns()
-            else:
-                dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
-                dlg.ShowModal()
+            self.FilePathtext.SetValue(DataFilePath)
          
         dlg.Destroy()

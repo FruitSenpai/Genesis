@@ -25,7 +25,7 @@ def onButtonUpLine(event):
     xVar.append(event.xdata)
     yVar.append(event.ydata)
 
-    line = event.canvas.figure.gca().plot(xVar,yVar)
+    line = event.canvas.figure.gca().plot(xVar,yVar,c = "xkcd:black")
     event.canvas.figure.canvas.draw()
     lines.append(line)
 #Draws Arrow when mouse button is released
@@ -47,7 +47,7 @@ def onButtonUpArrow(event):
         pos0 = float(pos0)
         
     pos1 = labels[1].get_text()
-    if(len(pos1)>3):
+    if(len(pos1)>4):
         pos1 = pos1[1:]
         pos1 =float(pos1)
         pos1 = -pos1

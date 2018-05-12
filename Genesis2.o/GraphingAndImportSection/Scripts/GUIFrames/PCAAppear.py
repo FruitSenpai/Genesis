@@ -1,14 +1,14 @@
 import os
 import wx
-wildcard = "Python source (*.py)|*.py|" \
-            "All files (*.*)|*.*"
+wildcard = "All files (*.*)|*.*"
 
-class PCAAppearFrame(wx.Frame):
+class PCAAppearFrame(wx.Dialog):
 
     def __init__(self, parent, title):
         super(PCAAppearFrame, self).__init__(parent, title= 'Graph Options', 
-            size=(400, 500))
+            size=(400, 500),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
+        
         self.InitUI()
         self.Centre()
 

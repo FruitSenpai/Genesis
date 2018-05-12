@@ -2,8 +2,13 @@ import os
 
 ##Checks if its a valid PCA evec graph
 def CheckPcaValid(fileName):
-    ext = fileName.find(".pca.evec")
-    if(ext == -1):
+    namelist = fileName.split('.')
+    valid= False
+    for i in range(0,len(namelist)):
+        if(namelist[i] == 'pca'):
+            valid = True
+    #ext = fileName.find(".pca.evec")
+    if(valid == False):
        print('Invalid PCA')
        return False
     else:
@@ -13,8 +18,13 @@ def CheckPcaValid(fileName):
 
 ##Checks if its a valid phen graph
 def CheckPhenValid(fileName):
-    ext = fileName.find(".phe")
-    if(ext == -1):
+    namelist = fileName.split('.')
+    valid= False
+    for i in range(0,len(namelist)):
+        if(namelist[i] == 'phe'):
+            valid = True
+    #ext = fileName.find(".phe")
+    if(valid == False):
        print('Invalid Phen')
        return False
     else:
@@ -23,8 +33,13 @@ def CheckPhenValid(fileName):
 
 ##Checks if its a valid fam graph
 def CheckFamValid(fileName):
-    ext = fileName.find(".fam")
-    if(ext == -1):
+    namelist = fileName.split('.')
+    valid= False
+    for i in range(0,len(namelist)):
+        if(namelist[i] == 'fam'):
+            valid = True
+    #ext = fileName.find(".fam")
+    if(valid == False):
        print('Invalid Fam')
        return False
     else:
@@ -33,8 +48,13 @@ def CheckFamValid(fileName):
 
 ##Checks if its a valid admix evec graph
 def CheckAdmixValid(fileName):
-    ext = fileName.find(".Q.")
-    if(ext == -1):
+    namelist = fileName.split('.')
+    valid= False
+    for i in range(0,len(namelist)):
+        if(namelist[i] == 'Q'):
+            valid = True
+    #ext = fileName.find(".Q.")
+    if(valid == False):
        print('Invalid Admix')
        return False
     else:

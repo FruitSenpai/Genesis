@@ -68,30 +68,33 @@ class FileImporter():
 
         ##Checking size of file(how many lines)
         #Makes sure that there is a file
-        if(FilePath != None):
-            countF = open(FilePath)
-            count = len(countF.readlines())
-            countF.close()
-            
-                  
-            f = open(FilePath)
-           
-            for i in range(0,count):
-            
-                tempString = f.readline()
-                tempList = tempString.split() 
-                DataList.append(tempList)
+        try:
+            if(FilePath != None and os.stat(FilePath).st_size >0):
+                countF = open(FilePath)
+                count = len(countF.readlines())
+                countF.close()
+                
+                      
+                f = open(FilePath)
+               
+                for i in range(0,count):
+                
+                    tempString = f.readline()
+                    tempList = tempString.split() 
+                    DataList.append(tempList)
 
-            '''
-            for i in range(len(DataList)):
-                print(DataList[i])
-                print('\n')
-            '''    
+                '''
+                for i in range(len(DataList)):
+                    print(DataList[i])
+                    print('\n')
+                '''    
 
-            return DataList
-        ##Checks if file exists
-        else :
-            print('No File to extract Data from')
+                return DataList
+            ##Checks if file exists
+            else :
+                print('No File to extract Data from')
+                return None
+        except FileNotFoundError:
             return None
 
     def GetFileManager(self,fmName):
@@ -152,7 +155,7 @@ class FileImporter():
             DataPhen = None
             
 
-        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn,panel)
+        GraphCreate.CreatePca(DataPhen,DataPca, pcaColoumnOne,PcaColoumnTwo,PhenColoumn,Name,panel)
         print(Name +" GRAAAAAAPh");
         
         
@@ -175,7 +178,7 @@ class FileImporter():
         else:
             DataAdmixPhen = None
 
-        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol,nb)
+        GraphCreate.CreateAdmix(DataAdmix,DataFam,DataAdmixPhen,PheCol,nb, Name)
         
         
         

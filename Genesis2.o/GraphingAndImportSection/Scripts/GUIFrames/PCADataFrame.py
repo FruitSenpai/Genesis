@@ -3,7 +3,6 @@ import wx
 import csv
 from FileManagement  import ValidityChecker as VC
 wildcard = "All files (*.*)|*.*"
-
 class PCADataFrame(wx.Dialog):
 
     def __init__(self, parent, title):
@@ -52,7 +51,7 @@ class PCADataFrame(wx.Dialog):
         #fgs.AddGrowableRow(2, 3)
         fgs.AddGrowableCol(0, 1)
 
-        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, borsder=15)
+        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
         panel.SetSizer(hbox)
 
     def OnCombo(self, event):

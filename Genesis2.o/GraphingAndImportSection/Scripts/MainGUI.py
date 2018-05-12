@@ -9,16 +9,21 @@ from GUIFrames.AdmixData import AdmixGraphFrame as AdmixDataFrame
 from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
+from GUIFrames.PcaCustom.PcaCustomScript import PcaCustom as PcaCustom
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
+from Graph import GraphSaver
+
 ###################Import for embedding 
 import wx.lib.mixins.inspection as wit
 
 if 'phoenix' in wx.PlatformInfo:
     import wx.lib.agw.aui as aui
+    
 else:
     import wx.aui as aui
+    
 
 import matplotlib as mpl
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
@@ -30,8 +35,7 @@ wildcard = "Python source (*.py)|*.py|" \
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
-
-        self.size=(400,700)       
+            
         self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
         #find data holder
@@ -46,7 +50,7 @@ class windowClass(wx.Frame):
         #create a notebook to store graphs
         self.plotter = PlotNotebook(self._panel)
         ##test data
-        fig1 =self.plotter.add('Wigure 1')
+        fig1 =self.plotter.add(name = 'Wigure 1')
         axes1 = fig1.gca()
         axes1.plot([1, 2, 3], [2, 1, 4])
         self._DH.Figures.update({'Wigure 1':fig1})
@@ -164,15 +168,14 @@ class windowClass(wx.Frame):
       #  wx.MessageBox('Inputs Admix')
         print(self.AdmixPath)
         self.child = AdmixFrame(self, title='Admix')
-        self.child.ShowModal()
         self.child.Show()
         pub.sendMessage('GetPanelAdmix',message=self.plotter)
 
     def PCAEvent(self,e):
         wx.MessageBox('Input PCA')
         self.child = PCAFrame(self, title='PCA')
-        self.child.ShowModal()
         self.child.Show()
+        #self.child.Show()
         pub.sendMessage('GetPanelPca',message=self.plotter)
 
     def SaveEvent(self,e):
@@ -196,9 +199,11 @@ class windowClass(wx.Frame):
         self.child.Show()
 
     def AppearenceEvent(self,e):
-        self.child = AdmixDataFrame(self, title='Graph Options')
-        #self.child = PCADataFrame(self, title='Graph Options')
-        self.child.ShowModal
+        print(self.plotter.currPage+"--")
+        print('Pretty things')
+        #self.child = AppFrame(self, title='Export as')
+        #self.child = PCAAppearFrame(self, title='Export as')
+        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
         self.child.Show()
 
     def RefreshEvent(self,e):
@@ -239,6 +244,9 @@ class windowClass(wx.Frame):
 
     def RedoEvent(self,e):
         wx.MessageBox('Redo')
+        for key in self._DH.Graphs:
+            print(key)
+        
 
     def LoadEvent(self, e):
         wx.MessageBox('Load Files')
@@ -274,20 +282,34 @@ class Plot(wx.Panel):
         sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
         self.SetSizer(sizer)
         
+
+        self.figure.subplots_adjust(left=0.03,right=0.90,top=1, bottom = 0.3)
+        
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
-        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))
+        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))	
         self.nb = aui.AuiNotebook(self, size=(2000,900))
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
         self.SetSizer(sizer)
+        self.currPage = None
+
+        self.nb.Bind(aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.onTabChange)
 
     def add(self, name="plot"):
         page = Plot(self.nb)
         self.nb.AddPage(page, name)
         return page.figure
+
+    def onTabChange(self,event):
+        """tab = event.EventObject.GetChildren()[event.Selection]
+        print("Tab name: " + tab.GetName())"""
+        print(self.nb.GetPageText(event.GetSelection()))
+        
+        self.currPage =self.nb.GetPageText(event.GetSelection())
+        event.Skip()
 
 
 def main():
