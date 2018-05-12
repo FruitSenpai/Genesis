@@ -41,6 +41,10 @@ pcaSaveWildcard = "PCA Graph file (*.gpf)|*.gpf|" \
 admixSaveWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
             "All files (*.*)|*.*"
 
+loadWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
+            "PCA Graph file (*.gpf)|*.gpf|" \
+            "All files (*.*)|*.*"
+
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
@@ -228,7 +232,7 @@ class windowClass(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK:
                 filePath = dlg.GetPath()
                 baseName = ntpath.basename(filePath) #get base name
-                print(baseName)
+                #print(baseName)
                 
                 
 
@@ -237,7 +241,9 @@ class windowClass(wx.Frame):
                 '''self._DH.Graphs.update({baseName:graph})
                 self._DH.Figures.update({baseName:figure})'''
                 
-                #GraphSaver.saveGraph(graph, filePath)
+                graph.setNotebook(None)
+
+                GraphSaver.saveGraph(graph, filePath)
 
                 nb = self.plotter.getNoteBook()
                 pageIndex = nb.GetSelection()
@@ -245,8 +251,34 @@ class windowClass(wx.Frame):
 
         dlg.Destroy()
 
-        
-    
+    def LoadEvent(self, e):
+        wx.MessageBox('Load Files')
+            
+
+            
+        dlg = wx.FileDialog(
+        self, message="Select a Genesis graph file",
+        defaultDir = self.currentDirectory, 
+        defaultFile="",
+
+        wildcard=loadWildcard,
+
+        style=wx.FD_OPEN | wx.FD_CHANGE_DIR
+        )
+
+        if dlg.ShowModal() == wx.ID_OK:
+            filePath = dlg.GetPath()
+            graph = GraphSaver.loadGraph(filePath)
+            
+            nb = self.plotter
+            #nb = self._panel
+            
+            graph.setNotebook(nb)
+            if type(graph) is AdmixGraph.AdmixGraph:    
+                phenoCol = graph.getPhenoColumn()
+                graph.plotGraph(phenoCol = phenoCol)
+            elif type(graph) is PcaGraph.PcaGraph:
+                graph.PlotPca(False) #False indicates this graph is not being plotted the first time
 
     def OpenFileEvent(self,e):
         wx.MessageBox('Open file')
@@ -301,9 +333,6 @@ class windowClass(wx.Frame):
     def RedoEvent(self,e):
         wx.MessageBox('Redo')
 
-    def LoadEvent(self, e):
-        wx.MessageBox('Load Files')
-
     #gets file mamnagers returned from graphing frames
     def mylistener(self,message, arg2 = None):
         _temp = message.GetManagers()
@@ -351,6 +380,7 @@ class PlotNotebook(wx.Panel):
     def add(self, name="plot"):
         page = Plot(self.nb)
         self.nb.AddPage(page, name)
+        self.nb.SetSelection(self.nb.GetPageCount() - 1)
         return page.figure
 
     def onTabChange(self,event):

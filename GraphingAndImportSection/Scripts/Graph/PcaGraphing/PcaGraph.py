@@ -22,18 +22,28 @@ class PcaGraph():
         self.yCol =_yCol
         self._nb = panel
         self._Name = GraphName
-        self._DH = DataHolder
+        #self._DH = DataHolder
         self._GroupClasses = []
         
         self._Counter = 0
 
+
+    def setNotebook(self, notebook):
+        self._nb = notebook
+
     def getName(self):
         return self._Name
 
-    def setName(self, n):
-        self._Name = n
-        self._DH.Graphs.update({n:self})
-        self._DH.Figures.update({n:self._fig})
+    #update name of graph as well as external references
+    def setName(self, newName, oldName):
+        self._Name = newName
+
+        #get rid of obsolete dictionary keys
+        figure = DataHolder.Figures.pop(oldName) #generates KeyError if not found
+        graph = DataHolder.Graphs.pop(oldName)
+
+        DataHolder.Graphs.update({newName:self})
+        DataHolder.Figures.update({newName:figure})
         
     ##NOTE if you are re-rendering the graph with a save file then please set FIrstTIMe to False, if its first time then set it to True
     def PlotPca(self,FirstTime):
@@ -126,7 +136,7 @@ class PcaGraph():
         
         
         self._ax.legend()
-        self._DH.Figures.update({self._Name:self._fig})
+        DataHolder.Figures.update({self._Name:self._fig})
         
         return success
        
