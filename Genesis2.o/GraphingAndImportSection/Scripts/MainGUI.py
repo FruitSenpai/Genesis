@@ -121,9 +121,11 @@ class windowClass(wx.Frame):
         #Graph Button options
         Data_Options_Item = graphButton.Append(wx.ID_ANY,'Data options','status msg...')#Append new items to buttons
         Appearance_Options_Item = graphButton.Append(wx.ID_ANY,'Appearence options','status msg...')
-
+        Delete_Annotations_Item = graphBUtton.Append(wx.ID_ANY,'Delete Annotations','status msg...')
         self.Bind(wx.EVT_TOOL,self.AppearenceEvent,  Appearance_Options_Item)
         self.Bind(wx.EVT_TOOL,self.DataOptionsEvent,  Data_Options_Item)
+        self.Bind(wx.EVT_TOOL,self.DelAnnotationsEvent,  Delete_Annotations_Item)
+        
         #Help Button options
         Help_Item = helpButton.Append(wx.ID_EXIT,'Help','status msg...')
         About_Item = helpButton.Append(wx.ID_EXIT,'About','status msg...')
@@ -146,6 +148,9 @@ class windowClass(wx.Frame):
         #toolBar.SetBackgroundColour((0xff,0xcc,0xcc))
         #Declare all toolbar buttons
         InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'))
+        self.Bind(wx.EVT_ENTER_WINDOW,self.OnMouseEnter,InputAdmixButton)
+        #InputAdmixButton.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
+
         InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'))
         toolBar.AddSeparator()
         SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'))
@@ -188,6 +193,15 @@ class windowClass(wx.Frame):
         
 
 #All button and label functions
+
+    def DelAnnotationsEvent(self,e):
+        print("here is the thing")
+    
+    def OnMouseEnter(self,e):
+        print("Stuff")
+        self.Statusbar.SetStatusText("TRIGGERED")
+        e.Skip()
+        
     def AdmixEvent(self,e):
       #  wx.MessageBox('Inputs Admix')
         print(self.AdmixPath)
