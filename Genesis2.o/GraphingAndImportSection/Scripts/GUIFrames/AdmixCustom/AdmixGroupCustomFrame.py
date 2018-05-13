@@ -15,6 +15,11 @@ import wx.xrc
 ###########################################################################
 
 class GroupFrame ( wx.Frame ):
+        '''
+        Contains the code for the Admix Group Custom Frame.
+
+        Only contains code for the generation of the frame.
+        '''
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Group Customization ", pos = wx.DefaultPosition, size = wx.Size( 277,167 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )

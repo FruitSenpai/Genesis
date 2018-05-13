@@ -3,6 +3,9 @@ import wx
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class AppearFrame(wx.Frame):
+    '''
+    This frame contains the code generate the admix appearence frame.
+    '''
 
     def __init__(self, parent, title):
         super(AppearFrame, self).__init__(parent, title= 'Appearence', 
@@ -13,6 +16,7 @@ class AppearFrame(wx.Frame):
         
 
     def InitUI(self):
+        '''Initialises user interface.'''
         
         panel = wx.Panel(self,wx.ID_ANY)
 
@@ -78,14 +82,17 @@ class AppearFrame(wx.Frame):
 
 
     def SetMargins(self,e):
+        '''Sets graph height and thickness and distance of margins.'''
         print(self.SetGraphHeighttext.GetValue())
         print(self.Thicknesstext.GetValue())
         print(self.Distancetext.GetValue())
     
     def QuitEvent(self,e):
+        '''Exits frame.'''
         self.Destroy()
 
     def FinishEvent(self, e):
+        '''Outputs selected appearence data.'''
         print(self.Headingtext.GetValue())
         print(self.SetGraphHeighttext.GetValue())
         print(self.Thicknesstext.GetValue())

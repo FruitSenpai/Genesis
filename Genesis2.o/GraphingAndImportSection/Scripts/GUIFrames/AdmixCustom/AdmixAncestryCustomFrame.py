@@ -15,7 +15,11 @@ import wx.xrc
 ###########################################################################
 
 class AdmixAncestryCustom ( wx.Frame ):
-	
+	'''
+        This is the Admix Ancestory Customisation Frame.
+
+        It only contains  the code to generate the frame.
+        '''
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 253,204 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		

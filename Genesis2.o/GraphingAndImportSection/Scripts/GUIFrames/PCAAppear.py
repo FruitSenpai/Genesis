@@ -3,6 +3,9 @@ import wx
 wildcard = "All files (*.*)|*.*"
 
 class PCAAppearFrame(wx.Dialog):
+    '''
+    This script cotains the code to generate the PCA appearence frame
+    '''
 
     def __init__(self, parent, title):
         super(PCAAppearFrame, self).__init__(parent, title= 'Graph Options', 
@@ -13,6 +16,7 @@ class PCAAppearFrame(wx.Dialog):
         self.Centre()
 
     def InitUI(self):
+        '''Initialises user interface'''
         
         panel = wx.Panel(self,wx.ID_ANY)
 
@@ -72,17 +76,21 @@ class PCAAppearFrame(wx.Dialog):
         panel.SetSizer(hbox)
 
     def OnCombo(self, event):
+        '''Gets values from combobox.'''
         print(self.KeyPlace.GetValue())
        # self.label.SetLabel("selected "+ self.combo.GetValue() +" from Combobox")
 
     def onChecked(self, e):
+        '''Checks if checkbox is selected.'''
         cb = e.GetEventObject() 
         print (cb.GetLabel(),' is clicked',cb.GetValue())
 
     def QuitEvent(self,e):
+        '''Exits frame.'''
         self.Destroy()
 
     def FinishEvent(self, e):
+        '''Outputs all appearence data'''
         print(self.ShowAxes.GetValue())
         print(self.ShowAxisLabels.GetValue())
         print(self.ShowBorder.GetValue())

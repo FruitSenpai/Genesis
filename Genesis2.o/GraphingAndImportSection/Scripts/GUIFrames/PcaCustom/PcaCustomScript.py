@@ -4,6 +4,9 @@ from GUIFrames.PcaCustom.PcaCustomFrame import MyFrame2 as cusClass
 from GUIFrames import DataHolder
 
 class PcaCustom(cusClass):
+    '''
+    The is the class that contains code to run the Pca custom frame.
+    '''
 
     def __init__(self,parent,CurrText,currPage,nb,index):
         cusClass.__init__(self,parent)
@@ -29,6 +32,7 @@ class PcaCustom(cusClass):
         
     #fills combo boxes when frame is created
     def FillBoxes(self,event):
+        '''Fills comboboxes with customisation options'''
         if( hasattr( self.Graph,"_GroupClasses")):
             GroupList = []
             ColourList = ['blue','purple','green','yellow','red','brown','orange','cyan']
@@ -58,13 +62,16 @@ class PcaCustom(cusClass):
             self.Destroy()
 
     def onExit(self,event):
+        '''Exit frame.'''
         self.Destroy()
 
     def SetGroup(self,event):
+        '''Sets group.'''
         self.Group =  self.GroupCombo.Value
         print(self.Group)
 
     def SetColour(self,event):
+        '''Sets colour.'''
         self.Colour =  self.ColourCombo.Value
         print(self.Colour)
 
@@ -74,6 +81,11 @@ class PcaCustom(cusClass):
 
 #Finds correct group, changes the group class amd replots
     def onAccept( self, event ):
+        '''
+        Accepts input data.
+
+        Finds the correct group , changes rhe group class and replots.
+        '''
         GroupList =[]
         for i in range(0,len(self.Graph._GroupClasses)):
             GroupList.append(self.Graph._GroupClasses[i])

@@ -24,6 +24,7 @@ pheWildcard = "phenotype file (*.phe)|*.phe|" \
             "All files (*.*)|*.*"
 
 class PCAFrame(wx.Frame):
+    '''This is the main PCA frame.'''
     
    
     
@@ -42,6 +43,7 @@ class PCAFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelPca")
         
     def InitUI(self):
+        '''Initialise user interface.''''
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -125,18 +127,22 @@ class PCAFrame(wx.Frame):
         panel.SetSizer(vbox)
 
     def AppearFrame(self,event):
+        '''Calls appearence frame.'''
         self.child = AppFrame(self, title='Appearance')
         #self.child.ShowModal()
         self.child.Show()
 
     def Quit(self,event):
+        '''Exits frame'''
         self.Destroy()
         pub.sendMessage('panelListener',message=self._FI)
     
     def OnCombo(self, event):
+        '''Gets values from combobox.'''
         print(self.comboPhe.GetValue())
 
     def onAcceptFile(self,event):
+        '''Takes in file using file dialog.'''
         print('AcceptedData')
         print(self.comboPCA1.Value)
         print(self.comboPCA2.Value)
@@ -166,6 +172,7 @@ class PCAFrame(wx.Frame):
         
 
     def onOpenFile(self, event):
+        '''Gets file path for use.'''
         self.button = event.GetEventObject()
         if self.button.parameterVal == 'Data':
                 wildcard = pcaWildcard
@@ -208,6 +215,7 @@ class PCAFrame(wx.Frame):
         
 #counts coloumns in the file
     def CountColumns(self,val):
+        '''Counts number of columns in input file.'''
         self.Columns.clear()
         with open(self.DataFilePath) as myFile:
             reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
@@ -252,6 +260,7 @@ class PCAFrame(wx.Frame):
             #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):
+        '''Gets panel to display graph.'''
         print("HI")
         self._panel = message
 

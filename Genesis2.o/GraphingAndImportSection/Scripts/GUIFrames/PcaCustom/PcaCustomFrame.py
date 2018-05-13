@@ -15,6 +15,11 @@ import wx.xrc
 ###########################################################################
 
 class MyFrame2 ( wx.Frame ):
+        '''
+        This is the code to generate the Pca custom frame.
+
+        This only contains the code to generate the frame nothing else
+        '''
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"PCA Customization", pos = wx.DefaultPosition, size = wx.Size( 188,221 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )

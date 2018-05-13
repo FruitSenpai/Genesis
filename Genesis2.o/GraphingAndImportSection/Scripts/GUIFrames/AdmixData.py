@@ -3,7 +3,7 @@ import wx
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class AdmixGraphFrame(wx.Frame):
-
+'''  This is the admix graph options frame.'''
 
     def __init__(self, parent, title):
         super(AdmixGraphFrame, self).__init__(parent, title= 'Graph Options', 

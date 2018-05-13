@@ -4,7 +4,7 @@ import csv
 from FileManagement  import ValidityChecker as VC
 wildcard = "All files (*.*)|*.*"
 class PCADataFrame(wx.Dialog):
-
+    '''This is the PCA data options fram.'''
     def __init__(self, parent, title):
         super(PCADataFrame, self).__init__(parent, title= 'Graph Options', 
             size=(250, 350),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
@@ -13,6 +13,7 @@ class PCADataFrame(wx.Dialog):
         self.Centre()
 
     def InitUI(self):
+        '''Initialises user interface.'''
         
         panel = wx.Panel(self,wx.ID_ANY)
 
@@ -55,13 +56,16 @@ class PCADataFrame(wx.Dialog):
         panel.SetSizer(hbox)
 
     def OnCombo(self, event):
+        '''Gets values from combobox'''
         print(self.PCA1.GetValue())
        # self.label.SetLabel("selected "+ self.combo.GetValue() +" from Combobox")
 
     def QuitEvent(self,e):
+        '''Quites frame'''
         self.Destroy()
 
     def PCAAccept(self,event):
+        '''Accepts data options.''''
         print(self.PCA1.GetValue())
         print(self.PCA2.GetValue())
         print(self.PCA3.GetValue())

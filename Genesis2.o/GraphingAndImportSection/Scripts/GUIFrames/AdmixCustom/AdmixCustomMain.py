@@ -15,6 +15,12 @@ import wx.xrc
 ###########################################################################
 
 class AdmixMainMenu ( wx.Frame ):
+        '''
+        Main customisation frame for the admix.
+
+        This frame is used to access the other parts of the admix customisation options.
+        This class only contains the code required to make the frame none of the functionality.
+        '''
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 267,91 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
