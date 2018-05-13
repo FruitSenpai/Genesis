@@ -79,6 +79,9 @@ class windowClass(wx.Frame):
 
         self.currentDirectory = os.getcwd()
 
+        self.sb = self.CreateStatusBar()
+        self.sb.SetStatusText("Genesis2.o")
+
 
     def returnPanel(self):
         return self._panel
@@ -95,10 +98,10 @@ class windowClass(wx.Frame):
         helpButton = wx.Menu()
 
         #File Button options
-        Save_Item = fileButton.Append(wx.ID_ANY,'Save Project','status msg...')
-        Load_Item = fileButton.Append(wx.ID_ANY,'Load Project','status msg...')
-        Export_Item = fileButton.Append(wx.ID_ANY,'Export image','status msg...')
-        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','status msg...')
+        Save_Item = fileButton.Append(wx.ID_ANY,'Save Project','Save Item')
+        Load_Item = fileButton.Append(wx.ID_ANY,'Load Project','Load Item')
+        Export_Item = fileButton.Append(wx.ID_ANY,'Export image','Export Item')
+        Exit_Item = fileButton.Append(wx.ID_ANY,'Exit','Exit')
 
         self.Bind(wx.EVT_TOOL,self.SaveEvent, Save_Item)
         self.Bind(wx.EVT_TOOL,self.LoadEvent, Load_Item)
@@ -119,16 +122,16 @@ class windowClass(wx.Frame):
 
         
         #Graph Button options
-        Data_Options_Item = graphButton.Append(wx.ID_ANY,'Data options','status msg...')#Append new items to buttons
-        Appearance_Options_Item = graphButton.Append(wx.ID_ANY,'Appearence options','status msg...')
-        Delete_Annotations_Item = graphBUtton.Append(wx.ID_ANY,'Delete Annotations','status msg...')
+        Data_Options_Item = graphButton.Append(wx.ID_ANY,'Data options','DataOptions')#Append new items to buttons
+        Appearance_Options_Item = graphButton.Append(wx.ID_ANY,'Appearence options','Appearence Options(Willl be added at a later stage)')
+        Delete_Annotations_Item = graphButton.Append(wx.ID_ANY,'Delete Annotations','Delete Annotations')
         self.Bind(wx.EVT_TOOL,self.AppearenceEvent,  Appearance_Options_Item)
         self.Bind(wx.EVT_TOOL,self.DataOptionsEvent,  Data_Options_Item)
         self.Bind(wx.EVT_TOOL,self.DelAnnotationsEvent,  Delete_Annotations_Item)
         
         #Help Button options
-        Help_Item = helpButton.Append(wx.ID_EXIT,'Help','status msg...')
-        About_Item = helpButton.Append(wx.ID_EXIT,'About','status msg...')
+        Help_Item = helpButton.Append(wx.ID_EXIT,'Help','Help')
+        About_Item = helpButton.Append(wx.ID_EXIT,'About','About')
 
         #Add buttons to menubar
         menuBar.Append(fileButton,'File')
@@ -147,29 +150,29 @@ class windowClass(wx.Frame):
         toolBar = self.CreateToolBar()
         #toolBar.SetBackgroundColour((0xff,0xcc,0xcc))
         #Declare all toolbar buttons
-        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'))
+        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'),shortHelp='Admix')
         self.Bind(wx.EVT_ENTER_WINDOW,self.OnMouseEnter,InputAdmixButton)
         #InputAdmixButton.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
 
-        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'))
+        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'), shortHelp='PCA')
         toolBar.AddSeparator()
-        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'))
-        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/open.bmp'))
+        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'),shortHelp='Save')
+        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/open.bmp'),shortHelp='Open Files')
         toolBar.AddSeparator()
-        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/dataOp.bmp'))
-        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/appearanceOp.bmp'))
-        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/refresh.bmp'))
-        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
-        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/search.bmp'))
-        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
+        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/dataOp.bmp'),shortHelp='Data Options')
+        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/appearanceOp.bmp'), shortHelp='Appearence')
+        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/refresh.bmp'),shortHelp='Refresh')
+        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'),shortHelp='Show/Hide Individual')
+        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/search.bmp'),shortHelp='Search for Individual')
+        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'),shortHelp='Search Hidden Individual')
         toolBar.AddSeparator()
-        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawLine.bmp'))
-        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawArrow.bmp'))
+        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawLine.bmp'),shortHelp='Draw Line')
+        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawArrow.bmp'),shortHelp='Draw Arrow')
         toolBar.AddSeparator()
-        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Export.bmp'))
-        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/closeProject.bmp'))
-        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Undo.bmp'))
-        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/redo.bmp'))
+        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Export.bmp'),shortHelp='Export')
+        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/closeProject.bmp'),shortHelp='Close Project')
+        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Undo.bmp'),shortHelp='Undo')
+        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/redo.bmp'),shortHelp='Redo')
         toolBar.Realize()
         
         #Bind functions to buttons
