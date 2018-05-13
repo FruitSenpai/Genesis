@@ -4,7 +4,9 @@ from wx.lib.pubsub import pub
 import csv
 import matplotlib.pyplot as plt
 from FileManagement.FileImporter import FileImporter
-from GUIFrames import DataHolder 
+from GUIFrames import DataHolder
+from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
+from FileManagement  import ValidityChecker as VC
 '''wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"'''
 
@@ -24,8 +26,8 @@ class ChildFrame(wx.Frame):
    
     
     def __init__(self, parent, title):
-        super(ChildFrame, self).__init__(parent, title= 'admix', 
-            size=(300, 250))
+        super(ChildFrame, self).__init__(parent, title= 'Admix', 
+            size=(300, 325))
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -37,14 +39,12 @@ class ChildFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
-        
-        
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
 
-        #self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-        #self.m_textCtrl1.Value = "Name"
+        self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_textCtrl1.Value = "Name"
 
         self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
@@ -54,8 +54,8 @@ class ChildFrame(wx.Frame):
         hbox = wx.BoxSizer(wx.HORIZONTAL)
 
         
-        fgs = wx.FlexGridSizer(6,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
-        
+        fgs = wx.FlexGridSizer(6,2,15,15)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgsWhole = wx.FlexGridSizer(2,1,15,15)
 
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
@@ -84,17 +84,26 @@ class ChildFrame(wx.Frame):
                      (self.combo,1,wx.EXPAND),
                      (AcceptBtn),
                      (ExitBtn)])
+        fgsWhole.AddMany([(self.m_textCtrl1, 1, wx.EXPAND),
+                     (fgs, 1, wx.EXPAND)
+                     ])
 
-        #fgs.AddGrowableRow(1, 1)
+        #fgs.AddGrowableRow(1, 2)
+        fgsWhole.AddGrowableCol(0,2)
         #fgs.AddGrowableRow(2, 3)
-        fgs.AddGrowableCol(1, 1)
+        fgs.AddGrowableCol(1, 0)
 
-        hbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
+        hbox.Add(fgsWhole, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
         panel.SetSizer(hbox)
 
     def Quit(self,event):
         pub.sendMessage('panelListener',message=self._FI)
         self.Destroy()
+
+    def AppearFrame(self,event):
+        self.child = PCAAppearFrame(self, title='Appearance')
+        #self.child.ShowModal()
+        self.child.Show()
     
     def OnCombo(self, event):
         print(self.combo.GetValue())
@@ -107,7 +116,7 @@ class ChildFrame(wx.Frame):
         print(self.tc3.Value)
         print(self.combo.Value)
         
-        name = "File" + str(self._FI.FindLength())
+        name = self.m_textCtrl1.Value
         col = self.combo.Value.split(' ')
         if(self.tc1.Value != "" and self.tc2.Value != ""):
             try:
@@ -147,15 +156,28 @@ class ChildFrame(wx.Frame):
             
 
             if button.parameterVal == 'Data':
-                #wildcard = admixWildcard
-                self.tc1.SetValue(self.DataFilePath)
+                if(VC.CheckAdmixValid(self.DataFilePath)):
+                    self.tc1.SetValue(self.DataFilePath)
+                    #self.CountColumns()
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
+
             if button.parameterVal == 'Fam':
-                #wildcard = famWildcard
-                self.tc2.SetValue(self.DataFilePath)
+                if(VC.CheckFamValid(self.DataFilePath)):
+                    self.tc2.SetValue(self.DataFilePath)
+                   # self.CountColumns()
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Fam File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
+
             if button.parameterVal == 'Phe':
-                #wildcard = pheWildcard
-                self.tc3.SetValue(self.DataFilePath)
-                self.CountColumns()
+                if(VC.CheckPhenValid(self.DataFilePath)):
+                    self.tc3.SetValue(self.DataFilePath)
+                    self.CountColumns()
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
             
             print(button.parameterVal)
         dlg.Destroy()

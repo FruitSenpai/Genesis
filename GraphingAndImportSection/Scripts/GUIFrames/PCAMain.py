@@ -4,6 +4,8 @@ from wx.lib.pubsub import pub
 import csv
 import sys
 import matplotlib.pyplot as plt
+from GUIFrames.AppearenceFrame import AppearFrame as AppFrame
+from FileManagement  import ValidityChecker as VC
 #print(os.getcwd())
 
 #import FileImporter as fileImp
@@ -27,7 +29,7 @@ class PCAFrame(wx.Frame):
     
     def __init__(self, parent, title):
         super(PCAFrame, self).__init__(parent, title= 'Pca', 
-            size=(300, 600))
+            size=(400, 400),style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER)
 
         #pan = wx.Panel(self,wx.ID_ANY)
         self.currentDirectory = os.getcwd()
@@ -40,8 +42,6 @@ class PCAFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelPca")
         
     def InitUI(self):
-        
-        
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -57,16 +57,24 @@ class PCAFrame(wx.Frame):
         self.comboPhe = wx.ComboBox(panel, choices = self.Columns)
         self.comboPhe.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
-        ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
-        PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
+        self.comboPCA1.Hide()
+        self.comboPCA2.Hide()
+        self.comboPCA3.Hide()
+        self.comboPhe.Hide()
+
+        self.ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
+        self.ColumnLabel.Hide()
+        self.PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
+        self.PheLabel.Hide()
         self.m_textCtrl1.Value = "Name"
 
         vbox = wx.BoxSizer(wx.VERTICAL)
 
-        fgsTop = wx.FlexGridSizer(2,2,10,10)
-        fgs = wx.FlexGridSizer(8,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
-        fgsBotPhe = wx.FlexGridSizer(1,2,10,10)
-        fgsBot = wx.FlexGridSizer(1,2,10,10)
+        fgsTop = wx.FlexGridSizer(2,2,15,15)
+        fgs = wx.FlexGridSizer(8,1,15,15)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgsBotPhe = wx.FlexGridSizer(1,2,15,15)
+        fgsBot = wx.FlexGridSizer(1,2,15,50)
+        fgsBotRight = wx.FlexGridSizer(1,2,15,15)
         
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
@@ -79,6 +87,9 @@ class PCAFrame(wx.Frame):
         AcceptBtn.Bind(wx.EVT_BUTTON, self.onAcceptFile)
         ExitBtn.Bind(wx.EVT_BUTTON, self.Quit)
 
+        NextBtn = wx.Button(panel,wx.ID_ANY, label ='Next')
+        NextBtn.Bind(wx.EVT_BUTTON, self.AppearFrame)
+
         self.tc1 = wx.TextCtrl(panel)
         
         self.tc3 = wx.TextCtrl(panel)
@@ -87,15 +98,18 @@ class PCAFrame(wx.Frame):
                      (OpenPheBtn, 1, wx.EXPAND),( self.tc3, 1, wx.EXPAND)])
                      
 
-        fgsBotPhe.AddMany([(PheLabel,1,wx.EXPAND),
+        fgsBotPhe.AddMany([(self.PheLabel,1,wx.EXPAND),
                          (self.comboPhe,1,wx.EXPAND)
                          ])
-        fgsBot.AddMany([(AcceptBtn),
-                        (ExitBtn)])
+        fgsBot.AddMany([(NextBtn),
+                        (fgsBotRight)])
+
+        fgsBotRight.AddMany([(AcceptBtn),
+                             (ExitBtn)])
 
         fgs.AddMany([( self.m_textCtrl1, 1, wx.EXPAND ),
                      (fgsTop,1,wx.EXPAND),
-                     (ColumnLabel,1,wx.EXPAND),
+                     (self.ColumnLabel,1,wx.EXPAND),
                      (self.comboPCA1,1,wx.EXPAND),
                      (self.comboPCA2,1,wx.EXPAND),
                      (self.comboPCA3,1,wx.EXPAND),
@@ -111,6 +125,11 @@ class PCAFrame(wx.Frame):
 
         vbox.Add(fgs, proportion=2, flag=wx.ALL|wx.EXPAND, border=15)
         panel.SetSizer(vbox)
+
+    def AppearFrame(self,event):
+        self.child = AppFrame(self, title='Appearance')
+        #self.child.ShowModal()
+        self.child.Show()
 
     def Quit(self,event):
         self.Destroy()
@@ -145,13 +164,8 @@ class PCAFrame(wx.Frame):
         except IndexError:
             print("Index Error")
 
-
-        
-        #pub.sendMessage('panelListener',message="Ronan was HEre")
         plt.show()
-        ##I need to give option to put in names ,headings and Name of Graph.
-
-        #self.Destroy()
+        
 
     def onOpenFile(self, event):
         self.button = event.GetEventObject()
@@ -173,13 +187,19 @@ class PCAFrame(wx.Frame):
             self.DataFilePath = dlg.GetPath()
             print ('You chose the following file:')
             print(self.DataFilePath)
-           
-            
-
             if self.button.parameterVal == 'Data':
-                self.tc1.SetValue(self.DataFilePath)
+                if(VC.CheckPcaValid(self.DataFilePath)):
+                    self.tc1.SetValue(self.DataFilePath)
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Admix File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowsModal()
+                    
             if self.button.parameterVal == 'Phe':
-                self.tc3.SetValue(self.DataFilePath)
+                if(VC.CheckPhenValid(self.DataFilePath)):
+                    self.tc3.SetValue(self.DataFilePath)
+                else:
+                    dlg = wx.MessageDialog(None,"Invalid Phe File","ERROR",wx.OK | wx.ICON_ERROR)
+                    dlg.ShowModal()
             
             print(self.button.parameterVal)
 
