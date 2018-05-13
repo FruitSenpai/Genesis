@@ -237,23 +237,29 @@ class windowClass(wx.Frame):
                 #print(baseName)
                 
                 
-                baseList = baseName.split(".")
+                '''baseList = baseName.split(".")
                 print("++"+baseList[0]+"++")
 
                 #update dictionary key for graph and figure
                 graph.setName(baseList[0], windowClass.currentGraphName)
-                print("++--"+graph.getName()+"--++")
+                print("++--"+graph.getName()+"--++")'''
+
                 '''self._DH.Graphs.update({baseName:graph})
                 self._DH.Figures.update({baseName:figure})'''
                 
+                graph.setName(baseName, windowClass.currentGraphName) #in future, just access the old name from the graph class itself...
                 graph.setNotebook(None)
 
                 GraphSaver.saveGraph(graph, filePath)
+                
+                graph.setNotebook(self.plotter)
+                self.plotter.currPage = baseName
 
                 nb = self.plotter.getNoteBook()
                 pageIndex = nb.GetSelection()
                 nb.SetPageText(pageIndex, baseName)
-
+                
+                
         dlg.Destroy()
         
     
@@ -388,18 +394,19 @@ class Plot(wx.Panel):
         self.toolbar.Realize()
 
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(self.canvas, 0, wx.EXPAND)
+        sizer.Add(self.canvas, 1, wx.EXPAND)
         sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
         self.SetSizer(sizer)
         
 
-        self.figure.subplots_adjust(left=0.03, right=0.90, top=1, bottom = 0.3, hspace = 0, wspace = 0)
+        #self.figure.subplots_adjust(left=0.03, right=0.90, top=1, bottom = 0.3, hspace = 0, wspace = 0)
+        self.figure.subplots_adjust(left=0.03, right=0.90, top=0.99, bottom = 0.1)
         
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
-        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))	
+        wx.Panel.__init__(self, parent, id=id,size=(1900,900))	
         self.nb = aui.AuiNotebook(self, size=(2000,900))
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
@@ -420,6 +427,7 @@ class PlotNotebook(wx.Panel):
         print(self.nb.GetPageText(event.GetSelection()))
         
         self.currPage =self.nb.GetPageText(event.GetSelection())
+        print("Current page: " + self.currPage)
         windowClass.currentGraphName = self.nb.GetPageText(event.GetSelection())
         print(self.nb.GetPageText(event.GetSelection()))
         event.Skip()
