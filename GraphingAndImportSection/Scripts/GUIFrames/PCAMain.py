@@ -87,8 +87,7 @@ class PCAFrame(wx.Frame):
         AcceptBtn.Bind(wx.EVT_BUTTON, self.onAcceptFile)
         ExitBtn.Bind(wx.EVT_BUTTON, self.Quit)
 
-        NextBtn = wx.Button(panel,wx.ID_ANY, label ='Next')
-        NextBtn.Bind(wx.EVT_BUTTON, self.AppearFrame)
+       
 
         self.tc1 = wx.TextCtrl(panel)
         
@@ -101,11 +100,10 @@ class PCAFrame(wx.Frame):
         fgsBotPhe.AddMany([(self.PheLabel,1,wx.EXPAND),
                          (self.comboPhe,1,wx.EXPAND)
                          ])
-        fgsBot.AddMany([(NextBtn),
-                        (fgsBotRight)])
+        fgsBot.AddMany([(AcceptBtn),
+                        (ExitBtn)])
 
-        fgsBotRight.AddMany([(AcceptBtn),
-                             (ExitBtn)])
+        
 
         fgs.AddMany([( self.m_textCtrl1, 1, wx.EXPAND ),
                      (fgsTop,1,wx.EXPAND),
@@ -235,12 +233,22 @@ class PCAFrame(wx.Frame):
             self.comboPCA3.Clear()      
             self.comboPCA3.AppendItems (self.Columns)
 
+
+            self.comboPCA1.Show()
+            self.comboPCA2.Show()
+            self.comboPCA3.Show()
+            self.ColumnLabel.Show()
+            self.Size =(401, 401)
+            
             #self.Columns = ['none']
 
         if self.button.parameterVal == 'Phe':
             self.comboPhe.Clear()      
             self.comboPhe.AppendItems (self.Columns)
             self.comboPhe.Value = self.Columns[2]
+            self.comboPhe.Show()
+            self.PheLabel.Show()
+            self.Size =(402, 402)
             #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):

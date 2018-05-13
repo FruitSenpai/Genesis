@@ -23,6 +23,7 @@ class PcaCustom(cusClass):
             wordList = self.Graph._GroupClasses[0].GetColour().split(":")
             self.Colour = wordList[1]
             self.Marker = self.Graph._GroupClasses[0].GetMarker()
+            self._BoxSize = str(self.Graph._GroupClasses[0].GetSize())
         else:
             self.Destroy()
             
@@ -38,6 +39,8 @@ class PcaCustom(cusClass):
             self.GroupCombo.Clear()
             self.ColourCombo.Clear()
             self.MarkerCombo.Clear()
+            self.SizeBox.Value = ""
+            
             
             GroupList = self.Graph._GroupClasses
             print(len(GroupList))
@@ -54,6 +57,8 @@ class PcaCustom(cusClass):
             for i in range(0, len( MarkerList)):            
                 self.MarkerCombo.Append(MarkerList[i])
             self.MarkerCombo.Value = GroupList[0].GetMarker()
+
+            self.SizeBox.Value = str(GroupList[0].GetSize())
         else:
             self.Destroy()
 
@@ -71,6 +76,13 @@ class PcaCustom(cusClass):
     def SetMarker(self,event):
         self.Marker =  self.MarkerCombo.Value
         print(self.Marker)
+
+    def SetSize(self,event):
+        if(int(self.SizeBox.Value)>10 and int(self.SizeBox.Value)<=300):
+            self._BoxSize = self.SizeBox.Value
+        else:
+            self.SizeBox.Value= self._BoxSize
+        
 
 #Finds correct group, changes the group class amd replots
     def onAccept( self, event ):
@@ -96,7 +108,8 @@ class PcaCustom(cusClass):
         print(self.Marker)
         
         GroupList[counter].SetColour(self.Colour) 
-        GroupList[counter].SetMarker(self.Marker)  
+        GroupList[counter].SetMarker(self.Marker)
+        GroupList[counter].SetSize(int(self._BoxSize)) 
         print(GroupList[counter].GetName() + " " +GroupList[counter].GetColour()+" "+GroupList[counter].GetMarker())
         del self.Graph._GroupClasses[counter]
         
