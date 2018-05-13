@@ -10,10 +10,13 @@ from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
 from GUIFrames.PcaCustom.PcaCustomScript import PcaCustom as PcaCustom
+from GUIFrames.AdmixCustom.AdmixCustomMainScript import AdmixMainMenu as admixMM
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
 from Graph import GraphSaver
+from Graph.PcaGraphing.PcaGraph import PcaGraph as PCA
+from Graph.admix.AdmixGraph import AdmixGraph as Admix
 
 ###################Import for embedding 
 import wx.lib.mixins.inspection as wit
@@ -180,11 +183,12 @@ class windowClass(wx.Frame):
     def SaveEvent(self,e):
         #wx.MessageBox('Save file')
         wx.MessageBox('Save')
+        
 
-        ##run through figures and attaches the event function to it
+        '''##run through figures and attaches the event function to it
         for key in self._DH.Figures:
             print(key)
-            self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
+            self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))'''
 
         
     
@@ -202,9 +206,20 @@ class windowClass(wx.Frame):
         print('Pretty things')
         #self.child = AppFrame(self, title='Export as')
         #self.child = PCAAppearFrame(self, title='Export as')
-        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
-        self.child.Show()
+        graph = self._DH.Graphs.get(self.plotter.currPage)
+        if( isinstance( graph , PCA)):
+            self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
+            self.child.Show()
+        elif(isinstance( graph , Admix)):
+            self.child = admixMM(self)
+            self.child.Show()
+            
+        
 
+        #Graph.PcaGraphing.PcaGraph.PcaGraph
+        #Graph.admix.AdmixGraph.AdmixGraph
+
+        
     def RefreshEvent(self,e):
         wx.MessageBox('Refresh file')
 

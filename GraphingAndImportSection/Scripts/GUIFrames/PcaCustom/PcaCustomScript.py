@@ -7,11 +7,17 @@ class PcaCustom(cusClass):
 
     def __init__(self,parent,CurrText,currPage,nb,index):
         cusClass.__init__(self,parent)
+        #Name of currently selected figure
         self.Text =CurrText;
+        #Current graph
         self.Graph = DataHolder.Graphs.get(self.Text)
+        #currPage
         self.currPage = currPage
+        #index for removing
         self.index = index
+        #reference to notebook
         self.nb = nb
+        #Checks if it is a PcaGraph
         if( hasattr( self.Graph,"_GroupClasses")):
             self.Group = self.Graph._GroupClasses[0].GetName()
             wordList = self.Graph._GroupClasses[0].GetColour().split(":")
@@ -21,7 +27,7 @@ class PcaCustom(cusClass):
             self.Destroy()
             
         
-
+    #fills combo boxes when frame is created
     def FillBoxes(self,event):
         if( hasattr( self.Graph,"_GroupClasses")):
             GroupList = []
@@ -37,18 +43,15 @@ class PcaCustom(cusClass):
             print(len(GroupList))
             GroupComboChoices =[]
             for i in GroupList:            
-                #GroupComboChoices.append(i.GetName)
                 self.GroupCombo.Append(i.GetName())
             self.GroupCombo.Value = GroupList[0].GetName()
             
             for i in range(0,len( ColourList)):            
-                #GroupComboChoices.append(i.GetName)
                 self.ColourCombo.Append(ColourList[i])
             wordList = GroupList[0].GetColour().split(":")
             self.ColourCombo.Value = wordList[1]
 
             for i in range(0, len( MarkerList)):            
-                #GroupComboChoices.append(i.GetName)
                 self.MarkerCombo.Append(MarkerList[i])
             self.MarkerCombo.Value = GroupList[0].GetMarker()
         else:
@@ -69,6 +72,7 @@ class PcaCustom(cusClass):
         self.Marker =  self.MarkerCombo.Value
         print(self.Marker)
 
+#Finds correct group, changes the group class amd replots
     def onAccept( self, event ):
         GroupList =[]
         for i in range(0,len(self.Graph._GroupClasses)):

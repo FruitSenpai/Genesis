@@ -92,10 +92,11 @@ class PcaGraph():
                 ##just a check to make sure that we dont plot groups with 0 components
                     if(len(xtemp) >0):
                         self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=20,c= _currGroup.GetColour() )
-                        #COunter is just used to make sure that data marker and colour will not repeat
+                        #Counter is just used to make sure that data marker and colour will not repeat
                         self._Counter = self._Counter+1
 
                     if(FirstTime is True):
+                        
                         self._GroupClasses.append(_currGroup)
                     
 
