@@ -65,7 +65,30 @@ class AdmixGraph:
                 
                 self.setupAncestries()
 
-                self._DH = DataHolder
+        def getGroupColIndex(self):
+            return self.groupColIndex
+
+        def getPhenoColumn(self):
+            return self.groupColIndex + 3
+
+        def setNotebook(self, notebook):
+            self._nb = notebook
+
+        def getName(self):
+            return self._name
+
+        #update name of graph as well as external references
+        def setName(self, newName, oldName):
+            self._name = newName
+
+            #get rid of obsolete dictionary keys
+            figure = DataHolder.Figures.pop(oldName) #generates KeyError if not found
+            graph = DataHolder.Graphs.pop(oldName)
+
+            DataHolder.Graphs.update({newName:self})
+            DataHolder.Figures.update({newName:figure})
+
+                
                 
         
         #create individual objects with id names as well as their admix data
@@ -398,8 +421,8 @@ class AdmixGraph:
                 if phenoCol is not None:
                         self._ax.set_xticks(tickList[1],minor = False)
                         self._ax.set_xticklabels(tickList[0],minor=False)
-                self._DH.Figures.update({self._name:self._fig})
-                self._DH.Graphs.update({self._name:self})
+                DataHolder.Figures.update({self._name:self._fig})
+                DataHolder.Graphs.update({self._name:self})
                         
                
                 
