@@ -9,6 +9,7 @@ from GUIFrames.AdmixData import AdmixGraphFrame as AdmixDataFrame
 from GUIFrames.PCADataFrame import PCADataFrame as PCADataFrame
 from GUIFrames.PCAAppear import PCAAppearFrame as PCAAppearFrame
 from GUIFrames.PCAMain import PCAFrame as PCAFrame
+from GUIFrames.PcaCustom.PcaCustomScript import PcaCustom as PcaCustom
 from GUIFrames import DataHolder
 from Annotation import Annotation as An
 from FileManagement.FileImporter import FileImporter
@@ -19,8 +20,10 @@ import wx.lib.mixins.inspection as wit
 
 if 'phoenix' in wx.PlatformInfo:
     import wx.lib.agw.aui as aui
+    
 else:
     import wx.aui as aui
+    
 
 import matplotlib as mpl
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
@@ -195,9 +198,11 @@ class windowClass(wx.Frame):
         self.child.Show()
 
     def AppearenceEvent(self,e):
+        print(self.plotter.currPage+"--")
         print('Pretty things')
-        self.child = AppFrame(self, title='Export as')
+        #self.child = AppFrame(self, title='Export as')
         #self.child = PCAAppearFrame(self, title='Export as')
+        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb)
         self.child.Show()
 
     def RefreshEvent(self,e):
@@ -238,6 +243,9 @@ class windowClass(wx.Frame):
 
     def RedoEvent(self,e):
         wx.MessageBox('Redo')
+        for key in self._DH.Graphs:
+            print(key)
+        
 
     def LoadEvent(self, e):
         wx.MessageBox('Load Files')
@@ -273,6 +281,9 @@ class Plot(wx.Panel):
         sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
         self.SetSizer(sizer)
         
+
+        self.figure.subplots_adjust(left=0.03,right=0.90,top=1, bottom = 0.3)
+        
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
@@ -282,6 +293,7 @@ class PlotNotebook(wx.Panel):
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
         self.SetSizer(sizer)
+        self.currPage = None
 
         self.nb.Bind(aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.onTabChange)
 
@@ -294,6 +306,7 @@ class PlotNotebook(wx.Panel):
         """tab = event.EventObject.GetChildren()[event.Selection]
         print("Tab name: " + tab.GetName())"""
         print(self.nb.GetPageText(event.GetSelection()))
+        self.currPage =self.nb.GetPageText(event.GetSelection())
         event.Skip()
 
 

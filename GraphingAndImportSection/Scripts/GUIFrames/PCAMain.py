@@ -46,6 +46,8 @@ class PCAFrame(wx.Frame):
 
         self.Columns = []
 
+        self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        
         self.comboPCA1 = wx.ComboBox(panel, choices = self.Columns)
         self.comboPCA1.Bind(wx.EVT_COMBOBOX, self.OnCombo)
         self.comboPCA2 = wx.ComboBox(panel, choices = self.Columns)
@@ -57,11 +59,12 @@ class PCAFrame(wx.Frame):
 
         ColumnLabel = wx.StaticText(panel,label = "Select PCAs")
         PheLabel = wx.StaticText(panel,label = "Which Column is the phenotype")
+        self.m_textCtrl1.Value = "Name"
 
         vbox = wx.BoxSizer(wx.VERTICAL)
 
         fgsTop = wx.FlexGridSizer(2,2,10,10)
-        fgs = wx.FlexGridSizer(7,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        fgs = wx.FlexGridSizer(8,1,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
         fgsBotPhe = wx.FlexGridSizer(1,2,10,10)
         fgsBot = wx.FlexGridSizer(1,2,10,10)
         
@@ -90,7 +93,8 @@ class PCAFrame(wx.Frame):
         fgsBot.AddMany([(AcceptBtn),
                         (ExitBtn)])
 
-        fgs.AddMany([(fgsTop,1,wx.EXPAND),
+        fgs.AddMany([( self.m_textCtrl1, 1, wx.EXPAND ),
+                     (fgsTop,1,wx.EXPAND),
                      (ColumnLabel,1,wx.EXPAND),
                      (self.comboPCA1,1,wx.EXPAND),
                      (self.comboPCA2,1,wx.EXPAND),
@@ -123,8 +127,9 @@ class PCAFrame(wx.Frame):
         print(self.comboPhe.Value)
         print(self.tc1.Value)
         print(self.tc3.Value)
+        print(self.m_textCtrl1.Value)
 
-        name = "File" + str(self._FI.FindLength())
+        name = self.m_textCtrl1.Value
         pheCol = self.comboPhe.Value.split(' ')
         Col1 = self.comboPCA1.Value.split(' ')
         Col2 = self.comboPCA2.Value.split(' ')
