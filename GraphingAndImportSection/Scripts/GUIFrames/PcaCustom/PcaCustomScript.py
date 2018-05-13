@@ -5,11 +5,12 @@ from GUIFrames import DataHolder
 
 class PcaCustom(cusClass):
 
-    def __init__(self,parent,CurrText,currPage,nb):
+    def __init__(self,parent,CurrText,currPage,nb,index):
         cusClass.__init__(self,parent)
         self.Text =CurrText;
         self.Graph = DataHolder.Graphs.get(self.Text)
         self.currPage = currPage
+        self.index = index
         self.nb = nb
         if( hasattr( self.Graph,"_GroupClasses")):
             self.Group = self.Graph._GroupClasses[0].GetName()
@@ -101,7 +102,7 @@ class PcaCustom(cusClass):
         print(self.Graph._GroupClasses[counter].GetName() + " " +self.Graph._GroupClasses[counter].GetColour()+" "+self.Graph._GroupClasses[counter].GetMarker())
         
         self.Graph.PlotPca(False)
-        self.currPage.Destroy()
+        self.nb.DeletePage(self.index)
         self.Destroy()
 
         

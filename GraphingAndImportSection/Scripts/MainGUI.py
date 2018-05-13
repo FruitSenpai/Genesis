@@ -202,7 +202,7 @@ class windowClass(wx.Frame):
         print('Pretty things')
         #self.child = AppFrame(self, title='Export as')
         #self.child = PCAAppearFrame(self, title='Export as')
-        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb)
+        self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
         self.child.Show()
 
     def RefreshEvent(self,e):
@@ -306,6 +306,7 @@ class PlotNotebook(wx.Panel):
         """tab = event.EventObject.GetChildren()[event.Selection]
         print("Tab name: " + tab.GetName())"""
         print(self.nb.GetPageText(event.GetSelection()))
+        
         self.currPage =self.nb.GetPageText(event.GetSelection())
         event.Skip()
 
