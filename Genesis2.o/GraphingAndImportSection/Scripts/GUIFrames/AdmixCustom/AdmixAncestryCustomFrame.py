@@ -15,13 +15,16 @@ import wx.xrc
 ###########################################################################
 
 class AdmixAncestryCustom ( wx.Frame ):
-	'''
+        '''
         This is the Admix Ancestory Customisation Frame.
 
         It only contains  the code to generate the frame.
         '''
+	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = wx.EmptyString, pos = wx.DefaultPosition, size = wx.Size( 253,204 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+
+		self.SetWindowStyle(wx.STAY_ON_TOP)
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -29,7 +32,7 @@ class AdmixAncestryCustom ( wx.Frame ):
 		gbSizer2.SetFlexibleDirection( wx.BOTH )
 		gbSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.Anc_Label = wx.StaticText( self, wx.ID_ANY, u"Ancestry", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.Anc_Label = wx.StaticText( self, wx.ID_ANY, u"Ancestor", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.Anc_Label.Wrap( -1 )
 		gbSizer2.Add( self.Anc_Label, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -78,8 +81,11 @@ class AdmixAncestryCustom ( wx.Frame ):
 		self.SortDom_Button = wx.Button( self, wx.ID_ANY, u"Sort By Dominance", wx.DefaultPosition, wx.Size( 235,-1 ), 0 )
 		gbSizer2.Add( self.SortDom_Button, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 4 ), wx.ALL, 5 )
 		
-		self.Dom_CheckBox = wx.CheckBox( self, wx.ID_ANY, u"Most Dominant First", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.Dom_CheckBox = wx.CheckBox( self, wx.ID_ANY, u"Most to least dominant", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer2.Add( self.Dom_CheckBox, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 4 ), wx.ALL, 5 )
+
+		self.ExitButton = wx.Button( self, wx.ID_ANY, u"Exit", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.ExitButton, wx.GBPosition( 5, 2 ), wx.GBSpan( 1, 3 ), wx.ALL, 5 )
 		
 		
 		self.SetSizer( gbSizer2 )
@@ -91,11 +97,12 @@ class AdmixAncestryCustom ( wx.Frame ):
 		self.Bind( wx.EVT_ACTIVATE, self.FillColours )
 		self.Anc_ButtonLeft.Bind( wx.EVT_BUTTON, self.PrevAncestry )
 		self.Anc_ButtonRight.Bind( wx.EVT_BUTTON, self.NextAncestry )
-		self.order_ButtonLeft.Bind( wx.EVT_BUTTON, self.ShiftAncestryLeft )
-		self.Order_ButtonRight.Bind( wx.EVT_BUTTON, self.ShiftAncestryRight )
+		self.order_ButtonLeft.Bind( wx.EVT_BUTTON, self.ShiftAncestryDown )
+		self.Order_ButtonRight.Bind( wx.EVT_BUTTON, self.ShiftAncestryUp )
 		self.Colour_ComboBox.Bind( wx.EVT_COMBOBOX, self.SetColour )
 		self.SortDom_Button.Bind( wx.EVT_BUTTON, self.SortByAncestryDominance )
 		self.Dom_CheckBox.Bind( wx.EVT_CHECKBOX, self.ChangeSortDirection )
+		self.ExitButton.Bind( wx.EVT_BUTTON, self.Exit )
 	
 	def __del__( self ):
 		pass
@@ -111,10 +118,10 @@ class AdmixAncestryCustom ( wx.Frame ):
 	def NextAncestry( self, event ):
 		event.Skip()
 	
-	def ShiftAncestryLeft( self, event ):
+	def ShiftAncestryDown( self, event ):
 		event.Skip()
 	
-	def ShiftAncestryRight( self, event ):
+	def ShiftAncestryUp( self, event ):
 		event.Skip()
 	
 	def SetColour( self, event ):
@@ -125,5 +132,8 @@ class AdmixAncestryCustom ( wx.Frame ):
 	
 	def ChangeSortDirection( self, event ):
 		event.Skip()
+
+	def Exit(self,event):
+                self.Destroy()
 	
 

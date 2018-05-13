@@ -32,7 +32,6 @@ class ChildFrame(wx.Frame):
    
     
     def __init__(self, parent, title):
-       
         super(ChildFrame, self).__init__(parent, title= 'Admix', 
             size=(300, 325))
 
@@ -46,7 +45,7 @@ class ChildFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
-        '''Initilises user interface.'''
+         '''Initilises user interface.'''
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -141,10 +140,11 @@ class ChildFrame(wx.Frame):
         else:
             print("No Fam and Data File")
         plt.show()
+        self.Destroy()
         
 
     def onOpenFile(self, event):
-        '''Opens file dialog to get input data.'''
+         '''Opens file dialog to get input data.'''
         button = event.GetEventObject()
         if button.parameterVal == 'Data':
                 wildcard = admixWildcard
@@ -196,7 +196,7 @@ class ChildFrame(wx.Frame):
         dlg.Destroy()
 
     def CountColumns(self):
-        '''Counts number of columns in input file.'''
+         '''Counts number of columns in input file.'''
         with open(self.DataFilePath) as myFile:
             reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
             first_row = next(reader)
@@ -215,6 +215,5 @@ class ChildFrame(wx.Frame):
         #self.Columns = ['none']
 
     def GetPanel(self,message, arg2 = None):
-        '''Gets panel to display data.'''
         print("HI")
         self._panel = message

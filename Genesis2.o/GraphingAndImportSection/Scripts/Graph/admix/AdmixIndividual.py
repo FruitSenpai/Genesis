@@ -17,8 +17,12 @@ class AdmixIndividual:
 		self.id2 = id2
 		self.admixData = admixData
 		self.groups = []
+		self.hidden = False
 	
 	#add group name to group list
 	def addGroup(self, groupName):
 		self.groups.append(groupName)
+
+	def setHidden(self, hide):
+		self.hidden = hide
 	

@@ -4,10 +4,12 @@ class AdmixAncestry:
 	dominance = 0
 	orderInData = 0
 
-	def __init__(self, order, col):
+	def __init__(self, name, orderData, orderGraph, col):
+		self.name = name
 		self.colour = col
 		self.dominance = 0
-		self.orderInData = order
+		self.orderInData = orderData
+		self.orderInGraph = orderGraph
 
 	def setColour(self, col):
 		self.colour = col
