@@ -42,6 +42,10 @@ class ChildFrame(wx.Frame):
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
+
+        #self.m_textCtrl1 = wx.TextCtrl( panel, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+        #self.m_textCtrl1.Value = "Name"
+
         self.combo = wx.ComboBox(panel, choices = self.Columns)
         self.combo.Bind(wx.EVT_COMBOBOX, self.OnCombo)
 
@@ -49,7 +53,9 @@ class ChildFrame(wx.Frame):
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-        fgs = wx.FlexGridSizer(5,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        
+        fgs = wx.FlexGridSizer(6,2,10,10)#Wx.FlexiGridSizer(rows, cols, vgap, hgap)
+        
 
         OpenFileBtn = wx.Button(panel,wx.ID_ANY, label ='Import Data File')
         OpenFileBtn.parameterVal = 'Data'
