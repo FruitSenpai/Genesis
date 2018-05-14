@@ -11,7 +11,7 @@ from Graph.admix.AdmixGroup import AdmixGroup
 from GUIFrames import DataHolder
 
 class AdmixGraph:
-
+        """Used to store attributes and functions which control admixture graphs."""
         #list of all individuals represented in graph
         individualList = []
         
@@ -38,13 +38,13 @@ class AdmixGraph:
         colourList = ["red", "blue", "orange", "green", "yellow", "purple", "brown", "pink", "cyan"]
 
         def __init__(self, individualData, famData,nb, name, phenoData= None):
-                
+                """Initializes an AdmixGraph object along with its properties."""
                 self.individualList = []
                 #self.groupList = []
-                self.admixGroupList = []
+                self.admixGroupList = [] #list of all groups present in this graph
                 self.groupOrder = []            
                 self.groupColIndex = 0
-                self.ancestryList = []
+                self.ancestryList = [] #list of all ancestries present in this graph
                 self.ancestryOrder = []
                 self.numAncestries = len(individualData[0])
                 self._nb = nb
@@ -66,19 +66,24 @@ class AdmixGraph:
                 self.setupAncestries()
 
         def getGroupColIndex(self):
+            """Returns the current group column index."""
             return self.groupColIndex
 
         def getPhenoColumn(self):
+            """Returns the current phenotype column."""
             return self.groupColIndex + 3
 
         def setNotebook(self, notebook):
+            """Sets a reference to the notebook which stores this graph's figure."""
             self._nb = notebook
 
         def getName(self):
+            """Returns the name of this graph."""
             return self._name
 
         #update name of graph as well as external references
         def setName(self, newName, oldName):
+            """Set the name of this graph and remove all references to the old name in external data structures"""
             self._name = newName
 
             #get rid of obsolete dictionary keys
@@ -91,16 +96,16 @@ class AdmixGraph:
                 
                 
         
-        #create individual objects with id names as well as their admix data
         def addIndividuals(self, individualData, famData):
+                """Create individual objects with id names as well as their admix data."""
                 for i in range(len(individualData)):                    
                                 person = AdmixIndividual(famData[i][0], famData[i][1], individualData[i])
                                 self.individualList.append(person)
 
         
-        #for each individual, find their entry in the phenotype data and assign them their corresponding groups (pheno dependent)
+        
         def addGroups(self, phenotypeData):
-                
+                """For each individual, find their entry in the phenotype data and assign them their corresponding groups (pheno dependent)."""
                 for person in self.individualList:
                         firstId = person.id1
                         secondId = person.id2
@@ -117,6 +122,7 @@ class AdmixGraph:
                                                 self.checkGroupExistence(colIndex - 2, person, group) #check if the group we're adding is in the graph's global group list
         
         def setupAncestries(self):
+                """Setup all the ancestries using the length of a single individual's admixData list."""
                 for i in range(self.numAncestries):
                         ancestry = AdmixAncestry("Anc." + str(i), i, i, AdmixGraph.colourList[i % self.numAncestries])
                         self.ancestryList.append(ancestry)
@@ -130,8 +136,9 @@ class AdmixGraph:
                         self.ancestryList[i].setDominance(dominance)
                                                 
         
-        #if the specified group name doesn't yet exist in the specified column in the global group list, add the group (pheno dependent). If it exists, increment the group's dominance
+        
         def checkGroupExistence(self, listColIndex, person, groupName):
+                """If the specified group name doesn't yet exist in the specified column in the global group list, add the group (pheno dependent). If it exists, increment the group's dominance."""        
                 exist = False
                 
                 for group in self.admixGroupList[listColIndex]:
@@ -149,12 +156,12 @@ class AdmixGraph:
         
 	
         def setGroupHidden(self, indexInOrder, hide):
+                """Set the visibility of the selected group."""
                 group = self.admixGroupList[self.groupColIndex][indexInOrder]
                 group.setGroupHidden(hide)
 
-        #sort individuals by the order dictated by their group order values (should go least to most)
         def sortByGroupOrder(self):
-                
+                """Sort individuals by the order dictated by their ascending group order values."""
                 groupDic = {}
                 
                 #setup group dictionary
@@ -175,12 +182,10 @@ class AdmixGraph:
                                         
                                 
 
-        #sorts individuals by group alphabetical order (currently does reverse alphabetical order) (pheno dependent) (WON'T WORK WITH NEW STRUCTURE)
-        def sortByGroupAlpha(self, listToSort, groupCol):
-                listToSort.sort(key=lambda person: person.groups[groupCol], reverse = True)
         
 
         def sortByGroupAlphaV2(self):
+                """Sorts individuals by group alphabetical order (pheno dependent)."""
                 #reassign group orders
                 for i in range(len(self.admixGroupList[self.groupColIndex]) - 1):
                         for j in range(i, len(self.admixGroupList[self.groupColIndex])):
@@ -199,75 +204,53 @@ class AdmixGraph:
                 self.sortByGroupOrder()
 
 
-        #sorts individuals by group dominance (most dominant to least dominant group) (pheno dependent)
-        def sortByGroupDominance(self, listToSort, groupCol):
-                
-                #stores the dominance values for each group
-                dominanceDic = {}
-
-                #initialize dominance list values
-                for group in self.groupList[groupCol]:
-                        dominanceDic[group] = 0
-
-                #sum individuals to find group dominance
-                for person in listToSort:
-                        #if this person's group is in the dictionary, increment that group's dominance
-                        if (person.groups[groupCol]) in dominanceDic:
-                                dominanceDic[person.groups[groupCol]] += 1
-
-                        else:
-                                print("there's a problem here")
-
-                #sort group by dominance now using the dominance dictionary
-                for i in range(len(listToSort) - 1):
-                        for j in range(i, len(listToSort)):
-                                groupI = listToSort[i].groups[groupCol]
-                                groupJ = listToSort[j].groups[groupCol]
-                                
-                                
-                                if(dominanceDic[groupI] < dominanceDic[groupJ]):
-                                        tempPerson = listToSort[i]
-                                        listToSort[i] = listToSort[j]
-                                        listToSort[j] = tempPerson
-
         
                 
         
         def sortByGroupDominanceV2(self, mostToLeast):
-                
-                #reassign group orders
-                for i in range(len(self.admixGroupList[self.groupColIndex]) - 1):
-                        for j in range(i, len(self.admixGroupList[self.groupColIndex])):
-                                admixGroupI = self.admixGroupList[self.groupColIndex][i]
-                                admixGroupJ = self.admixGroupList[self.groupColIndex][j]
+                """Sorts individuals by group dominance (pheno dependent)."""
+                success = False
+
+                try:
+                        #reassign group orders in a selection sort
+                        for i in range(len(self.admixGroupList[self.groupColIndex]) - 1):
+                                for j in range(i, len(self.admixGroupList[self.groupColIndex])):
+                                        admixGroupI = self.admixGroupList[self.groupColIndex][i]
+                                        admixGroupJ = self.admixGroupList[self.groupColIndex][j]
                                 
-                                if mostToLeast:
-                                        if(admixGroupI.dominance < admixGroupJ.dominance):
-                                               tempGroup = self.admixGroupList[self.groupColIndex][i]
-                                               self.admixGroupList[self.groupColIndex][i] = self.admixGroupList[self.groupColIndex][j]
-                                               self.admixGroupList[self.groupColIndex][j] = tempGroup
+                                        if mostToLeast:
+                                               if(admixGroupI.dominance < admixGroupJ.dominance):
+                                                       tempGroup = self.admixGroupList[self.groupColIndex][i]
+                                                       self.admixGroupList[self.groupColIndex][i] = self.admixGroupList[self.groupColIndex][j]
+                                                       self.admixGroupList[self.groupColIndex][j] = tempGroup
 
-                                               admixGroupI.orderInGraph = j
-                                               admixGroupJ.orderInGraph = i
-                                else:
-                                        if(admixGroupI.dominance > admixGroupJ.dominance):
-                                               tempGroup = self.admixGroupList[self.groupColIndex][i]
-                                               self.admixGroupList[self.groupColIndex][i] = self.admixGroupList[self.groupColIndex][j]
-                                               self.admixGroupList[self.groupColIndex][j] = tempGroup
+                                                       admixGroupI.orderInGraph = j
+                                                       admixGroupJ.orderInGraph = i
+                                        else:
+                                               if(admixGroupI.dominance > admixGroupJ.dominance):
+                                                       tempGroup = self.admixGroupList[self.groupColIndex][i]
+                                                       self.admixGroupList[self.groupColIndex][i] = self.admixGroupList[self.groupColIndex][j]
+                                                       self.admixGroupList[self.groupColIndex][j] = tempGroup
 
-                                               admixGroupI.orderInGraph = j
-                                               admixGroupJ.orderInGraph = i
+                                                       admixGroupI.orderInGraph = j
+                                                       admixGroupJ.orderInGraph = i
                                   
                                         
 
                                         
-
-                #after group orders are reassigned, sort the actual data
-                self.sortByGroupOrder()
+                        #after group orders are reassigned, sort the actual data
+                        self.sortByGroupOrder()
+                        success = True
+                except ValueError:
+                        success = False
+                
+                return success
 
 
         def shiftGroupUp(self, index):
+                """Shifts the selected group further up in the graph."""
                 success = False
+                #check if the specified group is already in the last position
                 if (index + 1) < len(self.admixGroupList[self.groupColIndex]): 
                     prevIndex = index
                     nextIndex = index + 1
@@ -286,7 +269,9 @@ class AdmixGraph:
                 return success
 
         def shiftGroupDown(self, index):
+                """Shifts the selected group further down in the graph."""
                 success = False
+                #check if the specified group is already in the first position
                 if (index > 0): 
                     currIndex = index
                     previousIndex = index - 1
@@ -303,78 +288,47 @@ class AdmixGraph:
                     success = True
 
                 return success
-		
-        #sorts admix data columns by dominant ancestry (sorts least to most dominant)
-        def sortByAncestryDominance(self, listToSort):
-                
-                ancestrySumList = []
-                
-                #initialize the ancestry columns in ancestry sum list to 0
-                firstPersonData = listToSort[0]
-                for value in firstPersonData:
-                        ancestrySumList.append(0)
-                
-                #sum total points for each ancestry
-                for personData in listToSort:
-                        for index in range(len(personData)):
-                                ancestrySumList[index] += personData[index]
-                
-                """#print sums before sorting
-                for sum in ancestrySumList:
-                        print(sum)"""
-
-                #sort based on ancestry points (better way to do this?)
-                for i in range(len(ancestrySumList) - 1):
-                        for j in range(i, len(ancestrySumList)):
-                                if(ancestrySumList[i] > ancestrySumList[j]):
-                                        tempSumList = ancestrySumList[i]
-                                        ancestrySumList[i] = ancestrySumList[j]
-                                        ancestrySumList[j] = tempSumList
-                                        
-                                        for person in listToSort:
-                                                tempVal = person[i]
-                                                person[i] = person[j]
-                                                person[j] = tempVal
-
-                                        """tempValList = listToSort[i]
-                                        listToSort[i] = listToSort[j]
-                                        listToSort[j] = tempValList"""
-
-                """#print sums after sorting
-                for sum in ancestrySumList:
-                        print(sum)"""           
+		           
         
         #sorts least to most dominant
         def sortByAncestryDominanceV2(self, mostToLeast):
-                
-                for i in range(len(self.ancestryList) - 1):
-                        for j in range(i, len(self.ancestryList)):
+                """Sorts admix data columns by dominant ancestry."""
+                success = False
+                try:
+                        for i in range(len(self.ancestryList) - 1):
+                                for j in range(i, len(self.ancestryList)):
 
-                                if mostToLeast:
-                                        if(self.ancestryList[i].dominance < self.ancestryList[j].dominance):
-                                                tempAncestry = self.ancestryList[i]
-                                                self.ancestryList[i] = self.ancestryList[j]
-                                                self.ancestryList[j] = tempAncestry
+                                        if mostToLeast:
+                                                if(self.ancestryList[i].dominance < self.ancestryList[j].dominance):
+                                                        tempAncestry = self.ancestryList[i]
+                                                        self.ancestryList[i] = self.ancestryList[j]
+                                                        self.ancestryList[j] = tempAncestry
 
-                                                tempOrder = self.ancestryList[i].orderInGraph
-                                                self.ancestryList[i].orderInGraph = self.ancestryList[j].orderInGraph
-                                                self.ancestryList[j].orderInGraph = tempOrder
-                                else:
-                                        if(self.ancestryList[i].dominance > self.ancestryList[j].dominance):
-                                                tempAncestry = self.ancestryList[i]
-                                                self.ancestryList[i] = self.ancestryList[j]
-                                                self.ancestryList[j] = tempAncestry
+                                                        tempOrder = self.ancestryList[i].orderInGraph
+                                                        self.ancestryList[i].orderInGraph = self.ancestryList[j].orderInGraph
+                                                        self.ancestryList[j].orderInGraph = tempOrder
+                                        else:
+                                                if(self.ancestryList[i].dominance > self.ancestryList[j].dominance):
+                                                        tempAncestry = self.ancestryList[i]
+                                                        self.ancestryList[i] = self.ancestryList[j]
+                                                        self.ancestryList[j] = tempAncestry
 
-                                                tempOrder = self.ancestryList[i].orderInGraph
-                                                self.ancestryList[i].orderInGraph = self.ancestryList[j].orderInGraph
-                                                self.ancestryList[j].orderInGraph = tempOrder
+                                                        tempOrder = self.ancestryList[i].orderInGraph
+                                                        self.ancestryList[i].orderInGraph = self.ancestryList[j].orderInGraph
+                                                        self.ancestryList[j].orderInGraph = tempOrder
+                        success = True
+                except ValueError:
+                        success = False
+                return success
 
 
                 
                 
 
         def shiftAncestryUp(self, index):
+                """Shifts the selected ancestry further up in the graph."""
                 success = False
+                #check if the specified ancestry is already in the last position
                 if (index + 1) < len(self.ancestryList): 
                     prevIndex = index
                     nextIndex = index + 1
@@ -392,7 +346,9 @@ class AdmixGraph:
                 return success
 
         def shiftAncestryDown(self, index):
+                """Shifts the selected ancestry further down in the graph."""
                 success = False
+                #check if the specified ancestry is already in the first position
                 if (index > 0): 
                     currIndex = index
                     previousIndex = index - 1
@@ -410,13 +366,9 @@ class AdmixGraph:
                 return success
 
 
-        def returnGraphData(self):
-                data = ""
                 
-        
-        #finds where each group begins in the list so that it's known where to place group labels on the graphs (pheno dependent)
         def findGroupPositions(self, pplList, groupIndex):
-                
+                """Finds where each group begins in the list so that it's known where to place group labels on the graphs (pheno dependent)."""
                 #the first column contains group names and the other the positions of the corresponding group
                 posList = [[], []] #groupName-position pair
                 currGroup = ""
@@ -428,29 +380,11 @@ class AdmixGraph:
                                 posList[1].append(pIndex)
 
                 return posList
-        '''
-        def testGroups(self):
-                
-                for i in range(len(self.admixGroupList[self.groupColIndex])):
-                        group = self.admixGroupList[self.groupColIndex][i]
-                        print(str(i) + ":\t" + str(group.orderInGraph) + "\t" + group.name + "\t" + str(group.dominance))
+        
 
-                """for i in range(len(self.admixGroupList[self.groupColIndex])):
-                        group = self.admixGroupList[self.groupColIndex][i]
-                        print(group.name + "\t" + str(group.orderInGraph) + "\t" + str(group.dominance))"""
-                
-
-        def testAncestries(self):
-                for i in range(len(self.ancestryList)):
-                        ancestry = self.ancestryList[i]
-                        print(str(i) + ":\t" + str(ancestry.orderInData) + "\t" + ancestry.colour + "\t" + str(ancestry.dominance))
-                """for i in range(len(self.ancestryList)):
-                        ancestry = self.ancestryList[i]
-                        print(ancestry.colour + "\t" + str(ancestry.orderInGraph) + "\t" + str(self.ancestryOrder[i]) + "\t" + str(ancestry.dominance))"""
-'''
-        #plot the graph 
+        #plot the graph
         def plotGraph(self, isFirstTime, phenoCol= None):
-                
+                """Plots the graph onto a figure"""
                 if phenoCol is not None:
                         self.groupColIndex = phenoCol - 3
                 
@@ -460,8 +394,6 @@ class AdmixGraph:
                         if isFirstTime:
                             self.sortByGroupAlphaV2()
 
-                #self.setGroupHidden(3, True)
-                #self.setGroupHidden(1, True)
                 
                 indList = copy.deepcopy(self.individualList) #clone the individuals list because we need to scale the values and hide some people
 
@@ -493,9 +425,6 @@ class AdmixGraph:
                 for i in range(len(personList)):
                         processedAdmixList.append(personList[i].admixData)
 
-                #before stacking values, sort by dominance
-                #self.sortByAncestryDominance(processedAdmixList)
-                #self.sortByAncestryDominanceV2()
                 
                 #format data for plotting functions
                 rotatedList = np.column_stack(processedAdmixList) #stack each individual's ancestry data as a single column
@@ -520,15 +449,10 @@ class AdmixGraph:
                 for i in range(0, self.numAncestries):
                         #replace i index in ancestryList with index of ancestry order
                         #ancestryColours.append(self.ancestryList[self.ancestryOrder[i]].colour)
-                        ancestryColours[i] = self.ancestryList[i].colour #also works, wrap head around later (did it though?)
+                        ancestryColours[i] = self.ancestryList[i].colour
                         #ancestryColours[self.ancestryList[i].orderInData] = self.ancestryList[self.ancestryList[i].orderInData].colour #this makes some more sense?
                 
-                
-                #self.testGroups()
-                #self.testAncestries()
-                #colorList[0] = 'C3'
-                #plot on the stack plot
-                #replace "figure2" with name so multiple can be plotted        
+                        
                 self._fig = self._nb.add(self._name)
                 self._ax = self._fig.gca()
                 self._ax.stackplot(individuals_x, individuals_y, colors = ancestryColours)
@@ -538,6 +462,7 @@ class AdmixGraph:
                         self._ax.set_xticklabels(tickList[0],minor=False)
                 DataHolder.Figures.update({self._name:self._fig})
                 DataHolder.Graphs.update({self._name:self})
+                self._ax.set_title(self._name)
                         
                
                 

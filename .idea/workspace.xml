@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bd4dc5e0-1463-47f5-81b9-ea577ab8ce2f" name="Default" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/Genesis$Genesis2.coverage" NAME="Genesis2 Coverage Results" MODIFIED="1526337809282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Genesis/Scripts" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="Genesis2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Genesis/Scripts/Genesis2.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="Python/#C:/Users/Athena II/Documents/GitHub/Genesis/Genesis/Scripts" pinned="false" current-in-tab="true">
+        <entry file="uml://Python/#C:/Users/Athena II/Documents/GitHub/Genesis/Genesis/Scripts">
+          <provider selected="true" editor-type-id="UmlEditorProvider">
+            <state>
+              <ID>Python</ID>
+              <OriginalElement>#C:/Users/Athena II/Documents/GitHub/Genesis/Genesis/Scripts</OriginalElement>
+              <nodes>
+                <node x="1749.6460317460314" y="475.0">wx.core.Panel</node>
+                <node x="2006.1460317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu</node>
+                <node x="1401.8960317460314" y="475.0">wx.core.NonOwnedWindow</node>
+                <node x="3506.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom</node>
+                <node x="1705.1460317460314" y="159.0">wx.core.Object</node>
+                <node x="2551.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom</node>
+                <node x="1070.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomFrame.AdmixAncestryCustom</node>
+                <node x="3014.0" y="762.0">Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomFrame.MyFrame2</node>
+                <node x="287.75" y="633.0">wx.core.Dialog</node>
+                <node x="1974.3571428571436" y="633.0">wx.core.Frame</node>
+                <node x="1622.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixMain.ChildFrame</node>
+                <node x="2544.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMain.AdmixMainMenu</node>
+                <node x="1631.6460317460314" y="396.0">wx.core.Window</node>
+                <node x="0.0" y="762.0">Genesis.Scripts.GUIFrames.PCAAppear.PCAAppearFrame</node>
+                <node x="2191.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixData.AdmixGraphFrame</node>
+                <node x="2338.8960317460314" y="159.0">Genesis.Scripts.Graph.PcaGraphing.PcaGroup.PcaGroup</node>
+                <node x="351.0" y="762.0">Genesis.Scripts.GUIFrames.PCADataFrame.PCADataFrame</node>
+                <node x="2818.5210317460314" y="159.0">Genesis.Scripts.Graph.admix.AdmixGraph.AdmixGraph</node>
+                <node x="1408.3960317460314" y="554.0">wx.core.TopLevelWindow</node>
+                <node x="5094.896031746031" y="159.0">Genesis.Scripts.FileManagement.File.File</node>
+                <node x="2963.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom</node>
+                <node x="4510.146031746031" y="238.0">Genesis.Scripts.test_saveAndLoad.test_FileImporter</node>
+                <node x="1595.3960317460314" y="554.0">Genesis.Scripts.Genesis2.Plot</node>
+                <node x="5698.896031746031" y="159.0">Genesis.Scripts.FileManagement.FileImporter.FileImporter</node>
+                <node x="2201.1460317460314" y="159.0">mainMenu</node>
+                <node x="4548.896031746031" y="159.0">Genesis.Scripts.Graph.admix.AdmixIndividual.AdmixIndividual</node>
+                <node x="3161.3960317460314" y="159.0">Group</node>
+                <node x="1559.1460317460314" y="159.0">wx.core.Trackable</node>
+                <node x="1798.3960317460314" y="554.0">Genesis.Scripts.Genesis2.PlotNotebook</node>
+                <node x="5358.896031746031" y="159.0">Genesis.Scripts.Graph.admix.AdmixGroup.AdmixGroup</node>
+                <node x="3846.8960317460314" y="159.0">Genesis.Scripts.Graph.PcaGraphing.PcaGraph.PcaGraph</node>
+                <node x="3424.0" y="762.0">Genesis.Scripts.GUIFrames.PCAMain.PCAFrame</node>
+                <node x="5141.146031746031" y="238.0">Genesis.Scripts.test_ValidityChecker.test_ValidityChecker</node>
+                <node x="3726.0" y="762.0">Genesis.Scripts.GUIFrames.ExportFrame.ExportFrame</node>
+                <node x="4829.146031746031" y="238.0">Genesis.Scripts.test_FileImporter.test_FileImporter</node>
+                <node x="4190.896031746031" y="159.0">Genesis.Scripts.FileManagement.FileManager.FileManager</node>
+                <node x="4054.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomFrame.GroupFrame</node>
+                <node x="1619.6460317460314" y="317.0">wx.core.WindowBase</node>
+                <node x="1624.6460317460314" y="238.0">wx.core.EvtHandler</node>
+                <node x="5489.1460317460305" y="238.0">Genesis.Scripts.test_Graph.test_Graph</node>
+                <node x="1835.1460317460314" y="159.0">Genesis.Scripts.Graph.admix.AdmixAncestry.AdmixAncestry</node>
+                <node x="1940.0" y="762.0">Genesis.Scripts.Genesis2.windowClass</node>
+                <node x="3715.8960317460314" y="159.0">AncestryFrame</node>
+                <node x="2684.8960317460314" y="159.0">cusClass</node>
+                <node x="3169.175" y="0.0">object</node>
+                <node x="4926.896031746031" y="159.0">unittest.case.TestCase</node>
+                <node x="707.0" y="762.0">Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame</node>
+              </nodes>
+              <notes />
+              <edges>
+                <edge source="mainMenu" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2246.1460317460314" y="89.0" />
+                  <point x="3181.813888888889" y="89.0" />
+                  <point x="-19.861111111111313" y="14.5" />
+                </edge>
+                <edge source="wx.core.Object" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1760.1460317460314" y="69.0" />
+                  <point x="3174.591666666667" y="69.0" />
+                  <point x="-27.08333333333303" y="14.5" />
+                </edge>
+                <edge source="wx.core.NonOwnedWindow" target="wx.core.Window">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1491.8960317460314" y="450.0" />
+                  <point x="1661.3960317460314" y="450.0" />
+                  <point x="-29.75" y="14.5" />
+                </edge>
+                <edge source="wx.core.TopLevelWindow" target="wx.core.NonOwnedWindow">
+                  <point x="0.0" y="-14.5" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="wx.core.Frame" target="wx.core.TopLevelWindow">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2028.3571428571436" y="608.0" />
+                  <point x="1533.6460317460314" y="608.0" />
+                  <point x="41.75" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu" target="mainMenu">
+                  <point x="0.0" y="-14.5" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomFrame.GroupFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="4285.5" y="682.0" />
+                  <point x="2076.9571428571435" y="682.0" />
+                  <point x="48.59999999999991" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixMain.ChildFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1771.0" y="742.0" />
+                  <point x="2001.3571428571436" y="742.0" />
+                  <point x="-27.0" y="14.5" />
+                </edge>
+                <edge source="wx.core.Window" target="wx.core.WindowBase">
+                  <point x="0.0" y="-14.5" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="AncestryFrame" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="3771.3960317460314" y="119.0" />
+                  <point x="3207.091666666667" y="119.0" />
+                  <point x="5.41666666666697" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu" target="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu">
+                  <point x="0.0" y="14.5" />
+                  <point x="2246.1460317460314" y="287.0" />
+                  <point x="1986.1460317460314" y="287.0" />
+                  <point x="1986.1460317460314" y="252.5" />
+                  <point x="-240.0" y="-0.0" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom" target="cusClass">
+                  <point x="-98.0" y="-14.5" />
+                  <point x="2649.8960317460314" y="218.0" />
+                  <point x="2723.3960317460314" y="218.0" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="cusClass" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2723.3960317460314" y="109.0" />
+                  <point x="3189.0361111111115" y="109.0" />
+                  <point x="-12.638888888888687" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PCAMain.PCAFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="3565.0" y="702.0" />
+                  <point x="2055.3571428571436" y="702.0" />
+                  <point x="27.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.test_saveAndLoad.test_FileImporter" target="unittest.case.TestCase">
+                  <point x="4.547473508864641E-13" y="-14.5" />
+                  <point x="4659.646031746031" y="218.0" />
+                  <point x="4945.396031746031" y="218.0" />
+                  <point x="-55.5" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Genesis2.windowClass" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2055.5" y="742.0" />
+                  <point x="2012.1571428571438" y="742.0" />
+                  <point x="-16.199999999999818" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.test_FileImporter.test_FileImporter" target="unittest.case.TestCase">
+                  <point x="0.0" y="-14.5" />
+                  <point x="4975.146031746031" y="218.0" />
+                  <point x="4982.396031746031" y="218.0" />
+                  <point x="-18.5" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.test_Graph.test_Graph" target="unittest.case.TestCase">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5603.1460317460305" y="208.0" />
+                  <point x="5056.396031746031" y="208.0" />
+                  <point x="55.5" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Genesis2.PlotNotebook" target="wx.core.Panel">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1916.3960317460314" y="529.0" />
+                  <point x="1827.6460317460314" y="529.0" />
+                  <point x="26.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom" target="Group">
+                  <point x="-125.75" y="-14.5" />
+                  <point x="3089.6460317460314" y="218.0" />
+                  <point x="3193.8960317460314" y="218.0" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom" target="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom">
+                  <point x="0.0" y="14.5" />
+                  <point x="3771.3960317460314" y="287.0" />
+                  <point x="3486.8960317460314" y="287.0" />
+                  <point x="3486.8960317460314" y="252.5" />
+                  <point x="-264.5" y="-0.0" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="878.5" y="722.0" />
+                  <point x="1979.7571428571437" y="722.0" />
+                  <point x="-48.59999999999991" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.PcaGraphing.PcaGraph.PcaGraph" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="4008.8960317460314" y="109.0" />
+                  <point x="3210.7027777777776" y="109.0" />
+                  <point x="9.027777777777374" y="14.5" />
+                </edge>
+                <edge source="wx.core.EvtHandler" target="wx.core.Object">
+                  <point x="33.25" y="-14.5" />
+                  <point x="1724.3960317460314" y="218.0" />
+                  <point x="1760.1460317460314" y="218.0" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMain.AdmixMainMenu" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2769.0" y="722.0" />
+                  <point x="2033.7571428571437" y="722.0" />
+                  <point x="5.400000000000091" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.test_ValidityChecker.test_ValidityChecker" target="unittest.case.TestCase">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5305.146031746031" y="218.0" />
+                  <point x="5019.396031746031" y="218.0" />
+                  <point x="18.5" y="14.5" />
+                </edge>
+                <edge source="wx.core.Panel" target="wx.core.Window">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1801.6460317460314" y="450.0" />
+                  <point x="1720.8960317460314" y="450.0" />
+                  <point x="29.75" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomFrame.MyFrame2" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="3209.0" y="712.0" />
+                  <point x="2044.5571428571434" y="712.0" />
+                  <point x="16.199999999999818" y="14.5" />
+                </edge>
+                <edge source="wx.core.EvtHandler" target="wx.core.Trackable">
+                  <point x="-33.25" y="-14.5" />
+                  <point x="1657.8960317460314" y="218.0" />
+                  <point x="1622.1460317460314" y="218.0" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Genesis2.Plot" target="wx.core.Panel">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1686.8960317460314" y="529.0" />
+                  <point x="1775.6460317460314" y="529.0" />
+                  <point x="-26.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.FileManagement.File.File" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5216.896031746031" y="69.0" />
+                  <point x="3225.147222222223" y="69.0" />
+                  <point x="23.472222222222626" y="14.5" />
+                </edge>
+                <edge source="wx.core.Trackable" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1622.1460317460314" y="59.0" />
+                  <point x="3170.980555555556" y="59.0" />
+                  <point x="-30.694444444444343" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.admix.AdmixIndividual.AdmixIndividual" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="4727.896031746031" y="89.0" />
+                  <point x="3217.925" y="89.0" />
+                  <point x="16.25" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom" target="object">
+                  <point x="98.0" y="-14.5" />
+                  <point x="2845.8960317460314" y="218.0" />
+                  <point x="2772.3960317460314" y="218.0" />
+                  <point x="2772.3960317460314" y="119.0" />
+                  <point x="3192.647222222223" y="119.0" />
+                  <point x="-9.027777777777374" y="14.5" />
+                </edge>
+                <edge source="wx.core.Dialog" target="wx.core.TopLevelWindow">
+                  <point x="0.0" y="-14.5" />
+                  <point x="342.25" y="608.0" />
+                  <point x="1450.1460317460314" y="608.0" />
+                  <point x="-41.75" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PCADataFrame.PCADataFrame" target="wx.core.Dialog">
+                  <point x="0.0" y="-14.5" />
+                  <point x="519.0" y="742.0" />
+                  <point x="369.5" y="742.0" />
+                  <point x="27.25" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.FileManagement.FileManager.FileManager" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="4359.896031746031" y="99.0" />
+                  <point x="3214.313888888889" y="99.0" />
+                  <point x="12.638888888888687" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.FileManagement.FileImporter.FileImporter" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5866.896031746031" y="49.0" />
+                  <point x="3232.3694444444445" y="49.0" />
+                  <point x="30.694444444444343" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.admix.AdmixAncestry.AdmixAncestry" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2008.1460317460314" y="79.0" />
+                  <point x="3178.2027777777776" y="79.0" />
+                  <point x="-23.472222222222626" y="14.5" />
+                </edge>
+                <edge source="wx.core.WindowBase" target="wx.core.EvtHandler">
+                  <point x="0.0" y="-14.5" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="unittest.case.TestCase" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5000.896031746031" y="79.0" />
+                  <point x="3221.5361111111115" y="79.0" />
+                  <point x="19.861111111111313" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.PCAAppear.PCAAppearFrame" target="wx.core.Dialog">
+                  <point x="0.0" y="-14.5" />
+                  <point x="165.5" y="742.0" />
+                  <point x="315.0" y="742.0" />
+                  <point x="-27.25" y="14.5" />
+                </edge>
+                <edge source="Group" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="3193.8960317460314" y="139.0" />
+                  <point x="3199.8694444444445" y="139.0" />
+                  <point x="-1.8055555555556566" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.PcaGraphing.PcaGroup.PcaGroup" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2501.8960317460314" y="99.0" />
+                  <point x="3185.425" y="99.0" />
+                  <point x="-16.25" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.admix.AdmixGroup.AdmixGroup" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="5518.896031746031" y="59.0" />
+                  <point x="3228.758333333333" y="59.0" />
+                  <point x="27.08333333333303" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom" target="AncestryFrame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="0.0" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.Graph.admix.AdmixGraph.AdmixGraph" target="object">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2977.5210317460314" y="129.0" />
+                  <point x="3196.258333333333" y="129.0" />
+                  <point x="-5.41666666666697" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomFrame.AdmixAncestryCustom" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="1336.0" y="732.0" />
+                  <point x="1990.5571428571434" y="732.0" />
+                  <point x="-37.80000000000018" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom" target="object">
+                  <point x="125.75" y="-14.5" />
+                  <point x="3341.1460317460314" y="218.0" />
+                  <point x="3236.8960317460314" y="218.0" />
+                  <point x="3236.8960317460314" y="129.0" />
+                  <point x="3203.480555555556" y="129.0" />
+                  <point x="1.8055555555556566" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.ExportFrame.ExportFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="3880.0" y="692.0" />
+                  <point x="2066.1571428571438" y="692.0" />
+                  <point x="37.80000000000018" y="14.5" />
+                </edge>
+                <edge source="Genesis.Scripts.GUIFrames.AdmixData.AdmixGraphFrame" target="wx.core.Frame">
+                  <point x="0.0" y="-14.5" />
+                  <point x="2357.5" y="732.0" />
+                  <point x="2022.9571428571435" y="732.0" />
+                  <point x="-5.400000000000091" y="14.5" />
+                </edge>
+              </edges>
+              <settings layout="Hierarchic Group" zoom="0.17142857142857143" x="3017.5" y="1247.1666666666667" />
+              <SelectedNodes>
+                <node>Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame</node>
+              </SelectedNodes>
+              <Categories />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="284" />
+    <option name="y" value="68" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Genesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Genesis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Genesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Genesis" type="462c0819:PsiDirectoryNode" />
+              <item name="Genesis" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Genesis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Genesis" type="462c0819:PsiDirectoryNode" />
+              <item name="Genesis" type="462c0819:PsiDirectoryNode" />
+              <item name="Scripts" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Genesis2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Genesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Genesis/Scripts" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Genesis/Scripts/Genesis2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Genesis2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bd4dc5e0-1463-47f5-81b9-ea577ab8ce2f" name="Default" comment="" />
+      <created>1526337699749</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1526337699749</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="284" y="68" width="1400" height="1000" extended-state="0" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3299435" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="SciView" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="uml://JavaScript-modules-diagram/C:/Users/Athena II/Documents/GitHub/Genesis">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JavaScript-modules-diagram</ID>
+          <OriginalElement>$PROJECT_DIR$</OriginalElement>
+          <nodes />
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="519.0" y="270.5" />
+          <SelectedNodes />
+          <Categories>
+            <Category>All</Category>
+          </Categories>
+          <VISIBILITY>Details</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Genesis/Scripts/Genesis2.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="uml://Python/#C:/Users/Athena II/Documents/GitHub/Genesis/Genesis/Scripts">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Python</ID>
+          <OriginalElement>#C:/Users/Athena II/Documents/GitHub/Genesis/Genesis/Scripts</OriginalElement>
+          <nodes>
+            <node x="1749.6460317460314" y="475.0">wx.core.Panel</node>
+            <node x="2006.1460317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu</node>
+            <node x="1401.8960317460314" y="475.0">wx.core.NonOwnedWindow</node>
+            <node x="3506.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom</node>
+            <node x="1705.1460317460314" y="159.0">wx.core.Object</node>
+            <node x="2551.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom</node>
+            <node x="1070.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomFrame.AdmixAncestryCustom</node>
+            <node x="3014.0" y="762.0">Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomFrame.MyFrame2</node>
+            <node x="287.75" y="633.0">wx.core.Dialog</node>
+            <node x="1974.3571428571436" y="633.0">wx.core.Frame</node>
+            <node x="1622.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixMain.ChildFrame</node>
+            <node x="2544.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMain.AdmixMainMenu</node>
+            <node x="1631.6460317460314" y="396.0">wx.core.Window</node>
+            <node x="0.0" y="762.0">Genesis.Scripts.GUIFrames.PCAAppear.PCAAppearFrame</node>
+            <node x="2191.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixData.AdmixGraphFrame</node>
+            <node x="2338.8960317460314" y="159.0">Genesis.Scripts.Graph.PcaGraphing.PcaGroup.PcaGroup</node>
+            <node x="351.0" y="762.0">Genesis.Scripts.GUIFrames.PCADataFrame.PCADataFrame</node>
+            <node x="2818.5210317460314" y="159.0">Genesis.Scripts.Graph.admix.AdmixGraph.AdmixGraph</node>
+            <node x="1408.3960317460314" y="554.0">wx.core.TopLevelWindow</node>
+            <node x="5094.896031746031" y="159.0">Genesis.Scripts.FileManagement.File.File</node>
+            <node x="2963.8960317460314" y="238.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom</node>
+            <node x="4510.146031746031" y="238.0">Genesis.Scripts.test_saveAndLoad.test_FileImporter</node>
+            <node x="1595.3960317460314" y="554.0">Genesis.Scripts.Genesis2.Plot</node>
+            <node x="5698.896031746031" y="159.0">Genesis.Scripts.FileManagement.FileImporter.FileImporter</node>
+            <node x="2201.1460317460314" y="159.0">mainMenu</node>
+            <node x="4548.896031746031" y="159.0">Genesis.Scripts.Graph.admix.AdmixIndividual.AdmixIndividual</node>
+            <node x="3161.3960317460314" y="159.0">Group</node>
+            <node x="1559.1460317460314" y="159.0">wx.core.Trackable</node>
+            <node x="1798.3960317460314" y="554.0">Genesis.Scripts.Genesis2.PlotNotebook</node>
+            <node x="5358.896031746031" y="159.0">Genesis.Scripts.Graph.admix.AdmixGroup.AdmixGroup</node>
+            <node x="3846.8960317460314" y="159.0">Genesis.Scripts.Graph.PcaGraphing.PcaGraph.PcaGraph</node>
+            <node x="3424.0" y="762.0">Genesis.Scripts.GUIFrames.PCAMain.PCAFrame</node>
+            <node x="5141.146031746031" y="238.0">Genesis.Scripts.test_ValidityChecker.test_ValidityChecker</node>
+            <node x="3726.0" y="762.0">Genesis.Scripts.GUIFrames.ExportFrame.ExportFrame</node>
+            <node x="4829.146031746031" y="238.0">Genesis.Scripts.test_FileImporter.test_FileImporter</node>
+            <node x="4190.896031746031" y="159.0">Genesis.Scripts.FileManagement.FileManager.FileManager</node>
+            <node x="4054.0" y="762.0">Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomFrame.GroupFrame</node>
+            <node x="1619.6460317460314" y="317.0">wx.core.WindowBase</node>
+            <node x="1624.6460317460314" y="238.0">wx.core.EvtHandler</node>
+            <node x="5489.1460317460305" y="238.0">Genesis.Scripts.test_Graph.test_Graph</node>
+            <node x="1835.1460317460314" y="159.0">Genesis.Scripts.Graph.admix.AdmixAncestry.AdmixAncestry</node>
+            <node x="1940.0" y="762.0">Genesis.Scripts.Genesis2.windowClass</node>
+            <node x="3715.8960317460314" y="159.0">AncestryFrame</node>
+            <node x="2684.8960317460314" y="159.0">cusClass</node>
+            <node x="3169.175" y="0.0">object</node>
+            <node x="4926.896031746031" y="159.0">unittest.case.TestCase</node>
+            <node x="707.0" y="762.0">Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="mainMenu" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="2246.1460317460314" y="89.0" />
+              <point x="3181.813888888889" y="89.0" />
+              <point x="-19.861111111111313" y="14.5" />
+            </edge>
+            <edge source="wx.core.Object" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="1760.1460317460314" y="69.0" />
+              <point x="3174.591666666667" y="69.0" />
+              <point x="-27.08333333333303" y="14.5" />
+            </edge>
+            <edge source="wx.core.NonOwnedWindow" target="wx.core.Window">
+              <point x="0.0" y="-14.5" />
+              <point x="1491.8960317460314" y="450.0" />
+              <point x="1661.3960317460314" y="450.0" />
+              <point x="-29.75" y="14.5" />
+            </edge>
+            <edge source="wx.core.TopLevelWindow" target="wx.core.NonOwnedWindow">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="wx.core.Frame" target="wx.core.TopLevelWindow">
+              <point x="0.0" y="-14.5" />
+              <point x="2028.3571428571436" y="608.0" />
+              <point x="1533.6460317460314" y="608.0" />
+              <point x="41.75" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu" target="mainMenu">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomFrame.GroupFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="4285.5" y="682.0" />
+              <point x="2076.9571428571435" y="682.0" />
+              <point x="48.59999999999991" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixMain.ChildFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="1771.0" y="742.0" />
+              <point x="2001.3571428571436" y="742.0" />
+              <point x="-27.0" y="14.5" />
+            </edge>
+            <edge source="wx.core.Window" target="wx.core.WindowBase">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="AncestryFrame" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="3771.3960317460314" y="119.0" />
+              <point x="3207.091666666667" y="119.0" />
+              <point x="5.41666666666697" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu" target="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMainScript.AdmixMainMenu">
+              <point x="0.0" y="14.5" />
+              <point x="2246.1460317460314" y="287.0" />
+              <point x="1986.1460317460314" y="287.0" />
+              <point x="1986.1460317460314" y="252.5" />
+              <point x="-240.0" y="-0.0" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom" target="cusClass">
+              <point x="-98.0" y="-14.5" />
+              <point x="2649.8960317460314" y="218.0" />
+              <point x="2723.3960317460314" y="218.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="cusClass" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="2723.3960317460314" y="109.0" />
+              <point x="3189.0361111111115" y="109.0" />
+              <point x="-12.638888888888687" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PCAMain.PCAFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="3565.0" y="702.0" />
+              <point x="2055.3571428571436" y="702.0" />
+              <point x="27.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.test_saveAndLoad.test_FileImporter" target="unittest.case.TestCase">
+              <point x="4.547473508864641E-13" y="-14.5" />
+              <point x="4659.646031746031" y="218.0" />
+              <point x="4945.396031746031" y="218.0" />
+              <point x="-55.5" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Genesis2.windowClass" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="2055.5" y="742.0" />
+              <point x="2012.1571428571438" y="742.0" />
+              <point x="-16.199999999999818" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.test_FileImporter.test_FileImporter" target="unittest.case.TestCase">
+              <point x="0.0" y="-14.5" />
+              <point x="4975.146031746031" y="218.0" />
+              <point x="4982.396031746031" y="218.0" />
+              <point x="-18.5" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.test_Graph.test_Graph" target="unittest.case.TestCase">
+              <point x="0.0" y="-14.5" />
+              <point x="5603.1460317460305" y="208.0" />
+              <point x="5056.396031746031" y="208.0" />
+              <point x="55.5" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Genesis2.PlotNotebook" target="wx.core.Panel">
+              <point x="0.0" y="-14.5" />
+              <point x="1916.3960317460314" y="529.0" />
+              <point x="1827.6460317460314" y="529.0" />
+              <point x="26.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom" target="Group">
+              <point x="-125.75" y="-14.5" />
+              <point x="3089.6460317460314" y="218.0" />
+              <point x="3193.8960317460314" y="218.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom" target="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom">
+              <point x="0.0" y="14.5" />
+              <point x="3771.3960317460314" y="287.0" />
+              <point x="3486.8960317460314" y="287.0" />
+              <point x="3486.8960317460314" y="252.5" />
+              <point x="-264.5" y="-0.0" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="878.5" y="722.0" />
+              <point x="1979.7571428571437" y="722.0" />
+              <point x="-48.59999999999991" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.PcaGraphing.PcaGraph.PcaGraph" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="4008.8960317460314" y="109.0" />
+              <point x="3210.7027777777776" y="109.0" />
+              <point x="9.027777777777374" y="14.5" />
+            </edge>
+            <edge source="wx.core.EvtHandler" target="wx.core.Object">
+              <point x="33.25" y="-14.5" />
+              <point x="1724.3960317460314" y="218.0" />
+              <point x="1760.1460317460314" y="218.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixCustomMain.AdmixMainMenu" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="2769.0" y="722.0" />
+              <point x="2033.7571428571437" y="722.0" />
+              <point x="5.400000000000091" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.test_ValidityChecker.test_ValidityChecker" target="unittest.case.TestCase">
+              <point x="0.0" y="-14.5" />
+              <point x="5305.146031746031" y="218.0" />
+              <point x="5019.396031746031" y="218.0" />
+              <point x="18.5" y="14.5" />
+            </edge>
+            <edge source="wx.core.Panel" target="wx.core.Window">
+              <point x="0.0" y="-14.5" />
+              <point x="1801.6460317460314" y="450.0" />
+              <point x="1720.8960317460314" y="450.0" />
+              <point x="29.75" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomFrame.MyFrame2" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="3209.0" y="712.0" />
+              <point x="2044.5571428571434" y="712.0" />
+              <point x="16.199999999999818" y="14.5" />
+            </edge>
+            <edge source="wx.core.EvtHandler" target="wx.core.Trackable">
+              <point x="-33.25" y="-14.5" />
+              <point x="1657.8960317460314" y="218.0" />
+              <point x="1622.1460317460314" y="218.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Genesis2.Plot" target="wx.core.Panel">
+              <point x="0.0" y="-14.5" />
+              <point x="1686.8960317460314" y="529.0" />
+              <point x="1775.6460317460314" y="529.0" />
+              <point x="-26.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.FileManagement.File.File" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="5216.896031746031" y="69.0" />
+              <point x="3225.147222222223" y="69.0" />
+              <point x="23.472222222222626" y="14.5" />
+            </edge>
+            <edge source="wx.core.Trackable" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="1622.1460317460314" y="59.0" />
+              <point x="3170.980555555556" y="59.0" />
+              <point x="-30.694444444444343" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.admix.AdmixIndividual.AdmixIndividual" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="4727.896031746031" y="89.0" />
+              <point x="3217.925" y="89.0" />
+              <point x="16.25" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PcaCustom.PcaCustomScript.PcaCustom" target="object">
+              <point x="98.0" y="-14.5" />
+              <point x="2845.8960317460314" y="218.0" />
+              <point x="2772.3960317460314" y="218.0" />
+              <point x="2772.3960317460314" y="119.0" />
+              <point x="3192.647222222223" y="119.0" />
+              <point x="-9.027777777777374" y="14.5" />
+            </edge>
+            <edge source="wx.core.Dialog" target="wx.core.TopLevelWindow">
+              <point x="0.0" y="-14.5" />
+              <point x="342.25" y="608.0" />
+              <point x="1450.1460317460314" y="608.0" />
+              <point x="-41.75" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PCADataFrame.PCADataFrame" target="wx.core.Dialog">
+              <point x="0.0" y="-14.5" />
+              <point x="519.0" y="742.0" />
+              <point x="369.5" y="742.0" />
+              <point x="27.25" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.FileManagement.FileManager.FileManager" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="4359.896031746031" y="99.0" />
+              <point x="3214.313888888889" y="99.0" />
+              <point x="12.638888888888687" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.FileManagement.FileImporter.FileImporter" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="5866.896031746031" y="49.0" />
+              <point x="3232.3694444444445" y="49.0" />
+              <point x="30.694444444444343" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.admix.AdmixAncestry.AdmixAncestry" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="2008.1460317460314" y="79.0" />
+              <point x="3178.2027777777776" y="79.0" />
+              <point x="-23.472222222222626" y="14.5" />
+            </edge>
+            <edge source="wx.core.WindowBase" target="wx.core.EvtHandler">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="unittest.case.TestCase" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="5000.896031746031" y="79.0" />
+              <point x="3221.5361111111115" y="79.0" />
+              <point x="19.861111111111313" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.PCAAppear.PCAAppearFrame" target="wx.core.Dialog">
+              <point x="0.0" y="-14.5" />
+              <point x="165.5" y="742.0" />
+              <point x="315.0" y="742.0" />
+              <point x="-27.25" y="14.5" />
+            </edge>
+            <edge source="Group" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="3193.8960317460314" y="139.0" />
+              <point x="3199.8694444444445" y="139.0" />
+              <point x="-1.8055555555556566" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.PcaGraphing.PcaGroup.PcaGroup" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="2501.8960317460314" y="99.0" />
+              <point x="3185.425" y="99.0" />
+              <point x="-16.25" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.admix.AdmixGroup.AdmixGroup" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="5518.896031746031" y="59.0" />
+              <point x="3228.758333333333" y="59.0" />
+              <point x="27.08333333333303" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomScript.AdmixAncestryCustom" target="AncestryFrame">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.Graph.admix.AdmixGraph.AdmixGraph" target="object">
+              <point x="0.0" y="-14.5" />
+              <point x="2977.5210317460314" y="129.0" />
+              <point x="3196.258333333333" y="129.0" />
+              <point x="-5.41666666666697" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixAncestryCustomFrame.AdmixAncestryCustom" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="1336.0" y="732.0" />
+              <point x="1990.5571428571434" y="732.0" />
+              <point x="-37.80000000000018" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixCustom.AdmixGroupCustomScript.AdmixGroupCustom" target="object">
+              <point x="125.75" y="-14.5" />
+              <point x="3341.1460317460314" y="218.0" />
+              <point x="3236.8960317460314" y="218.0" />
+              <point x="3236.8960317460314" y="129.0" />
+              <point x="3203.480555555556" y="129.0" />
+              <point x="1.8055555555556566" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.ExportFrame.ExportFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="3880.0" y="692.0" />
+              <point x="2066.1571428571438" y="692.0" />
+              <point x="37.80000000000018" y="14.5" />
+            </edge>
+            <edge source="Genesis.Scripts.GUIFrames.AdmixData.AdmixGraphFrame" target="wx.core.Frame">
+              <point x="0.0" y="-14.5" />
+              <point x="2357.5" y="732.0" />
+              <point x="2022.9571428571435" y="732.0" />
+              <point x="-5.400000000000091" y="14.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="0.17142857142857143" x="3017.5" y="1247.1666666666667" />
+          <SelectedNodes>
+            <node>Genesis.Scripts.GUIFrames.AppearenceFrame.AppearFrame</node>
+          </SelectedNodes>
+          <Categories />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

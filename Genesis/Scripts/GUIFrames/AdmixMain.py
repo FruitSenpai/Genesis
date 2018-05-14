@@ -22,6 +22,12 @@ pheWildcard = "phenotype file (*.phe)|*.phe|" \
             "All files (*.*)|*.*"
 
 class ChildFrame(wx.Frame):
+    '''
+    This is the primary admix frame for generating a new admix graph.
+
+    This contains functionality to generate the interactable window and is linked to
+    functions to fetch and process the input data
+    '''
     
    
     
@@ -39,6 +45,8 @@ class ChildFrame(wx.Frame):
         pub.subscribe(self.GetPanel, "GetPanelAdmix")
         
     def InitUI(self):
+        '''Initilises user interface.'''
+         
         panel = wx.Panel(self,wx.ID_ANY)
 
         self.Columns = []
@@ -97,27 +105,28 @@ class ChildFrame(wx.Frame):
         panel.SetSizer(hbox)
 
     def Quit(self,event):
+        ''' Exits frame.'''
         pub.sendMessage('panelListener',message=self._FI)
         self.Destroy()
 
     def AppearFrame(self,event):
+        '''Opens appearence settings.'''
         self.child = PCAAppearFrame(self, title='Appearance')
         #self.child.ShowModal()
         self.child.Show()
     
     def OnCombo(self, event):
+        '''Gets values from combobox.'''
         print(self.combo.GetValue())
        # self.label.SetLabel("selected "+ self.combo.GetValue() +" from Combobox") 
 
     def onAcceptFile(self,event):
-        print('AcceptedData')
-        print(self.tc1.Value)
-        print(self.tc2.Value)
-        print(self.tc3.Value)
-        print(self.combo.Value)
-        
+        '''Accepts input data'''
+
+        #get coloumn no. by spliting name
         name = self.m_textCtrl1.Value
         col = self.combo.Value.split(' ')
+        #check for phen data and making sure that data has been inputted
         if(self.tc1.Value != "" and self.tc2.Value != ""):
             try:
                 if (self.tc3.Value != ""):
@@ -133,6 +142,7 @@ class ChildFrame(wx.Frame):
         
 
     def onOpenFile(self, event):
+        '''Opens file dialog to get input data.'''
         button = event.GetEventObject()
         if button.parameterVal == 'Data':
                 wildcard = admixWildcard
@@ -184,6 +194,7 @@ class ChildFrame(wx.Frame):
         dlg.Destroy()
 
     def CountColumns(self):
+        '''Counts number of columns in input file.'''
         with open(self.DataFilePath) as myFile:
             reader = csv.reader(myFile,delimiter=' ', skipinitialspace = True )
             first_row = next(reader)

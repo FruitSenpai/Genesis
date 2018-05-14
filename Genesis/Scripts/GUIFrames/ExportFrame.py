@@ -3,6 +3,9 @@ import wx
 wildcard = "Python source (*.py)|*.py|" \
             "All files (*.*)|*.*"
 class ExportFrame(wx.Frame):
+    '''
+    This frame is used to export the graph
+    '''
 
     def __init__(self, parent, title):
         super(ExportFrame, self).__init__(parent, title= 'Export as', 
@@ -12,6 +15,7 @@ class ExportFrame(wx.Frame):
         self.Centre()
 
     def InitUI(self):
+        ''' Initialises user interface'''
         
         panel = wx.Panel(self,wx.ID_ANY)
 

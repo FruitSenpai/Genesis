@@ -5,6 +5,9 @@ from Graph.PcaGraphing.PcaGraph import PcaGraph as PCA
 from GUIFrames import DataHolder
 
 class PcaCustom(cusClass):
+    '''
+    The is the class that contains code to run the Pca custom frame.
+    '''
 
     def __init__(self,parent,CurrText,currPage,nb,index):
         cusClass.__init__(self,parent)
@@ -29,20 +32,23 @@ class PcaCustom(cusClass):
         
     #fills combo boxes when frame is created
     def FillBoxes(self,event):
-        
+        '''Fills comboboxes with customisation options'''
+
+        #Create lists
         GroupList = []
         ColourList = ['blue','purple','green','yellow','red','brown','orange','cyan']
         MarkerList = ['o','^','v','p','*','s','P','8','X']
-        #self.Graph = DataHolder.Graphs.get(self.Figure)
-
+        
+        #Clear combo boxes
         self.GroupCombo.Clear()
         self.ColourCombo.Clear()
         self.MarkerCombo.Clear()
         self.SizeBox.Value = ""
             
-            
+        
         GroupList = self.Graph._GroupClasses
-        print(len(GroupList))
+
+        #Fill various boxes with the needed data
         GroupComboChoices =[]
         for i in GroupList:            
             self.GroupCombo.Append(i.GetName())
@@ -61,13 +67,16 @@ class PcaCustom(cusClass):
 
 
     def onExit(self,event):
+        '''Exit frame.'''
         self.Destroy()
 
     def SetGroup(self,event):
+        '''Sets group.'''
         self.Group =  self.GroupCombo.Value
         print(self.Group)
 
     def SetColour(self,event):
+        '''Sets colour.'''
         self.Colour =  self.ColourCombo.Value
         print(self.Colour)
 
@@ -84,6 +93,12 @@ class PcaCustom(cusClass):
 
 #Finds correct group, changes the group class amd replots
     def onAccept( self, event ):
+        '''
+        Accepts input data.
+
+        Finds the correct group , changes the group class and replots.
+        '''
+         
         GroupList =[]
         for i in range(0,len(self.Graph._GroupClasses)):
             GroupList.append(self.Graph._GroupClasses[i])
@@ -91,6 +106,7 @@ class PcaCustom(cusClass):
         testBoolean = False
         counter = 0
         max = len(GroupList)
+        #Find correct group
         while (testBoolean is False):
             print(str(counter) + " " +GroupList[counter].GetName()+" "+self.Group)
             if(GroupList[counter].GetName() == self.Group):
@@ -102,25 +118,20 @@ class PcaCustom(cusClass):
                 if(counter>= max):
                     break
 
-        print(self.Colour)
-        print(self.Marker)
-        print(self._BoxSize)
-        
+        #set new attributes
         GroupList[counter].SetColour(self.Colour) 
         GroupList[counter].SetMarker(self.Marker)
         GroupList[counter].SetSize(int(self._BoxSize)) 
-        print(GroupList[counter].GetName() + " " +GroupList[counter].GetColour()+" "+GroupList[counter].GetMarker())
+
+        #delete old group
         del self.Graph._GroupClasses[counter]
-        
+        #insert corrected one
         self.Graph._GroupClasses.insert(counter,GroupList[counter])
-        print(str(counter))
-        print(GroupList[counter].GetName() + " " +GroupList[counter].GetColour()+" "+GroupList[counter].GetMarker())
-        print(self.Graph._GroupClasses[counter].GetName() + " " +self.Graph._GroupClasses[counter].GetColour()+" "+self.Graph._GroupClasses[counter].GetMarker())
-        
+        #replot graph
         test =self.Graph.PlotPca(False)
-        print(test)
+
         self.nb.DeletePage(self.index)
-        #self.Destroy()
+        
 
         
 

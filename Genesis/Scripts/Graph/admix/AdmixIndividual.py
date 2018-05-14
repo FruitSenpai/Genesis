@@ -1,7 +1,7 @@
 #contains information about admix individuals
 
 class AdmixIndividual:
-	
+	"""Used to store attributes for individual."""
 	#the two id's which make a key which uniquely identifies the individual
 	id1 = "id1"
 	id2 = "id2"
@@ -13,6 +13,7 @@ class AdmixIndividual:
 	groups = [] 
 
 	def __init__(self, id1, id2, admixData):
+		"""Initializes an AdmixIndividual object along with its properties."""
 		self.id1 = id1
 		self.id2 = id2
 		self.admixData = admixData
