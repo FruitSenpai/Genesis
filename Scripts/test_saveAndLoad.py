@@ -7,10 +7,10 @@ from  Graph.PcaGraphing import PcaDataExtractor as PcaEx
 class test_FileImporter(unittest.TestCase):
     #Makes sure data can always be extracted
     def setUp(self):
-        self.PcaData = GetFileData('C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm-SYMCL.pca.evec')
-        self.PhenData = GetFileData("C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\comm.phe")
-        self.filePath ="C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\Test.gpf"
-        self.filePath2 ="C:\\Users\\Athena II\\Documents\\GitHub\\Genesis\\GraphingAndImportSection\\Data\\Name.gpf"
+        self.PcaData = GetFileData('..\\Data\\comm-SYMCL.pca.evec')
+        self.PhenData = GetFileData("..\\Data\\comm.phe")
+        self.filePath ="..\\Data\\Test.gpf"
+        self.filePath2 ="..\\Data\\Name.gpf"
         self._Test =GraphCreate.CreatePca( self.PhenData, self.PcaData,1,2,3,"Test",None)
         
     def tearDown(self):
