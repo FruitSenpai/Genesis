@@ -1,8 +1,10 @@
+"""Annotates the currently shown graph."""
 import os
 import wx
 import matplotlib.pyplot as plt
 from GUIFrames import DataHolder
 
+#Dictionaries to hold the various events ids
 cid = {}
 cid2 = {}
 #list for drawing the lines
@@ -15,6 +17,7 @@ DH = DataHolder
 
 #finds line/Arrow starting position
 def onButtonDown(event):
+    """Stores initial position of mouse on canvas."""
     xVar.clear()
     yVar.clear()
     xVar.append(event.xdata)
@@ -22,14 +25,23 @@ def onButtonDown(event):
 
 #Draws line when mouse button is released
 def onButtonUpLine(event):
+    """Store positions and creates lines.
+
+    Stores the end postion of the mouse when mouse button is released and draws a line between the initial and end positions. """
+    #Store end position
     xVar.append(event.xdata)
     yVar.append(event.ydata)
 
+    #Plot line onto th graph
     line = event.canvas.figure.gca().plot(xVar,yVar,c = "xkcd:black")
     event.canvas.figure.canvas.draw()
+    #append the lines list so that they can be deleted
     lines.append(line)
 #Draws Arrow when mouse button is released
 def onButtonUpArrow(event):
+    """Store positions and creates arrows.
+
+    Stores the end postion of the mouse when mouse button is released and draws an arrow between the initial and end positions. """
     xVar.append(event.xdata)
     yVar.append(event.ydata)
     #Arrow length and dir
@@ -65,6 +77,7 @@ def onButtonUpArrow(event):
 
 #attaches the line drawing functions when annotate line is clicked
 def Annotate(FigDic):
+    """ Turns on the ability to draw a line."""
     global isDrawingArrow
     global isDrawingLine
     
@@ -83,7 +96,7 @@ def Annotate(FigDic):
 
 #turns off annotation 
 def AnnotateOff():
-
+    """ Turns off all annotaions."""
     global isDrawingArrow
     global isDrawingLine
     isDrawingLine=False
@@ -97,6 +110,7 @@ def AnnotateOff():
         
 #attaches the arrow drawing functions when annotate arrow is clicked
 def AnnotateArrow(FigDic):
+    """ Turns on the ability to draw an arrow."""
     global isDrawingArrow
     global isDrawingLine
     
@@ -114,14 +128,12 @@ def AnnotateArrow(FigDic):
 
 #checks annotation has been used before
 def isCids():
+    """ Checks if there is data in the cid and cid2 list."""
     if(len(cid) >0 and len(cid2)>0):
         return True
     else:
         return False
 
-'''def Delete():
-    print(len(lines))
-    for i in lines:
-        i.remove()'''
+
 
         

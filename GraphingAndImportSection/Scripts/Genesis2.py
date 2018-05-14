@@ -1,3 +1,8 @@
+"""This is the main script for the Genesis2 program.
+
+This script will handle multiple jobs such as handling all the UI for the main interface.
+It also contains the classes needed to embed graphs into the main UI.
+Finally the script also provides access to all other areas of the program through its UI."""
 import os
 import wx
 from wx.lib.pubsub import pub
@@ -48,6 +53,7 @@ loadWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
             "All files (*.*)|*.*"
 
 class windowClass(wx.Frame):
+    """ Creates the main interface for the program."""
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
         self.Size = (3000,4500)   
@@ -74,9 +80,11 @@ class windowClass(wx.Frame):
 
 
     def returnPanel(self):
+        """ Returns the panel for the main UI frame. """
         return self._panel
         
     def basicGUI(self):
+        """Initialises GUI for the main frame. """
 
         panel= wx.Panel(self)
 
@@ -137,6 +145,7 @@ class windowClass(wx.Frame):
         return panel
          
     def Makebar(self):
+        """Initialises tool bar at the top of the GUI """
         toolBar = self.CreateToolBar()
         #toolBar.SetBackgroundColour((0xff,0xcc,0xcc))
         #Declare all toolbar buttons
@@ -188,45 +197,36 @@ class windowClass(wx.Frame):
 #All button and label functions
 
     def DelAnnotationsEvent(self,e):
-        print("here is the thing")
+        """Delete annotations from program """
+        #Not currently implemented
+        pass
     
     def OnMouseEnter(self,e):
-        print("Stuff")
+        """ Shows a description of the icons function."""
         self.Statusbar.SetStatusText("TRIGGERED")
         e.Skip()
         
     def AdmixEvent(self,e):
-      #  wx.MessageBox('Inputs Admix')
-        print(self.AdmixPath)
+        """Runs admix creator GUI. """
+      
         self.child = AdmixFrame(self, title='Admix')
         self.child.Show()
         self.child.SetFocus()
         pub.sendMessage('GetPanelAdmix',message=self.plotter)
 
     def PCAEvent(self,e):
-        wx.MessageBox('Input PCA')
+        """Runs the pca creator GUI. """
         self.child = PCAFrame(self, title='PCA')
         self.child.Show()
         pub.sendMessage('GetPanelPca',message=self.plotter)
 
     def SaveEvent(self,e):
-        #wx.MessageBox('Save file')
-        wx.MessageBox('Save')
-
-        ##run through figures and attaches the event function to it
-        for key in self._DH.Figures:
-            #print(key)
-            self._cid.append( self._DH.Figures.get(key).canvas.mpl_connect('button_press_event',onclick))
-
-        print("doh: " + windowClass.currentGraphName)
-        #print("Graph: " + DataHolder.Graphs[windowClass.currentGraphName])
+        """Saves the current graph. """
         
         graph = DataHolder.Graphs[windowClass.currentGraphName]
-
-        #print("ad: " + (type(graph) is AdmixGraph))
-        #print("pca: " + (type(graph) is PcaGraph))
         
         defName = ""
+        #determines graph type
         if(type(graph) is Admix):
             wildcard = admixSaveWildcard
             defName = windowClass.currentGraphName + ".gaf"
@@ -268,17 +268,20 @@ class windowClass(wx.Frame):
     
 
     def OpenFileEvent(self,e):
+        """ Opens extra files GUI."""
         wx.MessageBox('Open file')
         
     
     def DataOptionsEvent(self,e):
+        """Opens data options GUI"""
         self.child = AdmixDataFrame(self, title='Graph Options')
-        #self.child = PCADataFrame(self, title='Graph Options')
         self.child.Show()
 
-    def AppearenceEvent(self,e):       
+    def AppearenceEvent(self,e):
+        """Opens up the relevant customization options GUI. """
         graph = self._DH.Graphs.get(windowClass.currentGraphName)
 
+        #Checks graph type and chooses relevant window to display
         if( isinstance( graph , PCA)):
             self.child = PcaCustom(self,windowClass.currentGraphName,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
             self.child.Show()
@@ -289,46 +292,55 @@ class windowClass(wx.Frame):
 
         
     def RefreshEvent(self,e):
+        """ Opens refresh GUI."""
         wx.MessageBox('Refresh file')
 
     def ShowHideEvent(self,e):
+        """ Opens Show hiders GUI."""
         wx.MessageBox('Hide file')
     
     def SearchIndividualEvent(self,e):
+        """ Opens search individual GUI."""
         wx.MessageBox('Search Individual file')
 
     def SearchHiddenIndividualEvent(self,e):
+        """ Opens search hidden individuals GUI."""
         wx.MessageBox('Search Hidden Individual file')
 
-    def DrawLineEvent(self,e):        
+    def DrawLineEvent(self,e):
+        """Turns on ability to draw a line. """
         An.Annotate(self._DH.Figures)
         
             
         
     def DrawArrowEvent(self,e):
+        """ Turns on ability to draw an arrow."""
         An.AnnotateArrow(self._DH.Figures)
                   
         
     def ExportEvent(self,e):
-        #wx.MessageBox('Export file')
+        """Ooens export GUI. """
+        wx.MessageBox('Export file')
         self.child = EXFrame(self, title='Export as')
         self.child.Show()
 
     def QuitEvent(self,e):
+        """Exits the program."""
         wx.MessageBox('Exit')
         self.Destroy()
 
     def UndoEvent(self,e):
+        """Will undo previous action. """
         wx.MessageBox('Undo')
 
     def RedoEvent(self,e):
+        """Will redo previous undo action. """
         wx.MessageBox('Redo')        
 
     def LoadEvent(self, e):
-        wx.MessageBox('Load Files')
-                    
+        """ Load graph object into the scene."""                 
 
-            
+        #Creates a dialog to locate previous projects
         dlg = wx.FileDialog(
         self, message="Select a Genesis graph file",
         defaultDir = self.currentDirectory, 
@@ -344,7 +356,6 @@ class windowClass(wx.Frame):
             graph = GraphSaver.loadGraph(filePath)
             
             nb = self.plotter
-            #nb = self._panel
             
             graph.setNotebook(nb)
             if type(graph) is Admix:    
@@ -355,24 +366,22 @@ class windowClass(wx.Frame):
 
             self._DH.Graphs.update({graph.getName():graph})
 
-    #gets file mamnagers returned from graphing frames
+    
     def mylistener(self,message, arg2 = None):
+        """Gets file managers returned from graphing frames. """
+        
         _temp = message.GetManagers()
         for i in range(0,len(_temp)):
             self._FI.AddFileManager(_temp[i])
         self._FI.PrintFileManagers()
-        
-#prints various data when clicking a figure
-def onclick(event):
-    #print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %('double' if event.dblclick else 'single',event.button, event.x, event.y, event.xdata, event.ydata))
-    labels = event.canvas.figure.gca().get_yticklabels()
-    print(labels[0].get_text())
-    print(labels[1].get_text())
-    print(labels[2].get_text())
-        
+                
 
-#creates a page
+
+#Most of the Plot class as well as some of the plotNotebook class have been taken from
+#the matplotlib documentation. This code can be found at:
+#https://matplotlib.org/gallery/user_interfaces/embedding_in_wx5_sgskip.html
 class Plot(wx.Panel):
+    """Creates a new page in the notebook to plot on."""
     def __init__(self, parent, id=-1, dpi=None, **kwargs):
         locale = wx.Locale(wx.LANGUAGE_ENGLISH)
         wx.Panel.__init__(self, parent, id=id, **kwargs)
@@ -386,11 +395,13 @@ class Plot(wx.Panel):
         sizer.Add(self.toolbar, 0, wx.LEFT | wx.EXPAND)
         self.SetSizer(sizer)
         
-
+        #configure to make the graph cover full screen
         self.figure.subplots_adjust(left=0.03,right=0.95,top=0.94, bottom = 0.1)
         
-#creates a notebook
+
 class PlotNotebook(wx.Panel):
+    """ Creates a notebook to place pages in."""
+    
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
         wx.Panel.__init__(self, parent, id=id,size=(1900,900))	
@@ -404,22 +415,22 @@ class PlotNotebook(wx.Panel):
         self.Fit()
 
     def add(self, name="plot"):
+        """Adds a plot to the notebook. """
+        
         page = Plot(self.nb)
         self.nb.AddPage(page, name)
         self.nb.SetSelection(self.nb.GetPageCount() - 1)
         return page.figure
 
     def onTabChange(self,event):
-        """tab = event.EventObject.GetChildren()[event.Selection]
-        print("Tab name: " + tab.GetName())"""
-        print(self.nb.GetPageText(event.GetSelection()))
+        """ Register when tab changes and updates what tab is currently open."""
         
         self.currPage =self.nb.GetPageText(event.GetSelection())
         windowClass.currentGraphName = self.nb.GetPageText(event.GetSelection())
-        print(self.nb.GetPageText(event.GetSelection()))
         event.Skip()
 
     def getNoteBook(self):
+        """ Returns notebook. """
         return self.nb
 
 

@@ -1,20 +1,15 @@
+""" Extracts data to be used in the PCA graph """
+
 import numpy as np
 import matplotlib.pyplot as plt
 import random as rnd
 import os
 import sys
-'''
-path = os.getcwd()
-path = path+ '\..\..\FileManagement\\' 
-sys.path.insert(0, path)
-
-import FileImporter as fi
-'''
 
 
 ##Finds All Groups(Dictionary)
-##This function returns the number of individuals within a group as well as all the groups present within the phenotype file
 def _checkIfUsedDic(data,Groups):
+    """Returns the number of individuals within a group as well as all the groups present within the phenotype file."""
     hasBeenUsed = False
     
     if(len(Groups)>0):
@@ -38,8 +33,10 @@ def _checkIfUsedDic(data,Groups):
 
 
 
-##Creates a list of all the groups in the phenotype file
+
 def _checkIfUsedList(data,Groups):
+    """Creates a list of all the groups in the phenotype file."""
+    
     hasBeenUsed = False
     
     if(len(Groups)>0):
@@ -58,11 +55,10 @@ def _checkIfUsedList(data,Groups):
 
 
 
-##Returns Pheno Data for individual name and associated group as dictionary
+
 def FindPhenData(Data,GroupCol, NameCol):
-
-
-    ## phenotypeData will grab the Group name from the coloumn specified    
+    """Returns a dictionary with the key being an individual name and the value being its associated group."""
+   
     phenotypeData = []
     key = []
     
@@ -71,38 +67,30 @@ def FindPhenData(Data,GroupCol, NameCol):
     
     for i in range(count):
 
+         ## phenotypeData will grab the Group name from the coloumn specified 
         phenotypeData.append(Data[i][GroupCol])
 
         ##key has the correspponding individial name for the phendata
-        # key = np.genfromtxt(phenString,unpack=True,usecols=0, dtype=str)
         key.append(Data[i][NameCol])
 
 
   
     ##dictPhen has individual name and group name
     dictPhen = {}
-    ##Groups contains all the groups in the phenfile
-
-
+    
     for i in range(len(phenotypeData)):
         dictPhen.update({key[i]:phenotypeData[i]})
 
     return dictPhen
     
 
-
-
-######Returns Phenotype Group data as a list
 def FindPhenGroups(Data,GroupCol):
-    ##creates string with path to phen file
-  #  phenString = os.getcwd()
-  #  phenString= phenString+'\..\..\Data\comm.phe'
+    """ Returns Phenotype group data as a list."""
+
 
     ## phenotypeData will grab the Group name from the coloumn specified
-    ##(NOTE THIS IS WHERE THE COLOUMN REPRESENTING THE PHEN FILE IS CHANGED)
-   ## phenotypeData = np.genfromtxt(phenString,unpack=True,usecols=2, dtype=str)
-    ##key has the correspponding individial name for the phendata
     phenotypeData = []
+    
     count =FindLength(Data)
     for i in range(count):
         phenotypeData.append(Data[i][GroupCol])
@@ -111,20 +99,17 @@ def FindPhenGroups(Data,GroupCol):
     ##Groups contains all the groups in the phenfile
     Groups = []
     GroupDic = {}
-    
+
+    #Checks which groups are used in this particular graph from the wide starting range 
     for i in range(len(phenotypeData)):
         Groups = _checkIfUsedList(phenotypeData[i], Groups)
-
-
 
     return Groups
 
 
-##Cretes list of Individuals from the PcaFile
+##
 def GetIndividuals(returnFirst,Data,NameCol):
-
- #   EvecString = os.getcwd()
-  #  EvecString= EvecString+'\..\..\Data\comm-SYMCL.pca.evec'
+    """ Creates list of individuals from the pca file."""
 
     #A name in the evec file is formatted very specifically
     ## FirstCode:SecondCode
@@ -133,10 +118,10 @@ def GetIndividuals(returnFirst,Data,NameCol):
     NamesFirst=[]
     ##NamesSecond contains the SecondCode half of the name
     NamesSecond=[]
-    ##contains all names from the evec file
-  #  names = np.genfromtxt(EvecString,unpack=True, usecols = 0 ,skip_header=1, dtype=str)
+
     names = []
     count =FindLength(Data)
+    #Gets all names from data file
     for i in range(1,count):
         names.append(Data[i][NameCol])
     
@@ -152,8 +137,9 @@ def GetIndividuals(returnFirst,Data,NameCol):
         return NamesSecond
 
 
-##Checking size of Data(how many lines)
+
 def FindLength(Data):
-        count = len(Data)
-        return count
+    """ Checking size of Data(how many lines)"""
+    count = len(Data)
+    return count
 

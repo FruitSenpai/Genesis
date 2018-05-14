@@ -1,3 +1,4 @@
+"""Creates an object that stores all the data needed to make a graph."""
 import numpy as np
 import matplotlib.pyplot as plt
 from  matplotlib import interactive
@@ -10,8 +11,9 @@ from Graph.PcaGraphing.PcaGroup import PcaGroup
 
 
 class PcaGraph():
+    """Creates an object that stores all the data needed to make a graph."""
     
-    ##Plots all pca points in different Group
+    
     def __init__(self,NamesFirst,Groups,dictPhen,_Data,_xCol,_yCol,GraphName,panel):
         ##define variables to use later on for plotting the graph
         self.Names = NamesFirst
@@ -28,12 +30,17 @@ class PcaGraph():
         self._Counter = 0
 
     def setNotebook(self, notebook):
+        """Sets current notebook panel on which the graph can be plotted."""
         self._nb = notebook
 
     def getName(self):
+        """Returns the name assigned to the graph."""
         return self._Name
 
     def setName(self, newName, oldName):
+        """Sets graphs name.
+
+        Replaces old name with new one. Replaces old graph with this new one in the DataHolder script."""
         self._Name = newName
 
         #get rid of obsolete dictionary keys
@@ -45,9 +52,12 @@ class PcaGraph():
         
     ##NOTE if you are re-rendering the graph with a save file then please set FIrstTIMe to False, if its first time then set it to True
     def PlotPca(self,FirstTime):
+        """Plots Pca onto the notebook."""
+
+        #variable for unittesting
         success= False
         
-         ##getting and creating variables
+        #exception handling for making sure the graph wont crash if no data is entered
         try:
             if(self.Data == None):
                 raise TypeError("Found Type Error")
@@ -65,11 +75,6 @@ class PcaGraph():
             y.append( self.Data[i][self.yCol])
         
 
-
-        ##Checks each individual group
-        ##Per group each indiviual is checked to see if it belongs to the group
-        ##If this is the case then its x and y co-ords are added to the x and y lists to be plotted 
-
         #create an new figure for this graph
         if(self._nb != None):
             self._fig = self._nb.add(self._Name)
@@ -77,7 +82,9 @@ class PcaGraph():
         else:
             self._fig,self._ax = plt.subplots()
 
-        ##runs of there is phen data(Possibly using group data is not ideal)
+        ##Checks each individual group
+        ##Per group each indiviual is checked to see if it belongs to the group
+        ##If this is the case then its x and y co-ords are added to the x and y lists to be plotted 
         try:
             if(len(self.GroupData) >0):
                 for group in range(len(self.GroupData)):
@@ -103,7 +110,7 @@ class PcaGraph():
                                 
                                 _currGroup.AddIndividual(self.Names[i],float(x[i]),float(y[i]))
 
-                ##just a check to make sure that we dont plot groups with 0 components
+                    ##A check to make sure that we dont plot groups with 0 components
                     if(len(xtemp) >0):
                         self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=_currGroup.GetSize(),c= _currGroup.GetColour() )
                         #Counter is just used to make sure that data marker and colour will not repeat
@@ -127,6 +134,7 @@ class PcaGraph():
                 
                 self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=20, color = 'xkcd:blue')
             success = True
+            
         except TypeError:
             print("TypeError graphing")
             sucesss = False
@@ -135,11 +143,14 @@ class PcaGraph():
             print("IndexError graphing")
             success = False
         
-        
+        #creates legend for groups
         self._ax.legend()
+        #Sets title
         self._ax.set_title(self._Name)
+        #Adds graph to data holder
         DataHolder.Figures.update({self._Name:self._fig})
-        
+
+        #
         return success
        
         
@@ -147,11 +158,13 @@ class PcaGraph():
 
 
 def _FindLength(Data):
-##Checking size of file(how many lines)
+    """ Check size of File(how many lines)."""
     count = len(Data)
     return count
 
 def RandomMarker(num):
+    """Returns a random marker."""
+    
     _num = num
     _markerList = ['o','^','v','p','*','s','P','8','X']
     _listLen = len(_markerList)
@@ -169,6 +182,10 @@ def RandomMarker(num):
     return _marker
 
 def RandomColour(num):
+    """Returns a random colour."""
+
+    #Choosing an option from a list
+    #its not random but will not repeat for at least 40 groups
     _num= num
     _ColourList =['blue','purple','green','yellow','red','brown','orange','cyan']
     _listLen = len(_ColourList)
