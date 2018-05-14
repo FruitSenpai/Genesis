@@ -59,9 +59,9 @@ def CreateAdmix(admixData,famData,pheData,PheCol,nb, name):
         
 
         if(pheData != None):
-            admixGraph.plotGraph(phenoCol = phenoColumn)
+            admixGraph.plotGraph(True,phenoCol = phenoColumn)
         else:
-            admixGraph.plotGraph(phenoCol = None)
+            admixGraph.plotGraph(True,phenoCol = None)
 
         DataHolder.Graphs.update({name:admixGraph})
 

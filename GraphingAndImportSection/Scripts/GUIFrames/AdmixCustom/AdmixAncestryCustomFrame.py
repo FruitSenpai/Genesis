@@ -25,7 +25,7 @@ class AdmixAncestryCustom ( wx.Frame ):
 		gbSizer2.SetFlexibleDirection( wx.BOTH )
 		gbSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.Anc_Label = wx.StaticText( self, wx.ID_ANY, u"Ancestry", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.Anc_Label = wx.StaticText( self, wx.ID_ANY, u"Ancestor", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.Anc_Label.Wrap( -1 )
 		gbSizer2.Add( self.Anc_Label, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -74,7 +74,7 @@ class AdmixAncestryCustom ( wx.Frame ):
 		self.SortDom_Button = wx.Button( self, wx.ID_ANY, u"Sort By Dominance", wx.DefaultPosition, wx.Size( 235,-1 ), 0 )
 		gbSizer2.Add( self.SortDom_Button, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 4 ), wx.ALL, 5 )
 		
-		self.Dom_CheckBox = wx.CheckBox( self, wx.ID_ANY, u"Most Dominant First", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.Dom_CheckBox = wx.CheckBox( self, wx.ID_ANY, u"Most to least dominant", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer2.Add( self.Dom_CheckBox, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 4 ), wx.ALL, 5 )
 		
 		
@@ -87,8 +87,8 @@ class AdmixAncestryCustom ( wx.Frame ):
 		self.Bind( wx.EVT_ACTIVATE, self.FillColours )
 		self.Anc_ButtonLeft.Bind( wx.EVT_BUTTON, self.PrevAncestry )
 		self.Anc_ButtonRight.Bind( wx.EVT_BUTTON, self.NextAncestry )
-		self.order_ButtonLeft.Bind( wx.EVT_BUTTON, self.ShiftAncestryLeft )
-		self.Order_ButtonRight.Bind( wx.EVT_BUTTON, self.ShiftAncestryRight )
+		self.order_ButtonLeft.Bind( wx.EVT_BUTTON, self.ShiftAncestryDown )
+		self.Order_ButtonRight.Bind( wx.EVT_BUTTON, self.ShiftAncestryUp )
 		self.Colour_ComboBox.Bind( wx.EVT_COMBOBOX, self.SetColour )
 		self.SortDom_Button.Bind( wx.EVT_BUTTON, self.SortByAncestryDominance )
 		self.Dom_CheckBox.Bind( wx.EVT_CHECKBOX, self.ChangeSortDirection )
@@ -107,10 +107,10 @@ class AdmixAncestryCustom ( wx.Frame ):
 	def NextAncestry( self, event ):
 		event.Skip()
 	
-	def ShiftAncestryLeft( self, event ):
+	def ShiftAncestryDown( self, event ):
 		event.Skip()
 	
-	def ShiftAncestryRight( self, event ):
+	def ShiftAncestryUp( self, event ):
 		event.Skip()
 	
 	def SetColour( self, event ):

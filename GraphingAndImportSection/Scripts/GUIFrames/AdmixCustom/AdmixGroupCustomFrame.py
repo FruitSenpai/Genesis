@@ -17,7 +17,7 @@ import wx.xrc
 class GroupFrame ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Group Customization ", pos = wx.DefaultPosition, size = wx.Size( 277,167 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Group Customization ", pos = wx.DefaultPosition, size = wx.Size( 345,167 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -66,10 +66,13 @@ class GroupFrame ( wx.Frame ):
 		self.SortDominanceButton = wx.Button( self, wx.ID_ANY, u"Sort By Dominance", wx.DefaultPosition, wx.Size( 260,-1 ), 0 )
 		gbSizer1.Add( self.SortDominanceButton, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 4 ), wx.ALL, 5 )
 		
-		self.CheckBox_Group = wx.CheckBox( self, wx.ID_ANY, u"Most Dominant First", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer1.Add( self.CheckBox_Group, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 2 ), wx.ALL, 5 )
+		self.CheckBox_Group = wx.CheckBox( self, wx.ID_ANY, u"Sort Most Dominant to least", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer1.Add( self.CheckBox_Group, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 3 ), wx.ALL, 5 )
+
+		self.CheckBox_Hide = wx.CheckBox( self, wx.ID_ANY, u"Hide Group", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer1.Add( self.CheckBox_Hide, wx.GBPosition( 3, 3 ), wx.GBSpan( 1, 2 ), wx.ALL, 5 )		
 		
-		
+
 		self.SetSizer( gbSizer1 )
 		self.Layout()
 		
@@ -80,8 +83,9 @@ class GroupFrame ( wx.Frame ):
 		self.GroupRightButton.Bind( wx.EVT_BUTTON, self.NextGroup )
 		self.OrderLeftButton1.Bind( wx.EVT_BUTTON, self.ShiftGroupLeft )
 		self.OrderRightButton1.Bind( wx.EVT_BUTTON, self.ShiftGroupRight )
-		self.SortDominanceButton.Bind( wx.EVT_BUTTON, self.sortByAncestryDominance )
+		self.SortDominanceButton.Bind( wx.EVT_BUTTON, self.sortByGroupDominance )
 		self.CheckBox_Group.Bind( wx.EVT_CHECKBOX, self.ChangeSortDirection )
+		self.CheckBox_Hide.Bind(wx.EVT_CHECKBOX, self.HideGroup)
 	
 	def __del__( self ):
 		pass
@@ -100,10 +104,13 @@ class GroupFrame ( wx.Frame ):
 	def ShiftGroupRight( self, event ):
 		event.Skip()
 	
-	def sortByAncestryDominance( self, event ):
+	def sortByGroupDominance( self, event ):
 		event.Skip()
 	
 	def ChangeSortDirection( self, event ):
+		event.Skip()
+
+	def HideGroup( self, event ):
 		event.Skip()
 	
 

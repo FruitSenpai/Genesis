@@ -50,7 +50,7 @@ loadWildcard = "Admixture Graph file (*.gaf)|*.gaf|" \
 class windowClass(wx.Frame):
     def __init__(self, *args, **kwargs):
         super(windowClass, self).__init__(*args, **kwargs)
-        self.Size = (800,450)   
+        self.Size = (3000,4500)   
         self._panel =self.basicGUI()
         self.AdmixPath = AdmixPath = ''
         #find data holder
@@ -64,20 +64,13 @@ class windowClass(wx.Frame):
         self._cid = []
         #create a notebook to store graphs
         self.plotter = PlotNotebook(self._panel)
-        ##test data
-        fig1 =self.plotter.add(name = 'Wigure 1')
-        axes1 = fig1.gca()
-        axes1.plot([1, 2, 3], [2, 1, 4])
-        self._DH.Figures.update({'Wigure 1':fig1})
-        
-        fig2 =self.plotter.add('figure 2')
-        axes2 = fig2.gca()
-        axes2.plot([1, 2, 3, 4, 5], [2, 1, 4, 2, 3])
-        self._DH.Figures.update({'Figure 2':fig2})
 
         currentGraphName = ""
 
         self.currentDirectory = os.getcwd()
+
+        self.sb = self.CreateStatusBar()
+        self.sb.SetStatusText("Genesis2.o")
 
 
     def returnPanel(self):
@@ -151,25 +144,25 @@ class windowClass(wx.Frame):
         self.Bind(wx.EVT_ENTER_WINDOW,self.OnMouseEnter,InputAdmixButton)
         #InputAdmixButton.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
 
-        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'))
+        InputPCAButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/pca.bmp'), shortHelp='PCA')
         toolBar.AddSeparator()
-        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'))
-        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/open.bmp'))
+        SaveButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/save.bmp'),shortHelp='Save')
+        OpenFilesButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/open.bmp'),shortHelp='Open Files')
         toolBar.AddSeparator()
-        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/dataOp.bmp'))
-        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/appearanceOp.bmp'))
-        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/refresh.bmp'))
-        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
-        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/search.bmp'))
-        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'))
+        DataOptionsButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/dataOp.bmp'),shortHelp='Data Options')
+        AppearenceButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/appearanceOp.bmp'), shortHelp='Appearence')
+        RefreshButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/refresh.bmp'),shortHelp='Refresh')
+        ShowHideButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'),shortHelp='Show/Hide Individual')
+        SearchIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/search.bmp'),shortHelp='Search for Individual')
+        SearchHiddenIndividualButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/hiddenInd.bmp'),shortHelp='Search Hidden Individual')
         toolBar.AddSeparator()
-        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawLine.bmp'))
-        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawArrow.bmp'))
+        DrawLineButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawLine.bmp'),shortHelp='Draw Line')
+        DrawArrowButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/drawArrow.bmp'),shortHelp='Draw Arrow')
         toolBar.AddSeparator()
-        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Export.bmp'))
-        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/closeProject.bmp'))
-        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Undo.bmp'))
-        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/redo.bmp'))
+        ExportButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Export.bmp'),shortHelp='Export')
+        CloseProjectButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/closeProject.bmp'),shortHelp='Close Project')
+        UndoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/Undo.bmp'),shortHelp='Undo')
+        RedoButton = toolBar.AddTool(wx.ID_ANY,'Import', wx.Bitmap('../images/redo.bmp'),shortHelp='Redo')
         toolBar.Realize()
         
         #Bind functions to buttons
@@ -253,15 +246,10 @@ class windowClass(wx.Frame):
         
         if dlg.ShowModal() == wx.ID_OK:
                 filePath = dlg.GetPath()
-                baseName = ntpath.basename(filePath) #get base name
-                #print(baseName)
-                
-                
-                baseList = baseName.split(".")
-                print("++"+baseList[0]+"++")
+                baseName = ntpath.basename(filePath) #get base name               
 
                 #update dictionary key for graph and figure
-                graph.setName(baseList[0], windowClass.currentGraphName)
+                graph.setName(baseName, windowClass.currentGraphName)
                 print("++--"+graph.getName()+"--++")
                 '''self._DH.Graphs.update({baseName:graph})
                 self._DH.Figures.update({baseName:figure})'''
@@ -293,7 +281,7 @@ class windowClass(wx.Frame):
             self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
             self.child.Show()
         elif(isinstance( graph , Admix)):
-            self.child = admixMM(self)
+            self.child = admixMM(self, graph, self.plotter, self.plotter.nb)
             self.child.Show()
 
 
@@ -359,7 +347,7 @@ class windowClass(wx.Frame):
             graph.setNotebook(nb)
             if type(graph) is Admix:    
                 phenoCol = graph.getPhenoColumn()
-                graph.plotGraph(phenoCol = phenoCol)
+                graph.plotGraph(False,phenoCol = phenoCol)
             elif type(graph) is PCA:
                 graph.PlotPca(False) #False indicates this graph is not being plotted the first time
 
