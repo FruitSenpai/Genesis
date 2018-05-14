@@ -161,8 +161,9 @@ class PCAFrame(wx.Frame):
                 self._FI.CreatePca( self._FI,self.tc1.Value,None,name,int(Col1[1]),int(Col2[1]),3,self._panel)
         except IndexError:
             print("Index Error")
+        self.Destroy()
 
-        plt.show()
+        #plt.show()
         
 
     def onOpenFile(self, event):

@@ -18,6 +18,8 @@ class GroupFrame ( wx.Frame ):
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Group Customization ", pos = wx.DefaultPosition, size = wx.Size( 345,167 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+
+		self.SetWindowStyle(wx.STAY_ON_TOP)
 		
 		self.SetSizeHintsSz( wx.DefaultSize, wx.DefaultSize )
 		
@@ -70,7 +72,10 @@ class GroupFrame ( wx.Frame ):
 		gbSizer1.Add( self.CheckBox_Group, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 3 ), wx.ALL, 5 )
 
 		self.CheckBox_Hide = wx.CheckBox( self, wx.ID_ANY, u"Hide Group", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer1.Add( self.CheckBox_Hide, wx.GBPosition( 3, 3 ), wx.GBSpan( 1, 2 ), wx.ALL, 5 )		
+		gbSizer1.Add( self.CheckBox_Hide, wx.GBPosition( 3, 3 ), wx.GBSpan( 1, 2 ), wx.ALL, 5 )
+
+		self.ExitButton = wx.Button( self, wx.ID_ANY, u"Exit", wx.DefaultPosition, wx.DefaultSize, 0 )	
+		gbSizer1.Add( self.ExitButton, wx.GBPosition( 4, 3 ), wx.GBSpan( 1, 3 ), wx.ALL, 5 )
 		
 
 		self.SetSizer( gbSizer1 )
@@ -86,6 +91,7 @@ class GroupFrame ( wx.Frame ):
 		self.SortDominanceButton.Bind( wx.EVT_BUTTON, self.sortByGroupDominance )
 		self.CheckBox_Group.Bind( wx.EVT_CHECKBOX, self.ChangeSortDirection )
 		self.CheckBox_Hide.Bind(wx.EVT_CHECKBOX, self.HideGroup)
+		self.ExitButton.Bind( wx.EVT_BUTTON, self.Exit )
 	
 	def __del__( self ):
 		pass
@@ -112,5 +118,8 @@ class GroupFrame ( wx.Frame ):
 
 	def HideGroup( self, event ):
 		event.Skip()
+
+	def Exit(self, event):
+                self.Destroy()
 	
 

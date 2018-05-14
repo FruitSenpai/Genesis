@@ -129,6 +129,7 @@ class ChildFrame(wx.Frame):
         else:
             print("No Fam and Data File")
         plt.show()
+        self.Destroy()
         
 
     def onOpenFile(self, event):

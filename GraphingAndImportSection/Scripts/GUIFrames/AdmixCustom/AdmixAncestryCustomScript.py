@@ -102,6 +102,9 @@ class AdmixAncestryCustom(AncestryFrame):
         self.graph.plotGraph(False, phenoCol = phenoCol)
 
         self.innerNB.DeletePage(index)
+
+        def Exit(self):
+            self.Destroy()
             
         
 

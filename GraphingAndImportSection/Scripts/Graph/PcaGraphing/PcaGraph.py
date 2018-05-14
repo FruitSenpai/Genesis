@@ -71,8 +71,6 @@ class PcaGraph():
         ##If this is the case then its x and y co-ords are added to the x and y lists to be plotted 
 
         #create an new figure for this graph
-        #fig, ax = plt.subplots()
-        #replace 'figure1' with name
         if(self._nb != None):
             self._fig = self._nb.add(self._Name)
             self._ax = self._fig.gca()
@@ -107,7 +105,7 @@ class PcaGraph():
 
                 ##just a check to make sure that we dont plot groups with 0 components
                     if(len(xtemp) >0):
-                        self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=20,c= _currGroup.GetColour() )
+                        self._ax.scatter(xtemp, ytemp, marker=_currGroup.GetMarker(), label=self.GroupData[group], s=_currGroup.GetSize(),c= _currGroup.GetColour() )
                         #Counter is just used to make sure that data marker and colour will not repeat
                         self._Counter = self._Counter+1
 
@@ -127,7 +125,7 @@ class PcaGraph():
                     xtemp.append(float(x[i]))
                     ytemp.append(float(y[i]))
                 
-                self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=10, color = 'xkcd:blue')
+                self._ax.scatter(xtemp, ytemp, marker='^',label= "Test", s=20, color = 'xkcd:blue')
             success = True
         except TypeError:
             print("TypeError graphing")
@@ -144,7 +142,6 @@ class PcaGraph():
         
         return success
        
-        
         
 
 

@@ -249,18 +249,19 @@ class windowClass(wx.Frame):
                 baseName = ntpath.basename(filePath) #get base name               
 
                 #update dictionary key for graph and figure
-                graph.setName(baseName, windowClass.currentGraphName)
-                print("++--"+graph.getName()+"--++")
-                '''self._DH.Graphs.update({baseName:graph})
-                self._DH.Figures.update({baseName:figure})'''
                 
+                graph.setName(baseName, windowClass.currentGraphName)
+        #Set notebook as  none so it can be pickled
                 graph.setNotebook(None)
 
                 GraphSaver.saveGraph(graph, filePath)
 
                 nb = self.plotter.getNoteBook()
+                #reset notebook
+                graph.setNotebook(self.plotter)
                 pageIndex = nb.GetSelection()
                 nb.SetPageText(pageIndex, baseName)
+                windowClass.currentGraphName = baseName
 
         dlg.Destroy()
         
@@ -275,10 +276,11 @@ class windowClass(wx.Frame):
         #self.child = PCADataFrame(self, title='Graph Options')
         self.child.Show()
 
-    def AppearenceEvent(self,e):
-        graph = self._DH.Graphs.get(self.plotter.currPage)
+    def AppearenceEvent(self,e):       
+        graph = self._DH.Graphs.get(windowClass.currentGraphName)
+
         if( isinstance( graph , PCA)):
-            self.child = PcaCustom(self,self.plotter.currPage,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
+            self.child = PcaCustom(self,windowClass.currentGraphName,self.plotter.nb.GetCurrentPage(),self.plotter.nb,self.plotter.nb.GetSelection())
             self.child.Show()
         elif(isinstance( graph , Admix)):
             self.child = admixMM(self, graph, self.plotter, self.plotter.nb)
@@ -385,20 +387,21 @@ class Plot(wx.Panel):
         self.SetSizer(sizer)
         
 
-        self.figure.subplots_adjust(left=0.03,right=0.90,top=1, bottom = 0.3)
+        self.figure.subplots_adjust(left=0.03,right=0.95,top=0.94, bottom = 0.1)
         
 #creates a notebook
 class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
-        wx.Panel.__init__(self, parent, id=id,size=(2000,2000))	
-        self.nb = aui.AuiNotebook(self, size=(2000,900))
+        wx.Panel.__init__(self, parent, id=id,size=(1900,900))	
+        self.nb = aui.AuiNotebook(self, size=(2000,500))
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
         self.SetSizer(sizer)
         self.currPage = None
 
         self.nb.Bind(aui.EVT_AUINOTEBOOK_PAGE_CHANGED, self.onTabChange)
+        self.Fit()
 
     def add(self, name="plot"):
         page = Plot(self.nb)
