@@ -7,7 +7,7 @@ from wx.lib.pubsub import pub
 
 class PcaGroup():
 
-    def __init__(self,GroupName,Colour = None, Marker = None,s = None):
+    def __init__(self,GroupName,Colour = None, Marker = None):
 
         self._Name = GroupName
         
@@ -21,10 +21,6 @@ class PcaGroup():
             self._marker = ''
         else:
             self._marker = Marker
-        if(s is None):
-            self._Size = 20
-        else:
-            self._Size = s
 
         self._individuals = {}
 
@@ -44,9 +40,6 @@ class PcaGroup():
 
     def SetName(self, Name):
         self._Name = Name
-
-    def SetSize(self,Size):
-        self._Size = Size
         
     #returns string
     def GetColour(self):
@@ -60,9 +53,6 @@ class PcaGroup():
     #return string
     def GetName(self):
         return self._Name
-
-    def GetSize(self):
-        return self._Size
 
 
         

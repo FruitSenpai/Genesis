@@ -65,18 +65,29 @@ def onButtonUpArrow(event):
 
 #attaches the line drawing functions when annotate line is clicked
 def Annotate(FigDic):
-    AnnotateOff()
-    cid.clear()
-    cid2.clear()
+    global isDrawingArrow
+    global isDrawingLine
+    
+    if(isDrawingLine):
+        AnnotateOff()
+    else:
+        AnnotateOff()
+        cid.clear()
+        cid2.clear()
+        isDrawingLine= True
+        for key in FigDic:
 
-    for key in FigDic:
-
-        cid.update({key:( FigDic.get(key).canvas.mpl_connect('button_press_event',onButtonDown))})
-        cid2.update({key:( FigDic.get(key).canvas.mpl_connect('button_release_event',onButtonUpLine))})
-        
+            cid.update({key:( FigDic.get(key).canvas.mpl_connect('button_press_event',onButtonDown))})
+            cid2.update({key:( FigDic.get(key).canvas.mpl_connect('button_release_event',onButtonUpLine))})
+            
 
 #turns off annotation 
 def AnnotateOff():
+
+    global isDrawingArrow
+    global isDrawingLine
+    isDrawingLine=False
+    isDrawingArrow=False
     for key in DH.Figures:
 
         DH.Figures.get(key).canvas.mpl_disconnect(cid.get(key))
@@ -86,13 +97,20 @@ def AnnotateOff():
         
 #attaches the arrow drawing functions when annotate arrow is clicked
 def AnnotateArrow(FigDic):
-    AnnotateOff()
-    cid.clear()
-    cid2.clear()
-    for key in FigDic:
+    global isDrawingArrow
+    global isDrawingLine
+    
+    if(isDrawingArrow):
+        AnnotateOff()
+    else:
+        AnnotateOff()
+        cid.clear()
+        cid2.clear()
+        isDrawingArrow = True
+        for key in FigDic:
 
-        cid.update({key:( FigDic.get(key).canvas.mpl_connect('button_press_event',onButtonDown))})
-        cid2.update({key:( FigDic.get(key).canvas.mpl_connect('button_release_event',onButtonUpArrow))})
+            cid.update({key:( FigDic.get(key).canvas.mpl_connect('button_press_event',onButtonDown))})
+            cid2.update({key:( FigDic.get(key).canvas.mpl_connect('button_release_event',onButtonUpArrow))})
 
 #checks annotation has been used before
 def isCids():
@@ -100,5 +118,10 @@ def isCids():
         return True
     else:
         return False
+
+'''def Delete():
+    print(len(lines))
+    for i in lines:
+        i.remove()'''
 
         
