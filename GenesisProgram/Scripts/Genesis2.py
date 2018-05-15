@@ -149,7 +149,7 @@ class windowClass(wx.Frame):
         toolBar = self.CreateToolBar()
         #toolBar.SetBackgroundColour((0xff,0xcc,0xcc))
         #Declare all toolbar buttons
-        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'))
+        InputAdmixButton = toolBar.AddTool(wx.ID_ANY,'Quite', wx.Bitmap('../images/admix.bmp'),shortHelp='Admix')
         self.Bind(wx.EVT_ENTER_WINDOW,self.OnMouseEnter,InputAdmixButton)
         #InputAdmixButton.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
 
@@ -405,7 +405,7 @@ class PlotNotebook(wx.Panel):
     def __init__(self, parent, id=-1):
         #Made the notebook stretch to approximately a full screen
         wx.Panel.__init__(self, parent, id=id,size=(1900,900))	
-        self.nb = aui.AuiNotebook(self, size=(2000,500))
+        self.nb = aui.AuiNotebook(self, size=(1900,500))
         sizer = wx.BoxSizer()
         sizer.Add(self.nb, 1, wx.EXPAND)
         self.SetSizer(sizer)
